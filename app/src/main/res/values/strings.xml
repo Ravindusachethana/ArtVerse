@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ArtVerse</string>
+    <string name="tagline">Where Art Meets Its Audience</string>
+
+    <!-- Auth -->
+    <string name="login_title">Welcome back</string>
+    <string name="login_subtitle">Sign in to continue exploring art</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login_button">Log In</string>
+    <string name="no_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="choose_role_title">Join ArtVerse as</string>
+    <string name="role_customer">Art Lover</string>
+    <string name="role_customer_desc">Browse and buy original artwork</string>
+    <string name="role_artist">Artist</string>
+    <string name="role_artist_desc">List and sell your artwork</string>
+
+    <!-- Customer -->
+    <string name="nav_home">Home</string>
+    <string name="nav_cart">Cart</string>
+    <string name="nav_orders">Orders</string>
+    <string name="nav_profile">Profile</string>
+    <string name="search_hint">Search artworks, artists, styles…</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="checkout">Checkout</string>
+    <string name="place_order">Place Order</string>
+    <string name="cart_empty">Your cart is empty</string>
+    <string name="order_total">Order Total</string>
+
+    <!-- Artist -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_my_art">My Art</string>
+    <string name="nav_sales">Sales</string>
+    <string name="add_artwork">Add Artwork</string>
+    <string name="edit_artwork">Edit Artwork</string>
+    <string name="save">Save</string>
+</resources>

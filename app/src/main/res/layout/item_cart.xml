@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ArtVerse.Card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/ivArtwork"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ph_artwork"
+            android:background="@drawable/bg_image_placeholder" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                tools:text="Sunset Over Kandy"
+                xmlns:tools="http://schemas.android.com/tools" />
+
+            <TextView
+                android:id="@+id/tvArtist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/brand_primary"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_stepper"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="4dp">
+
+                <ImageView
+                    android:id="@+id/btnMinus"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_minus" />
+
+                <TextView
+                    android:id="@+id/tvQuantity"
+                    android:layout_width="28dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/text_primary"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/btnPlus"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_add" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnRemove"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="top"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/status_rejected" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

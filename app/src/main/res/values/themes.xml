@@ -138,16 +138,22 @@
     </style>
 
     <style name="ArtVerse.Chip" parent="Widget.Material3.Chip.Filter">
-        <item name="chipBackgroundColor">@color/bg_surface_alt</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="chipBackgroundColor">@color/chip_category_background</item>
+        <item name="android:textColor">@color/chip_category_text</item>
         <item name="chipCornerRadius">20dp</item>
         <item name="chipStrokeWidth">0dp</item>
+        <item name="checkedIconVisible">false</item>
     </style>
 
     <style name="ArtVerse.BottomNav" parent="Widget.Material3.BottomNavigationView">
         <item name="itemIconTint">@color/bottom_nav_color</item>
         <item name="itemTextColor">@color/bottom_nav_color</item>
+        <item name="itemActiveIndicatorStyle">@style/ArtVerse.BottomNav.ActiveIndicator</item>
         <item name="backgroundTint">@color/bg_surface</item>
         <item name="elevation">8dp</item>
+    </style>
+
+    <style name="ArtVerse.BottomNav.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/transparent</item>
     </style>
 </resources>

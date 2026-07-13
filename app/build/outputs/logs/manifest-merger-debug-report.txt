@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-44:12
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-45:12
+INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-45:12
+INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-45:12
+INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-45:12
 MERGED from [androidx.databinding:viewbinding:8.4.1] C:\Users\sache\.gradle\caches\transforms-4\a95418d8b83fc576de0b718b17cf17a0\transformed\viewbinding-8.4.1\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\sache\.gradle\caches\transforms-4\a3112034f7d9dc410f3762532310d597\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\sache\.gradle\caches\transforms-4\77e4d6364977564f37a8e91bac94b408\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
@@ -156,8 +156,8 @@ ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\
 	android:name
 		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:7:22-77
 application
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:9:5-43:19
-INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:9:5-43:19
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:9:5-44:19
+INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:9:5-44:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\sache\.gradle\caches\transforms-4\a3112034f7d9dc410f3762532310d597\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\sache\.gradle\caches\transforms-4\a3112034f7d9dc410f3762532310d597\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\sache\.gradle\caches\transforms-4\77e4d6364977564f37a8e91bac94b408\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -316,6 +316,12 @@ ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\
 		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:41:65-89
 	android:name
 		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:41:19-64
+activity#com.artverse.app.artist.ArtistProfileEditActivity
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:42:9-95
+	android:exported
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:42:68-92
+	android:name
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:42:19-67
 uses-sdk
 INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml

@@ -20,6 +20,7 @@ import com.artverse.app.adapters.ArtworkAdapter;
 import com.artverse.app.customer.ArtworkDetailActivity;
 import com.artverse.app.models.Artwork;
 import com.artverse.app.utils.ArtCategories;
+import com.artverse.app.utils.ChipStyler;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.SessionManager;
@@ -88,16 +89,14 @@ public class HomeFragment extends Fragment {
     private void setupChips() {
         Chip all = new Chip(requireContext());
         all.setText("All");
-        all.setCheckable(true);
+        ChipStyler.styleCategoryChip(all);
         all.setChecked(true);
-        all.setChipBackgroundColorResource(R.color.bg_surface_alt);
         chipGroupCategories.addView(all);
 
         for (String category : ArtCategories.DEFAULT) {
             Chip chip = new Chip(requireContext());
             chip.setText(category);
-            chip.setCheckable(true);
-            chip.setChipBackgroundColorResource(R.color.bg_surface_alt);
+            ChipStyler.styleCategoryChip(chip);
             chipGroupCategories.addView(chip);
         }
 

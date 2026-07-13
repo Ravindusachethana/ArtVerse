@@ -13,6 +13,7 @@ import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.artverse.app.R;
 import com.google.android.material.button.MaterialButton;
+import de.hdodenhof.circleimageview.CircleImageView;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -23,6 +24,9 @@ public final class FragmentArtistDashboardBinding implements ViewBinding {
 
   @NonNull
   public final MaterialButton btnAddArtwork;
+
+  @NonNull
+  public final CircleImageView ivArtistAvatar;
 
   @NonNull
   public final RecyclerView rvRecentOrders;
@@ -46,12 +50,14 @@ public final class FragmentArtistDashboardBinding implements ViewBinding {
   public final TextView tvTotalSales;
 
   private FragmentArtistDashboardBinding(@NonNull NestedScrollView rootView,
-      @NonNull MaterialButton btnAddArtwork, @NonNull RecyclerView rvRecentOrders,
-      @NonNull TextView tvGreeting, @NonNull TextView tvNoOrders, @NonNull TextView tvPendingOrders,
+      @NonNull MaterialButton btnAddArtwork, @NonNull CircleImageView ivArtistAvatar,
+      @NonNull RecyclerView rvRecentOrders, @NonNull TextView tvGreeting,
+      @NonNull TextView tvNoOrders, @NonNull TextView tvPendingOrders,
       @NonNull TextView tvStudioName, @NonNull TextView tvTotalArtworks,
       @NonNull TextView tvTotalSales) {
     this.rootView = rootView;
     this.btnAddArtwork = btnAddArtwork;
+    this.ivArtistAvatar = ivArtistAvatar;
     this.rvRecentOrders = rvRecentOrders;
     this.tvGreeting = tvGreeting;
     this.tvNoOrders = tvNoOrders;
@@ -91,6 +97,12 @@ public final class FragmentArtistDashboardBinding implements ViewBinding {
       id = R.id.btnAddArtwork;
       MaterialButton btnAddArtwork = ViewBindings.findChildViewById(rootView, id);
       if (btnAddArtwork == null) {
+        break missingId;
+      }
+
+      id = R.id.ivArtistAvatar;
+      CircleImageView ivArtistAvatar = ViewBindings.findChildViewById(rootView, id);
+      if (ivArtistAvatar == null) {
         break missingId;
       }
 
@@ -137,8 +149,8 @@ public final class FragmentArtistDashboardBinding implements ViewBinding {
       }
 
       return new FragmentArtistDashboardBinding((NestedScrollView) rootView, btnAddArtwork,
-          rvRecentOrders, tvGreeting, tvNoOrders, tvPendingOrders, tvStudioName, tvTotalArtworks,
-          tvTotalSales);
+          ivArtistAvatar, rvRecentOrders, tvGreeting, tvNoOrders, tvPendingOrders, tvStudioName,
+          tvTotalArtworks, tvTotalSales);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

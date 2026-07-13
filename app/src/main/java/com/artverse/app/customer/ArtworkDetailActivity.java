@@ -2,6 +2,7 @@ package com.artverse.app.customer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,12 +22,19 @@ import java.util.Locale;
 /**
  * Shows a single artwork (FR05 detail view) and lets a signed-in customer
  * add it to their cart (FR06) or jump straight to checkout (FR07/FR08).
+ * The quantity stepper is capped to the artwork's live remaining stock
+ * ("quantity" in Firestore) - the actual stock lock happens atomically at
+ * checkout (see CheckoutActivity), this is just a client-side hint.
  */
 public class ArtworkDetailActivity extends AppCompatActivity {
 
     private Artwork currentArtwork;
-    private TextView tvTitle, tvArtist, tvPrice, tvCategory, tvMedium, tvDimensions, tvDescription;
+    private int selectedQuantity = 1;
+
+    private TextView tvTitle, tvArtist, tvPrice, tvStock, tvCategory, tvMedium, tvDimensions,
+            tvDescription, tvQtyValue, tvOrderTotal, tvSoldOut;
     private ImageView ivArtwork;
+    private View quantityRow, orderTotalRow, actionButtonsRow, btnQtyMinus, btnQtyPlus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +44,26 @@ public class ArtworkDetailActivity extends AppCompatActivity {
         tvTitle = findViewById(R.id.tvTitle);
         tvArtist = findViewById(R.id.tvArtist);
         tvPrice = findViewById(R.id.tvPrice);
+        tvStock = findViewById(R.id.tvStock);
         tvCategory = findViewById(R.id.tvCategory);
         tvMedium = findViewById(R.id.tvMedium);
         tvDimensions = findViewById(R.id.tvDimensions);
         tvDescription = findViewById(R.id.tvDescription);
+        tvQtyValue = findViewById(R.id.tvQtyValue);
+        tvOrderTotal = findViewById(R.id.tvOrderTotal);
+        tvSoldOut = findViewById(R.id.tvSoldOut);
         ivArtwork = findViewById(R.id.ivArtwork);
+        quantityRow = findViewById(R.id.quantityRow);
+        orderTotalRow = findViewById(R.id.orderTotalRow);
+        actionButtonsRow = findViewById(R.id.actionButtonsRow);
+        btnQtyMinus = findViewById(R.id.btnQtyMinus);
+        btnQtyPlus = findViewById(R.id.btnQtyPlus);
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
         findViewById(R.id.btnAddToCart).setOnClickListener(v -> addToCart(false));
         findViewById(R.id.btnBuyNow).setOnClickListener(v -> addToCart(true));
+        btnQtyMinus.setOnClickListener(v -> changeQuantity(-1));
+        btnQtyPlus.setOnClickListener(v -> changeQuantity(1));
 
         String artworkId = getIntent().getStringExtra(Constants.EXTRA_ARTWORK_ID);
         if (artworkId != null) loadArtwork(artworkId);
@@ -79,6 +98,38 @@ public class ArtworkDetailActivity extends AppCompatActivity {
                 .placeholder(R.drawable.ph_artwork)
                 .error(R.drawable.ph_artwork)
                 .into(ivArtwork);
+
+        boolean inStock = artwork.available && artwork.quantity > 0;
+        tvStock.setText(artwork.quantity + (artwork.quantity == 1 ? " piece available" : " pieces available"));
+        tvStock.setVisibility(inStock ? View.VISIBLE : View.GONE);
+
+        quantityRow.setVisibility(inStock ? View.VISIBLE : View.GONE);
+        orderTotalRow.setVisibility(inStock ? View.VISIBLE : View.GONE);
+        actionButtonsRow.setVisibility(inStock ? View.VISIBLE : View.GONE);
+        tvSoldOut.setVisibility(inStock ? View.GONE : View.VISIBLE);
+
+        selectedQuantity = 1;
+        updateQuantityUi();
+    }
+
+    private void changeQuantity(int delta) {
+        if (currentArtwork == null) return;
+        int newQuantity = selectedQuantity + delta;
+        if (newQuantity < 1 || newQuantity > currentArtwork.quantity) return;
+        selectedQuantity = newQuantity;
+        updateQuantityUi();
+    }
+
+    private void updateQuantityUi() {
+        if (currentArtwork == null) return;
+        tvQtyValue.setText(String.valueOf(selectedQuantity));
+        btnQtyMinus.setEnabled(selectedQuantity > 1);
+        btnQtyMinus.setAlpha(selectedQuantity > 1 ? 1f : 0.35f);
+        btnQtyPlus.setEnabled(selectedQuantity < currentArtwork.quantity);
+        btnQtyPlus.setAlpha(selectedQuantity < currentArtwork.quantity ? 1f : 0.35f);
+
+        NumberFormat format = NumberFormat.getInstance(Locale.US);
+        tvOrderTotal.setText("LKR " + format.format(currentArtwork.price * selectedQuantity));
     }
 
     private void addToCart(boolean goToCheckout) {
@@ -88,8 +139,12 @@ public class ArtworkDetailActivity extends AppCompatActivity {
             Toast.makeText(this, "Please log in again", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!currentArtwork.available) {
+        if (!currentArtwork.available || currentArtwork.quantity <= 0) {
             Toast.makeText(this, "This artwork is no longer available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (selectedQuantity > currentArtwork.quantity) {
+            Toast.makeText(this, "Only " + currentArtwork.quantity + " left in stock", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -97,7 +152,7 @@ public class ArtworkDetailActivity extends AppCompatActivity {
                 ? currentArtwork.imageUrls.get(0) : null;
 
         CartItem item = new CartItem(currentArtwork.id, currentArtwork.title, imageUrl,
-                currentArtwork.artistId, currentArtwork.artistName, currentArtwork.price, 1);
+                currentArtwork.artistId, currentArtwork.artistName, currentArtwork.price, selectedQuantity);
 
         FirebaseUtil.cartRef(uid).document(currentArtwork.id).set(item)
                 .addOnSuccessListener(v -> {

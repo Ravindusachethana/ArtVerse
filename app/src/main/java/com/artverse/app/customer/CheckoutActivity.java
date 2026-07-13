@@ -21,7 +21,9 @@ import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.SessionManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.text.NumberFormat;
@@ -34,8 +36,9 @@ import java.util.Map;
 /**
  * Implements FR07 - Order Management Module and FR08 - Payment Module.
  * Reads the customer's cart, groups items by artist (an Order is scoped to
- * one artist per the ER design), writes Order + Transaction records in a
- * single Firestore batch, updates artwork availability, then clears the cart.
+ * one artist per the ER design), and writes Order + Transaction records plus
+ * the artwork stock decrement inside a single Firestore transaction so stock
+ * is locked atomically - see placeOrder(). Clears the cart once that commits.
  * The payment step here is a confirmation-based simulation, as noted in the
  * dissertation's scope (Section 1.4) - swap sendOrder() for a real gateway
  * callback once one is integrated.
@@ -151,50 +154,69 @@ public class CheckoutActivity extends AppCompatActivity {
             byArtist.computeIfAbsent(item.artistId, k -> new ArrayList<>()).add(item);
         }
 
-        WriteBatch batch = FirebaseUtil.db().batch();
         long now = System.currentTimeMillis();
 
-        for (Map.Entry<String, List<CartItem>> entry : byArtist.entrySet()) {
-            String artistId = entry.getKey();
-            List<CartItem> artistItems = entry.getValue();
-
-            List<OrderItem> orderItems = new ArrayList<>();
-            double artistTotal = 0;
-            for (CartItem ci : artistItems) {
-                orderItems.add(new OrderItem(ci.artworkId, ci.title, ci.imageUrl, ci.price, ci.quantity));
-                artistTotal += ci.lineTotal();
+        // Runs as a single transaction so the stock check-and-decrement for every
+        // artwork is atomic: if two customers race for the last piece, only the
+        // first transaction to commit wins and the second is aborted below with
+        // an up-to-date "left in stock" message rather than overselling.
+        FirebaseUtil.db().runTransaction(transaction -> {
+            Map<String, Long> remainingStock = new HashMap<>();
+            for (CartItem item : cartItems) {
+                DocumentReference artworkRef = FirebaseUtil.artworksRef().document(item.artworkId);
+                DocumentSnapshot snapshot = transaction.get(artworkRef);
+                Long remaining = snapshot.getLong("quantity");
+                if (remaining == null || remaining < item.quantity) {
+                    throw new FirebaseFirestoreException(
+                            "Only " + (remaining == null ? 0 : remaining) + " left of \"" + item.title
+                                    + "\" - please update the quantity in your cart.",
+                            FirebaseFirestoreException.Code.ABORTED);
+                }
+                remainingStock.put(item.artworkId, remaining);
             }
 
-            DocumentReference orderRef = FirebaseUtil.ordersRef().document();
-            Order order = new Order(orderRef.getId(), uid, customerName, artistId, address,
-                    orderItems, artistTotal, Constants.STATUS_PENDING, paymentMethod, now);
-            batch.set(orderRef, order);
+            for (Map.Entry<String, List<CartItem>> entry : byArtist.entrySet()) {
+                String artistId = entry.getKey();
+                List<CartItem> artistItems = entry.getValue();
 
-            for (CartItem ci : artistItems) {
-                DocumentReference txRef = FirebaseUtil.transactionsRef().document();
-                String invoice = "INV-" + now + "-" + ci.artworkId.substring(0, Math.min(5, ci.artworkId.length()));
-                Transaction tx = new Transaction(txRef.getId(), orderRef.getId(), ci.artworkId, artistId,
-                        invoice, ci.quantity, ci.price, ci.lineTotal(), now);
-                batch.set(txRef, tx);
+                List<OrderItem> orderItems = new ArrayList<>();
+                double artistTotal = 0;
+                for (CartItem ci : artistItems) {
+                    orderItems.add(new OrderItem(ci.artworkId, ci.title, ci.imageUrl, ci.price, ci.quantity));
+                    artistTotal += ci.lineTotal();
+                }
 
-                // Mark artwork unavailable (single-original-piece assumption).
-                DocumentReference artworkRef = FirebaseUtil.artworksRef().document(ci.artworkId);
-                Map<String, Object> update = new HashMap<>();
-                update.put("available", false);
-                batch.update(artworkRef, update);
+                DocumentReference orderRef = FirebaseUtil.ordersRef().document();
+                Order order = new Order(orderRef.getId(), uid, customerName, artistId, address,
+                        orderItems, artistTotal, Constants.STATUS_PENDING, paymentMethod, now);
+                transaction.set(orderRef, order);
+
+                for (CartItem ci : artistItems) {
+                    DocumentReference txRef = FirebaseUtil.transactionsRef().document();
+                    String invoice = "INV-" + now + "-" + ci.artworkId.substring(0, Math.min(5, ci.artworkId.length()));
+                    Transaction tx = new Transaction(txRef.getId(), orderRef.getId(), ci.artworkId, artistId,
+                            invoice, ci.quantity, ci.price, ci.lineTotal(), now);
+                    transaction.set(txRef, tx);
+
+                    // Lock in the sale: decrement remaining stock and flip
+                    // availability off once the last piece is sold.
+                    long newQuantity = remainingStock.get(ci.artworkId) - ci.quantity;
+                    DocumentReference artworkRef = FirebaseUtil.artworksRef().document(ci.artworkId);
+                    Map<String, Object> update = new HashMap<>();
+                    update.put("quantity", newQuantity);
+                    update.put("available", newQuantity > 0);
+                    transaction.update(artworkRef, update);
+                }
+
+                DocumentReference artistRef = FirebaseUtil.artistsRef().document(artistId);
+                transaction.update(artistRef, "totalSales", FieldValue.increment(artistTotal));
             }
-
-            DocumentReference artistRef = FirebaseUtil.artistsRef().document(artistId);
-            Map<String, Object> artistUpdate = new HashMap<>();
-            artistUpdate.put("totalSales", FieldValue.increment(artistTotal));
-            batch.update(artistRef, artistUpdate);
-        }
-
-        batch.commit()
-                .addOnSuccessListener(v -> clearCartAndFinish(uid))
+            return null;
+        }).addOnSuccessListener(v -> clearCartAndFinish(uid))
                 .addOnFailureListener(e -> {
                     setLoading(false);
-                    Toast.makeText(this, "Could not place order: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, e.getMessage() != null ? e.getMessage()
+                            : "Could not place order", Toast.LENGTH_LONG).show();
                 });
     }
 

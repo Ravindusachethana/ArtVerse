@@ -12,6 +12,7 @@ import com.artverse.app.artist.ArtistMainActivity;
 import com.artverse.app.models.Artist;
 import com.artverse.app.models.User;
 import com.artverse.app.utils.ArtCategories;
+import com.artverse.app.utils.ChipStyler;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.SessionManager;
@@ -54,9 +55,7 @@ public class ArtistRegisterActivity extends AppCompatActivity {
         for (String category : ArtCategories.DEFAULT) {
             Chip chip = new Chip(this);
             chip.setText(category);
-            chip.setCheckable(true);
-            chip.setCheckedIconVisible(false);
-            chip.setChipBackgroundColorResource(R.color.bg_surface_alt);
+            ChipStyler.styleCategoryChip(chip);
             chipGroupCategories.addView(chip);
         }
     }

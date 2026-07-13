@@ -44,11 +44,15 @@
             </LinearLayout>
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivArtistAvatar"
                 android:layout_width="46dp"
                 android:layout_height="46dp"
                 android:background="@color/bg_surface_alt"
                 android:padding="10dp"
                 android:src="@drawable/ic_palette"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:civ_border_width="1.5dp"
                 app:civ_border_color="@color/brand_accent" />
         </LinearLayout>

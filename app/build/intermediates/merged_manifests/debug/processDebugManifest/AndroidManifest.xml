@@ -76,6 +76,9 @@
             android:name="com.artverse.app.artist.AddEditArtworkActivity"
             android:exported="false" />
         <activity
+            android:name="com.artverse.app.artist.ArtistProfileEditActivity"
+            android:exported="false" />
+        <activity
             android:name="com.google.firebase.auth.internal.GenericIdpActivity"
             android:excludeFromRecents="true"
             android:exported="true"

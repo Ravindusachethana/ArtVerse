@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.artverse.app.R;
 import com.artverse.app.models.Artwork;
 import com.artverse.app.utils.ArtCategories;
+import com.artverse.app.utils.ChipStyler;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.ValidationUtil;
@@ -91,8 +92,7 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         for (String category : ArtCategories.DEFAULT) {
             Chip chip = new Chip(this);
             chip.setText(category);
-            chip.setCheckable(true);
-            chip.setChipBackgroundColorResource(R.color.bg_surface_alt);
+            ChipStyler.styleCategoryChip(chip);
             chipGroupCategory.addView(chip);
         }
     }

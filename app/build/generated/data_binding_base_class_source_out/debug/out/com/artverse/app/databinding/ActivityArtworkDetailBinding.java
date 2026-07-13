@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,9 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
   private final CoordinatorLayout rootView;
 
   @NonNull
+  public final LinearLayout actionButtonsRow;
+
+  @NonNull
   public final MaterialButton btnAddToCart;
 
   @NonNull
@@ -31,7 +35,19 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
   public final MaterialButton btnBuyNow;
 
   @NonNull
+  public final ImageView btnQtyMinus;
+
+  @NonNull
+  public final ImageView btnQtyPlus;
+
+  @NonNull
   public final ImageView ivArtwork;
+
+  @NonNull
+  public final LinearLayout orderTotalRow;
+
+  @NonNull
+  public final LinearLayout quantityRow;
 
   @NonNull
   public final TextView tvArtist;
@@ -49,27 +65,52 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
   public final TextView tvMedium;
 
   @NonNull
+  public final TextView tvOrderTotal;
+
+  @NonNull
   public final TextView tvPrice;
+
+  @NonNull
+  public final TextView tvQtyValue;
+
+  @NonNull
+  public final TextView tvSoldOut;
+
+  @NonNull
+  public final TextView tvStock;
 
   @NonNull
   public final TextView tvTitle;
 
   private ActivityArtworkDetailBinding(@NonNull CoordinatorLayout rootView,
-      @NonNull MaterialButton btnAddToCart, @NonNull ImageView btnBack,
-      @NonNull MaterialButton btnBuyNow, @NonNull ImageView ivArtwork, @NonNull TextView tvArtist,
-      @NonNull TextView tvCategory, @NonNull TextView tvDescription, @NonNull TextView tvDimensions,
-      @NonNull TextView tvMedium, @NonNull TextView tvPrice, @NonNull TextView tvTitle) {
+      @NonNull LinearLayout actionButtonsRow, @NonNull MaterialButton btnAddToCart,
+      @NonNull ImageView btnBack, @NonNull MaterialButton btnBuyNow, @NonNull ImageView btnQtyMinus,
+      @NonNull ImageView btnQtyPlus, @NonNull ImageView ivArtwork,
+      @NonNull LinearLayout orderTotalRow, @NonNull LinearLayout quantityRow,
+      @NonNull TextView tvArtist, @NonNull TextView tvCategory, @NonNull TextView tvDescription,
+      @NonNull TextView tvDimensions, @NonNull TextView tvMedium, @NonNull TextView tvOrderTotal,
+      @NonNull TextView tvPrice, @NonNull TextView tvQtyValue, @NonNull TextView tvSoldOut,
+      @NonNull TextView tvStock, @NonNull TextView tvTitle) {
     this.rootView = rootView;
+    this.actionButtonsRow = actionButtonsRow;
     this.btnAddToCart = btnAddToCart;
     this.btnBack = btnBack;
     this.btnBuyNow = btnBuyNow;
+    this.btnQtyMinus = btnQtyMinus;
+    this.btnQtyPlus = btnQtyPlus;
     this.ivArtwork = ivArtwork;
+    this.orderTotalRow = orderTotalRow;
+    this.quantityRow = quantityRow;
     this.tvArtist = tvArtist;
     this.tvCategory = tvCategory;
     this.tvDescription = tvDescription;
     this.tvDimensions = tvDimensions;
     this.tvMedium = tvMedium;
+    this.tvOrderTotal = tvOrderTotal;
     this.tvPrice = tvPrice;
+    this.tvQtyValue = tvQtyValue;
+    this.tvSoldOut = tvSoldOut;
+    this.tvStock = tvStock;
     this.tvTitle = tvTitle;
   }
 
@@ -100,6 +141,12 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.actionButtonsRow;
+      LinearLayout actionButtonsRow = ViewBindings.findChildViewById(rootView, id);
+      if (actionButtonsRow == null) {
+        break missingId;
+      }
+
       id = R.id.btnAddToCart;
       MaterialButton btnAddToCart = ViewBindings.findChildViewById(rootView, id);
       if (btnAddToCart == null) {
@@ -118,9 +165,33 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btnQtyMinus;
+      ImageView btnQtyMinus = ViewBindings.findChildViewById(rootView, id);
+      if (btnQtyMinus == null) {
+        break missingId;
+      }
+
+      id = R.id.btnQtyPlus;
+      ImageView btnQtyPlus = ViewBindings.findChildViewById(rootView, id);
+      if (btnQtyPlus == null) {
+        break missingId;
+      }
+
       id = R.id.ivArtwork;
       ImageView ivArtwork = ViewBindings.findChildViewById(rootView, id);
       if (ivArtwork == null) {
+        break missingId;
+      }
+
+      id = R.id.orderTotalRow;
+      LinearLayout orderTotalRow = ViewBindings.findChildViewById(rootView, id);
+      if (orderTotalRow == null) {
+        break missingId;
+      }
+
+      id = R.id.quantityRow;
+      LinearLayout quantityRow = ViewBindings.findChildViewById(rootView, id);
+      if (quantityRow == null) {
         break missingId;
       }
 
@@ -154,9 +225,33 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvOrderTotal;
+      TextView tvOrderTotal = ViewBindings.findChildViewById(rootView, id);
+      if (tvOrderTotal == null) {
+        break missingId;
+      }
+
       id = R.id.tvPrice;
       TextView tvPrice = ViewBindings.findChildViewById(rootView, id);
       if (tvPrice == null) {
+        break missingId;
+      }
+
+      id = R.id.tvQtyValue;
+      TextView tvQtyValue = ViewBindings.findChildViewById(rootView, id);
+      if (tvQtyValue == null) {
+        break missingId;
+      }
+
+      id = R.id.tvSoldOut;
+      TextView tvSoldOut = ViewBindings.findChildViewById(rootView, id);
+      if (tvSoldOut == null) {
+        break missingId;
+      }
+
+      id = R.id.tvStock;
+      TextView tvStock = ViewBindings.findChildViewById(rootView, id);
+      if (tvStock == null) {
         break missingId;
       }
 
@@ -166,9 +261,10 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityArtworkDetailBinding((CoordinatorLayout) rootView, btnAddToCart, btnBack,
-          btnBuyNow, ivArtwork, tvArtist, tvCategory, tvDescription, tvDimensions, tvMedium,
-          tvPrice, tvTitle);
+      return new ActivityArtworkDetailBinding((CoordinatorLayout) rootView, actionButtonsRow,
+          btnAddToCart, btnBack, btnBuyNow, btnQtyMinus, btnQtyPlus, ivArtwork, orderTotalRow,
+          quantityRow, tvArtist, tvCategory, tvDescription, tvDimensions, tvMedium, tvOrderTotal,
+          tvPrice, tvQtyValue, tvSoldOut, tvStock, tvTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

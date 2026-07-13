@@ -39,6 +39,7 @@
             android:name=".artist.ArtistMainActivity"
             android:exported="false" />
         <activity android:name=".artist.AddEditArtworkActivity" android:exported="false" />
+        <activity android:name=".artist.ArtistProfileEditActivity" android:exported="false" />
 
     </application>
 </manifest>

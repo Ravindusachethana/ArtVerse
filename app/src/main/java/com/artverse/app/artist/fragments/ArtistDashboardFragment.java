@@ -16,12 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.artverse.app.R;
 import com.artverse.app.adapters.ArtistOrderAdapter;
 import com.artverse.app.artist.AddEditArtworkActivity;
+import com.artverse.app.artist.ArtistProfileEditActivity;
 import com.artverse.app.models.Artist;
 import com.artverse.app.models.Order;
+import com.artverse.app.models.User;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.SessionManager;
+import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.Query;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -33,6 +37,7 @@ public class ArtistDashboardFragment extends Fragment {
 
     private TextView tvTotalArtworks, tvPendingOrders, tvTotalSales, tvNoOrders;
     private RecyclerView rvRecentOrders;
+    private CircleImageView ivArtistAvatar;
     private ArtistOrderAdapter adapter;
 
     @Nullable
@@ -51,10 +56,14 @@ public class ArtistDashboardFragment extends Fragment {
         tvTotalSales = view.findViewById(R.id.tvTotalSales);
         tvNoOrders = view.findViewById(R.id.tvNoOrders);
         rvRecentOrders = view.findViewById(R.id.rvRecentOrders);
+        ivArtistAvatar = view.findViewById(R.id.ivArtistAvatar);
 
         SessionManager session = new SessionManager(requireContext());
         ((TextView) view.findViewById(R.id.tvGreeting)).setText("Welcome back");
         ((TextView) view.findViewById(R.id.tvStudioName)).setText(session.getName());
+
+        ivArtistAvatar.setOnClickListener(v ->
+                startActivity(new Intent(requireContext(), ArtistProfileEditActivity.class)));
 
         adapter = new ArtistOrderAdapter(new ArtistOrderAdapter.OrderActionListener() {
             @Override
@@ -71,6 +80,32 @@ public class ArtistDashboardFragment extends Fragment {
 
         loadArtistStats();
         loadRecentOrders();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refresh in case the user just returned from editing their name/photo.
+        View view = getView();
+        if (view != null) {
+            ((TextView) view.findViewById(R.id.tvStudioName)).setText(new SessionManager(requireContext()).getName());
+        }
+        loadAvatar();
+    }
+
+    private void loadAvatar() {
+        String uid = FirebaseUtil.currentUid();
+        if (uid == null || getContext() == null) return;
+
+        FirebaseUtil.usersRef().document(uid).get().addOnSuccessListener(doc -> {
+            if (getContext() == null) return;
+            User user = doc.toObject(User.class);
+            if (user != null && user.profileImageUrl != null && !user.profileImageUrl.isEmpty()) {
+                ivArtistAvatar.setPadding(0, 0, 0, 0);
+                ivArtistAvatar.setBackgroundColor(getResources().getColor(R.color.bg_surface_alt, null));
+                Glide.with(this).load(user.profileImageUrl).into(ivArtistAvatar);
+            }
+        });
     }
 
     private void loadArtistStats() {

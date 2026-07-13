@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 660" font-family="Helvetica, Arial, sans-serif">
+<clipPath id="clip"><rect x="0" y="0" width="320" height="660" rx="26"/></clipPath>
+<g clip-path="url(#clip)">
+<rect x="0" y="0" width="320" height="660" rx="0" fill="#FAF6EC" stroke="none" stroke-width="1"/>
+<circle cx="28" cy="30" r="15" fill="#F2EBDD" stroke="none" stroke-width="1"/>
+<text x="28" y="34" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#1B4F91" text-anchor="middle">‹</text>
+<text x="52" y="35" font-family="Helvetica, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#1E1B16" text-anchor="start">Add Artwork</text>
+<rect x="24" y="60" width="272" height="130" rx="10" fill="#F2EBDD" stroke="none" stroke-width="1"/>
+<text x="160" y="129" font-family="Helvetica, Arial, sans-serif" font-size="36.400000000000006" font-weight="400" fill="#1E1B16" text-anchor="middle">📷</text>
+<text x="160" y="208" font-family="Helvetica, Arial, sans-serif" font-size="9.5" font-weight="400" fill="#A79C8A" text-anchor="middle">Tap to add a photo</text>
+<rect x="24" y="228" width="272" height="42" rx="10" fill="#FFFFFF" stroke="#E5DCC8" stroke-width="1.3"/>
+<text x="36" y="253" font-family="Helvetica, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#A79C8A" text-anchor="start">Artwork Title</text>
+<rect x="24" y="282" width="272" height="54" rx="10" fill="#FFFFFF" stroke="#E5DCC8" stroke-width="1.3"/>
+<text x="36" y="313" font-family="Helvetica, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#A79C8A" text-anchor="start">Description</text>
+<text x="24" y="352" font-family="Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#A79C8A" text-anchor="start">CATEGORY</text>
+<rect x="24" y="366" width="68.4" height="26" rx="13" fill="#C98A2C" stroke="none" stroke-width="1"/>
+<text x="58.2" y="383" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#241705" text-anchor="middle">Painting</text>
+<rect x="100.4" y="366" width="74.19999999999999" height="26" rx="13" fill="#F2EBDD" stroke="none" stroke-width="1"/>
+<text x="137.5" y="383" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1E1B16" text-anchor="middle">Sculpture</text>
+<rect x="182.6" y="366" width="85.8" height="26" rx="13" fill="#F2EBDD" stroke="none" stroke-width="1"/>
+<text x="225.5" y="383" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#1E1B16" text-anchor="middle">Photography</text>
+<rect x="24" y="400" width="130" height="42" rx="10" fill="#FFFFFF" stroke="#E5DCC8" stroke-width="1.3"/>
+<text x="36" y="425" font-family="Helvetica, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#A79C8A" text-anchor="start">Price (LKR)</text>
+<rect x="166" y="400" width="130" height="42" rx="10" fill="#FFFFFF" stroke="#E5DCC8" stroke-width="1.3"/>
+<text x="178" y="425" font-family="Helvetica, Arial, sans-serif" font-size="10.5" font-weight="400" fill="#A79C8A" text-anchor="start">Quantity</text>
+<rect x="24" y="454" width="272" height="46" rx="23" fill="#1B4F91" stroke="none" stroke-width="1"/>
+<text x="160" y="481.5" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">Save</text>
+</g>
+<rect x="1" y="1" width="318" height="658" rx="26" fill="none" stroke="#D8D0BE" stroke-width="2"/>
+</svg>

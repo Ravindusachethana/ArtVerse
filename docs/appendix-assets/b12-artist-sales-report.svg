@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 660" font-family="Helvetica, Arial, sans-serif">
+<clipPath id="clip"><rect x="0" y="0" width="320" height="660" rx="26"/></clipPath>
+<g clip-path="url(#clip)">
+<rect x="0" y="0" width="320" height="660" rx="0" fill="#FAF6EC" stroke="none" stroke-width="1"/>
+<text x="24" y="40" font-family="Helvetica, Arial, sans-serif" font-size="19" font-weight="700" fill="#1E1B16" text-anchor="start">Sales</text>
+<rect x="24" y="60" width="272" height="84" rx="14" fill="#1B4F91" stroke="none" stroke-width="1"/>
+<text x="38" y="92" font-family="Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#D9E6F5" text-anchor="start">Total Revenue</text>
+<text x="38" y="116" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="start">LKR 156,000</text>
+<line x1="160" y1="76" x2="160" y2="128" stroke="#5C82AE" stroke-width="1"/>
+<text x="210" y="92" font-family="Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#D9E6F5" text-anchor="start">Pieces Sold</text>
+<text x="210" y="116" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#E4B667" text-anchor="start">9</text>
+<text x="24" y="164" font-family="Helvetica, Arial, sans-serif" font-size="9.5" font-weight="700" fill="#A79C8A" text-anchor="start">TRANSACTION HISTORY</text>
+<text x="24" y="180" font-family="Helvetica, Arial, sans-serif" font-size="10.5" font-weight="600" fill="#1E1B16" text-anchor="start">Sunset Over Kandy</text>
+<text x="296" y="180" font-family="Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1E1B16" text-anchor="end">LKR 48,000</text>
+<text x="24" y="196" font-family="Helvetica, Arial, sans-serif" font-size="8.5" font-weight="400" fill="#A79C8A" text-anchor="start">05/06/2026 · Qty 2</text>
+<line x1="24" y1="214" x2="296" y2="214" stroke="#EEE6D6" stroke-width="1"/>
+<text x="24" y="228" font-family="Helvetica, Arial, sans-serif" font-size="10.5" font-weight="600" fill="#1E1B16" text-anchor="start">Old Harbour</text>
+<text x="296" y="228" font-family="Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1E1B16" text-anchor="end">LKR 19,500</text>
+<text x="24" y="244" font-family="Helvetica, Arial, sans-serif" font-size="8.5" font-weight="400" fill="#A79C8A" text-anchor="start">02/06/2026 · Qty 1</text>
+<line x1="24" y1="262" x2="296" y2="262" stroke="#EEE6D6" stroke-width="1"/>
+<text x="24" y="276" font-family="Helvetica, Arial, sans-serif" font-size="10.5" font-weight="600" fill="#1E1B16" text-anchor="start">Coastal Sketch</text>
+<text x="296" y="276" font-family="Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1E1B16" text-anchor="end">LKR 12,000</text>
+<text x="24" y="292" font-family="Helvetica, Arial, sans-serif" font-size="8.5" font-weight="400" fill="#A79C8A" text-anchor="start">28/05/2026 · Qty 1</text>
+<line x1="24" y1="310" x2="296" y2="310" stroke="#EEE6D6" stroke-width="1"/>
+</g>
+<rect x="1" y="1" width="318" height="658" rx="26" fill="none" stroke="#D8D0BE" stroke-width="2"/>
+</svg>

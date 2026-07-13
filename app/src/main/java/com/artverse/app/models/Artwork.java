@@ -3,8 +3,7 @@ package com.artverse.app.models;
 import java.util.List;
 
 /**
- * Represents a single artwork listing ("Items" entity in the ER model).
- * Stored in Firestore collection "artworks/{itemId}".
+ * single artwork listing.
  */
 public class Artwork {
     public String id;

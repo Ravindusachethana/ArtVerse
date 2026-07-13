@@ -14,6 +14,7 @@ import com.artverse.app.models.Artwork;
 import com.artverse.app.models.CartItem;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
+import com.artverse.app.utils.QuantitySelector;
 import com.bumptech.glide.Glide;
 
 import java.text.NumberFormat;
@@ -114,22 +115,22 @@ public class ArtworkDetailActivity extends AppCompatActivity {
 
     private void changeQuantity(int delta) {
         if (currentArtwork == null) return;
-        int newQuantity = selectedQuantity + delta;
-        if (newQuantity < 1 || newQuantity > currentArtwork.quantity) return;
-        selectedQuantity = newQuantity;
+        selectedQuantity = QuantitySelector.nextQuantity(selectedQuantity, delta, currentArtwork.quantity);
         updateQuantityUi();
     }
 
     private void updateQuantityUi() {
         if (currentArtwork == null) return;
         tvQtyValue.setText(String.valueOf(selectedQuantity));
-        btnQtyMinus.setEnabled(selectedQuantity > 1);
-        btnQtyMinus.setAlpha(selectedQuantity > 1 ? 1f : 0.35f);
-        btnQtyPlus.setEnabled(selectedQuantity < currentArtwork.quantity);
-        btnQtyPlus.setAlpha(selectedQuantity < currentArtwork.quantity ? 1f : 0.35f);
+        boolean canDecrease = QuantitySelector.canDecrease(selectedQuantity);
+        boolean canIncrease = QuantitySelector.canIncrease(selectedQuantity, currentArtwork.quantity);
+        btnQtyMinus.setEnabled(canDecrease);
+        btnQtyMinus.setAlpha(canDecrease ? 1f : 0.35f);
+        btnQtyPlus.setEnabled(canIncrease);
+        btnQtyPlus.setAlpha(canIncrease ? 1f : 0.35f);
 
         NumberFormat format = NumberFormat.getInstance(Locale.US);
-        tvOrderTotal.setText("LKR " + format.format(currentArtwork.price * selectedQuantity));
+        tvOrderTotal.setText("LKR " + format.format(QuantitySelector.lineTotal(currentArtwork.price, selectedQuantity)));
     }
 
     private void addToCart(boolean goToCheckout) {

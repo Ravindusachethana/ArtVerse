@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.artverse.app.auth.RoleSelectionNavigationTest" tests="2" failures="0" errors="0" skipped="0" time="9.601" timestamp="2026-07-13T13:43:06" hostname="localhost">
+  <properties>
+    <property name="device" value="25078RA3EA - 16" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="tappingArtLoverCard_opensCustomerRegistration" classname="com.artverse.app.auth.RoleSelectionNavigationTest" time="3.865" />
+  <testcase name="tappingArtistCard_opensArtistRegistration" classname="com.artverse.app.auth.RoleSelectionNavigationTest" time="3.104" />
+</testsuite>

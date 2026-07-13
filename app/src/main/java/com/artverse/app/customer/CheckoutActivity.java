@@ -156,8 +156,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         long now = System.currentTimeMillis();
 
-        // Runs as a single transaction so the stock check-and-decrement for every
-        // artwork is atomic: if two customers race for the last piece, only the
+        // If two customers race for the last piece, only the
         // first transaction to commit wins and the second is aborted below with
         // an up-to-date "left in stock" message rather than overselling.
         FirebaseUtil.db().runTransaction(transaction -> {

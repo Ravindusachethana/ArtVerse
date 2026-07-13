@@ -24,7 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Implements FR02 - Artist Registration Module. */
+/** Artist Registration Module. */
 public class ArtistRegisterActivity extends AppCompatActivity {
 
     private TextInputEditText etBusinessName, etEmail, etLocation, etBio, etPassword;

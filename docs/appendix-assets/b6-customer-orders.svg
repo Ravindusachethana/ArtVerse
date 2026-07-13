@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 660" font-family="Helvetica, Arial, sans-serif">
+<clipPath id="clip"><rect x="0" y="0" width="320" height="660" rx="26"/></clipPath>
+<g clip-path="url(#clip)">
+<rect x="0" y="0" width="320" height="660" rx="0" fill="#FAF6EC" stroke="none" stroke-width="1"/>
+<text x="24" y="40" font-family="Helvetica, Arial, sans-serif" font-size="19" font-weight="700" fill="#1E1B16" text-anchor="start">My Orders</text>
+<rect x="24" y="64" width="272" height="92" rx="12" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="36" y="90" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#1E1B16" text-anchor="start">Order #A1B2C3</text>
+<rect x="216.8" y="78" width="55.199999999999996" height="20" rx="10" fill="#D9A40022" stroke="none" stroke-width="1"/>
+<text x="244.4" y="91.6" font-family="Helvetica, Arial, sans-serif" font-size="9" font-weight="700" fill="#D9A400" text-anchor="middle">pending</text>
+<text x="36" y="110" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B6255" text-anchor="start">Sunset Over Kandy  x2</text>
+<text x="36" y="136" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#1B4F91" text-anchor="start">LKR 48,000</text>
+<rect x="24" y="166" width="272" height="92" rx="12" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="36" y="192" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#1E1B16" text-anchor="start">Order #D4E5F6</text>
+<rect x="200" y="180" width="72" height="20" rx="10" fill="#6C63FF22" stroke="none" stroke-width="1"/>
+<text x="236" y="193.6" font-family="Helvetica, Arial, sans-serif" font-size="9" font-weight="700" fill="#6C63FF" text-anchor="middle">processing</text>
+<text x="36" y="212" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B6255" text-anchor="start">Coastal Reverie  x1</text>
+<text x="36" y="238" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#1B4F91" text-anchor="start">LKR 18,500</text>
+<rect x="24" y="268" width="272" height="92" rx="12" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="36" y="294" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#1E1B16" text-anchor="start">Order #G7H8I9</text>
+<rect x="205.6" y="282" width="66.4" height="20" rx="10" fill="#2E7D5222" stroke="none" stroke-width="1"/>
+<text x="238.8" y="295.6" font-family="Helvetica, Arial, sans-serif" font-size="9" font-weight="700" fill="#2E7D52" text-anchor="middle">completed</text>
+<text x="36" y="314" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="400" fill="#6B6255" text-anchor="start">Tea Country Mist  x1</text>
+<text x="36" y="340" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#1B4F91" text-anchor="start">LKR 31,000</text>
+</g>
+<rect x="1" y="1" width="318" height="658" rx="26" fill="none" stroke="#D8D0BE" stroke-width="2"/>
+</svg>

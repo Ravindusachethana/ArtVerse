@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="640" height="360" fill="#FFFFFF"/>
+<text x="24" y="30" font-size="16" font-weight="700" fill="#1E1B16">Sales Revenue by Category</text>
+<text x="24" y="48" font-size="11" fill="#6B6255">Q2 2026 (Apr–Jun) · sample dataset</text>
+<line x1="190" y1="64" x2="190" y2="330" stroke="#E5DCC8" stroke-width="1"/>
+<text x="190" y="348" font-size="9.5" fill="#6B6255" text-anchor="middle" font-variant-numeric="tabular-nums">LKR 0k</text>
+<line x1="280" y1="64" x2="280" y2="330" stroke="#E5DCC8" stroke-width="1"/>
+<text x="280" y="348" font-size="9.5" fill="#6B6255" text-anchor="middle" font-variant-numeric="tabular-nums">LKR 63k</text>
+<line x1="370" y1="64" x2="370" y2="330" stroke="#E5DCC8" stroke-width="1"/>
+<text x="370" y="348" font-size="9.5" fill="#6B6255" text-anchor="middle" font-variant-numeric="tabular-nums">LKR 125k</text>
+<line x1="460" y1="64" x2="460" y2="330" stroke="#E5DCC8" stroke-width="1"/>
+<text x="460" y="348" font-size="9.5" fill="#6B6255" text-anchor="middle" font-variant-numeric="tabular-nums">LKR 188k</text>
+<line x1="550" y1="64" x2="550" y2="330" stroke="#E5DCC8" stroke-width="1"/>
+<text x="550" y="348" font-size="9.5" fill="#6B6255" text-anchor="middle" font-variant-numeric="tabular-nums">LKR 250k</text>
+<text x="178" y="84.33333333333333" font-size="11.5" fill="#1E1B16" text-anchor="end">Painting</text>
+<rect x="190" y="64" width="335.52000000000004" height="32.666666666666664" rx="6" fill="#1B4F91"/>
+<text x="535.52" y="84.33333333333333" font-size="11" font-weight="700" fill="#1E1B16" font-variant-numeric="tabular-nums">LKR 233,000</text>
+<text x="178" y="131" font-size="11.5" fill="#1E1B16" text-anchor="end">Photography</text>
+<rect x="190" y="110.66666666666666" width="156.96" height="32.666666666666664" rx="6" fill="#1B4F91"/>
+<text x="356.96000000000004" y="131" font-size="11" font-weight="700" fill="#1E1B16" font-variant-numeric="tabular-nums">LKR 109,000</text>
+<text x="178" y="177.66666666666666" font-size="11.5" fill="#1E1B16" text-anchor="end">Sculpture</text>
+<rect x="190" y="157.33333333333331" width="139.68" height="32.666666666666664" rx="6" fill="#1B4F91"/>
+<text x="339.68" y="177.66666666666666" font-size="11" font-weight="700" fill="#1E1B16" font-variant-numeric="tabular-nums">LKR 97,000</text>
+<text x="178" y="224.33333333333334" font-size="11.5" fill="#1E1B16" text-anchor="end">Digital Art</text>
+<rect x="190" y="204" width="103.67999999999999" height="32.666666666666664" rx="6" fill="#1B4F91"/>
+<text x="303.68" y="224.33333333333334" font-size="11" font-weight="700" fill="#1E1B16" font-variant-numeric="tabular-nums">LKR 72,000</text>
+<text x="178" y="271" font-size="11.5" fill="#1E1B16" text-anchor="end">Ceramics</text>
+<rect x="190" y="250.66666666666666" width="67.68" height="32.666666666666664" rx="6" fill="#1B4F91"/>
+<text x="267.68" y="271" font-size="11" font-weight="700" fill="#1E1B16" font-variant-numeric="tabular-nums">LKR 47,000</text>
+<text x="178" y="317.66666666666663" font-size="11.5" fill="#1E1B16" text-anchor="end">Drawing</text>
+<rect x="190" y="297.3333333333333" width="44.568" height="32.666666666666664" rx="6" fill="#1B4F91"/>
+<text x="244.56799999999998" y="317.66666666666663" font-size="11" font-weight="700" fill="#1E1B16" font-variant-numeric="tabular-nums">LKR 30,950</text>
+<line x1="190" y1="330" x2="190" y2="64" stroke="#E5DCC8" stroke-width="1"/>
+</svg>

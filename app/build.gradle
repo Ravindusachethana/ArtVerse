@@ -59,6 +59,10 @@ dependencies {
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
+    // Robolectric runs Android framework classes (e.g. android.util.Patterns, used by
+    // ValidationUtil) on the plain JVM, so unit tests don't need a device/emulator.
+    testImplementation 'org.robolectric:robolectric:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.6.1'
 }

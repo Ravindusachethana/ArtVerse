@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.artverse.app.utils.QuantitySelectorTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-07-13T10:54:46" hostname="RAVINDU" time="0.027">
+  <properties/>
+  <testcase name="lineTotal_multipliesUnitPriceByQuantity" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.022"/>
+  <testcase name="nextQuantity_refusesToGoBelowOne" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.0"/>
+  <testcase name="nextQuantity_incrementsWithinStock" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.0"/>
+  <testcase name="canDecrease_falseAtFloor" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.0"/>
+  <testcase name="nextQuantity_singlePieceStockNeverIncreases" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.0"/>
+  <testcase name="lineTotal_zeroQuantityIsZero" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.0"/>
+  <testcase name="canIncrease_falseWhenAtRemainingStock" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.0"/>
+  <testcase name="nextQuantity_decrementsAboveFloor" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.001"/>
+  <testcase name="nextQuantity_refusesToExceedRemainingStock" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

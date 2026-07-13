@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" font-family="Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="640" height="320" fill="#FFFFFF"/>
+<text x="24" y="28" font-size="16" font-weight="700" fill="#1E1B16">Order Volume Over Time</text>
+<text x="24" y="46" font-size="11" fill="#6B6255">Jan–Jun 2026 · sample dataset · orders placed per month</text>
+<line x1="50" y1="60" x2="610" y2="60" stroke="#E5DCC8" stroke-width="1"/>
+<line x1="50" y1="133.33333333333331" x2="610" y2="133.33333333333331" stroke="#E5DCC8" stroke-width="1"/>
+<line x1="50" y1="206.66666666666666" x2="610" y2="206.66666666666666" stroke="#E5DCC8" stroke-width="1"/>
+<line x1="50" y1="280" x2="610" y2="280" stroke="#E5DCC8" stroke-width="1"/>
+<path d="M50,280 L50,214 L162,181 L274,197.5 L386,148 L498,120.5 L610,87.5 L610,280 Z" fill="#C98A2C" fill-opacity="0.12"/>
+<path d="M50,214 L162,181 L274,197.5 L386,148 L498,120.5 L610,87.5" fill="none" stroke="#C98A2C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="50" cy="214" r="3" fill="#FFFFFF" stroke="#C98A2C" stroke-width="2.5"/>
+<text x="50" y="300" font-size="10" fill="#6B6255" text-anchor="middle">Jan</text>
+<text x="50" y="202" font-size="10.5" font-weight="700" fill="#1E1B16" text-anchor="middle" font-variant-numeric="tabular-nums">12</text>
+<circle cx="162" cy="181" r="3" fill="#FFFFFF" stroke="#C98A2C" stroke-width="2.5"/>
+<text x="162" y="300" font-size="10" fill="#6B6255" text-anchor="middle">Feb</text>
+<circle cx="274" cy="197.5" r="3" fill="#FFFFFF" stroke="#C98A2C" stroke-width="2.5"/>
+<text x="274" y="300" font-size="10" fill="#6B6255" text-anchor="middle">Mar</text>
+<circle cx="386" cy="148" r="3" fill="#FFFFFF" stroke="#C98A2C" stroke-width="2.5"/>
+<text x="386" y="300" font-size="10" fill="#6B6255" text-anchor="middle">Apr</text>
+<circle cx="498" cy="120.5" r="3" fill="#FFFFFF" stroke="#C98A2C" stroke-width="2.5"/>
+<text x="498" y="300" font-size="10" fill="#6B6255" text-anchor="middle">May</text>
+<circle cx="610" cy="87.5" r="3" fill="#FFFFFF" stroke="#C98A2C" stroke-width="2.5"/>
+<text x="610" y="300" font-size="10" fill="#6B6255" text-anchor="middle">Jun</text>
+<text x="610" y="75.5" font-size="10.5" font-weight="700" fill="#1E1B16" text-anchor="middle" font-variant-numeric="tabular-nums">35</text>
+</svg>

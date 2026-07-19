@@ -147,7 +147,8 @@ public class HomeFragment extends Fragment {
                     allArtworks.clear();
                     for (var doc : snapshot.getDocuments()) {
                         Artwork artwork = doc.toObject(Artwork.class);
-                        if (artwork != null) {
+                        // Only admin-approved artwork is visible to buyers.
+                        if (artwork != null && Artwork.isPublished(artwork)) {
                             artwork.id = doc.getId();
                             allArtworks.add(artwork);
                         }

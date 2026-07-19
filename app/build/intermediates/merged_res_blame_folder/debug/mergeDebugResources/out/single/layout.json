@@ -1,11 +1,11 @@
 [
     {
-        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\fragment_my_artwork.xml",
-        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\fragment_my_artwork.xml"
-    },
-    {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\activity_customer_register.xml",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\activity_customer_register.xml"
+    },
+    {
+        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\fragment_my_artwork.xml",
+        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\fragment_my_artwork.xml"
     },
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\item_cart.xml",
@@ -28,10 +28,6 @@
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\item_my_artwork.xml"
     },
     {
-        "merged": "com.artverse.app-mergeDebugResources-45:/layout/fragment_home.xml",
-        "source": "com.artverse.app-main-48:/layout/fragment_home.xml"
-    },
-    {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\activity_artist_register.xml",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\activity_artist_register.xml"
     },
@@ -48,12 +44,20 @@
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\item_order.xml"
     },
     {
+        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\activity_receipt.xml",
+        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\activity_receipt.xml"
+    },
+    {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\activity_artwork_detail.xml",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\activity_artwork_detail.xml"
     },
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\fragment_profile.xml",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\fragment_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\activity_artist_pending.xml",
+        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\activity_artist_pending.xml"
     },
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\fragment_list_generic.xml",
@@ -94,6 +98,14 @@
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\activity_login.xml",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\fragment_orders.xml",
+        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-48:\\layout\\fragment_orders.xml"
+    },
+    {
+        "merged": "com.artverse.app-mergeDebugResources-45:/layout/activity_login.xml",
+        "source": "com.artverse.app-main-48:/layout/activity_login.xml"
     },
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-45:\\layout\\fragment_sales_report.xml",

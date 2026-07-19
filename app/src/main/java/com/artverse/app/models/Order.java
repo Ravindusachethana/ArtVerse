@@ -3,8 +3,10 @@ package com.artverse.app.models;
 import java.util.List;
 
 /**
- * Represents a customer order that may span items from one or more artists.
- * Stored in "orders/{orderId}". Status flows: pending -> processing -> completed / rejected.
+ * Represents a customer order, scoped to a single artist (checkout splits the
+ * cart per artist). Stored in "orders/{orderId}".
+ * Status flow: created as "processing" when the customer buys, then the
+ * artist's decision settles it as "completed" (accepted) or "rejected".
  */
 public class Order {
     public String id;

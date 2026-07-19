@@ -30,3 +30,4 @@ public class ArtCategoriesTest {
         assertTrue(distinctCount == ArtCategories.DEFAULT.size());
     }
 }
+  

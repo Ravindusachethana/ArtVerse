@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.artverse.app.utils.QuantitySelectorTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-07-13T10:54:46" hostname="RAVINDU" time="0.027">
+<testsuite name="com.artverse.app.utils.QuantitySelectorTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-07-19T16:56:40" hostname="RAVINDU" time="0.004">
   <properties/>
-  <testcase name="lineTotal_multipliesUnitPriceByQuantity" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.022"/>
+  <testcase name="lineTotal_multipliesUnitPriceByQuantity" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.002"/>
   <testcase name="nextQuantity_refusesToGoBelowOne" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.0"/>
   <testcase name="nextQuantity_incrementsWithinStock" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.0"/>
   <testcase name="canDecrease_falseAtFloor" classname="com.artverse.app.utils.QuantitySelectorTest" time="0.0"/>

@@ -1,0 +1,71 @@
+<div class="page-head">
+  <h1>Profile Changes</h1>
+  <p>Artist profile edits go live only after your approval</p>
+</div>
+
+@if (loading()) {
+  <div class="state-box">
+    <span class="av-spinner"></span>
+    <p>Loading profile changes…</p>
+  </div>
+} @else if (requests().length === 0) {
+  <div class="state-box av-card">
+    <div class="empty-icon">👤</div>
+    <p>No profile changes waiting for review.</p>
+  </div>
+} @else {
+  <div class="request-list">
+    @for (row of requests(); track row.artist.uid) {
+      <article class="request-card av-card">
+
+        <div class="request-head">
+          <div class="artist-avatar">{{ (row.artist.businessName || '?').charAt(0).toUpperCase() }}</div>
+          <div class="request-id">
+            <h2>{{ row.artist.businessName || 'Unnamed artist' }}</h2>
+            <div class="request-sub">{{ row.user?.email || 'no email on file' }}</div>
+          </div>
+          <span class="av-badge pending">profile update</span>
+        </div>
+
+        <div class="diff">
+          <div class="diff-head">
+            <span></span><span>Current</span><span>Proposed</span>
+          </div>
+          @for (change of changesOf(row); track change.label) {
+            <div class="diff-row">
+              <span class="diff-label">{{ change.label }}</span>
+              @if (change.isImage) {
+                <span>@if (change.from) { <img class="diff-img" [src]="change.from" alt="Current photo"> } @else { — }</span>
+                <span>@if (change.to) { <img class="diff-img" [src]="change.to" alt="Proposed photo"> } @else { — }</span>
+              } @else {
+                <span class="diff-old">{{ change.from }}</span>
+                <span class="diff-new">{{ change.to }}</span>
+              }
+            </div>
+          } @empty {
+            <div class="diff-row">
+              <span class="diff-label">No visible field changes</span><span>—</span><span>—</span>
+            </div>
+          }
+        </div>
+
+        <div class="request-actions">
+          <button class="av-btn av-btn-success" type="button"
+                  [disabled]="busyUid() === row.artist.uid" (click)="approve(row)">
+            @if (busyUid() === row.artist.uid) { <span class="av-spinner light"></span> }
+            Approve changes
+          </button>
+          <button class="av-btn av-btn-danger" type="button"
+                  [disabled]="busyUid() === row.artist.uid" (click)="reject(row)">
+            Reject changes
+          </button>
+        </div>
+
+      </article>
+    }
+  </div>
+}
+
+@if (toast(); as t) {
+  <div class="av-toast" [class.error]="t.error">{{ t.text }}</div>
+}

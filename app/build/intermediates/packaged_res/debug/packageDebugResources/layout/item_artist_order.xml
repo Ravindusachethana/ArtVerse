@@ -100,10 +100,21 @@
                 tools:text="LKR 24,000" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tvViewReceipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="View receipt ›"
+            android:textColor="@color/brand_primary"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/actionRow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="43dp"
             android:layout_marginTop="14dp"
             android:orientation="horizontal">
 
@@ -111,25 +122,27 @@
                 android:id="@+id/btnReject"
                 style="@style/ArtVerse.Button.Outline"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:textSize="13sp"
-                android:text="Reject" />
+                android:text="Reject"
+                android:textSize="13sp" />
 
-            <Space android:layout_width="10dp" android:layout_height="1dp" />
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="1dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAccept"
                 style="@style/ArtVerse.Button.Primary"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:textSize="13sp"
-                android:text="Accept" />
+                android:text="Accept"
+                android:textSize="13sp" />
         </LinearLayout>
 
     </LinearLayout>

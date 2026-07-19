@@ -75,6 +75,14 @@ public class ArtworkDetailActivity extends AppCompatActivity {
                 .addOnSuccessListener(doc -> {
                     Artwork artwork = doc.toObject(Artwork.class);
                     if (artwork == null) return;
+                    // Unpublished art (awaiting/failed review) is only listed
+                    // for its owner; block direct opens for everyone else.
+                    if (!Artwork.isPublished(artwork)
+                            && !java.util.Objects.equals(artwork.artistId, FirebaseUtil.currentUid())) {
+                        Toast.makeText(this, "This artwork is not available", Toast.LENGTH_SHORT).show();
+                        finish();
+                        return;
+                    }
                     artwork.id = doc.getId();
                     currentArtwork = artwork;
                     bind(artwork);

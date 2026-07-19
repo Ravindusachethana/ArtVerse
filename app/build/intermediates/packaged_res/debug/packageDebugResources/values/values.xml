@@ -35,6 +35,7 @@
     <string name="add_artwork">Add Artwork</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="app_name">ArtVerse</string>
+    <string name="approved_toast">Congratulations! Your artist account has been approved.</string>
     <string name="buy_now">Buy Now</string>
     <string name="cart_empty">Your cart is empty</string>
     <string name="checkout">Checkout</string>
@@ -42,6 +43,7 @@
     <string name="edit_artwork">Edit Artwork</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="email">Email</string>
+    <string name="explore_gallery">Explore the gallery</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="gcm_defaultSenderId" translatable="false">227106672464</string>
     <string name="google_api_key" translatable="false">AIzaSyDEuWUo4cHBVXCrWRFUHvOAa4Ek4XdPA54</string>
@@ -61,14 +63,20 @@
     <string name="no_account">Don\'t have an account?</string>
     <string name="order_total">Order Total</string>
     <string name="password">Password</string>
+    <string name="pending_banner_message">An ArtVerse admin is reviewing your artist registration. You\'ll get full access automatically once you\'re approved. Meanwhile, enjoy browsing the gallery.</string>
+    <string name="pending_banner_title">Registration under review</string>
+    <string name="pending_read_only">Browsing is view-only until your account is approved</string>
     <string name="place_order">Place Order</string>
     <string name="project_id" translatable="false">artverse-61539</string>
+    <string name="rejected_banner_message">Unfortunately your artist registration was not approved. Please contact ArtVerse support for more information.</string>
+    <string name="rejected_banner_title">Registration not approved</string>
     <string name="role_artist">Artist</string>
     <string name="role_artist_desc">List and sell your artwork</string>
     <string name="role_customer">Art Lover</string>
     <string name="role_customer_desc">Browse and buy original artwork</string>
     <string name="save">Save</string>
     <string name="search_hint">Search artworks, artists, styles…</string>
+    <string name="sign_out">Sign out</string>
     <string name="sign_up">Sign Up</string>
     <string name="tagline">Where Art Meets Its Audience</string>
     <style name="ArtVerse.BottomNav" parent="Widget.Material3.BottomNavigationView">
@@ -169,6 +177,19 @@
         <item name="hintTextColor">@color/brand_primary</item>
         <item name="android:textColorHint">@color/text_hint</item>
         <item name="boxStrokeWidth">1dp</item>
+    </style>
+    <style name="ReceiptLabel">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_hint</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="ReceiptValue">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">13sp</item>
     </style>
     <style name="Theme.ArtVerse" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/brand_primary</item>

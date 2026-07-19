@@ -27,7 +27,9 @@ import com.google.firebase.firestore.FieldValue;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implements FR04 - Artwork Management Module: artists add, update, and
@@ -47,6 +49,9 @@ public class AddEditArtworkActivity extends AppCompatActivity {
     private String existingImageUrl;
     private boolean editMode = false;
     private String artworkId;
+    /** Loaded in edit mode - decides whether a save publishes directly
+     *  (unpublished resubmission) or stages changes for admin review. */
+    private Artwork existingArtwork;
 
     private final ActivityResultLauncher<String> imagePicker =
             registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
@@ -101,23 +106,52 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         FirebaseUtil.artworksRef().document(id).get().addOnSuccessListener(doc -> {
             Artwork artwork = doc.toObject(Artwork.class);
             if (artwork == null) return;
+            existingArtwork = artwork;
 
-            etTitle.setText(artwork.title);
-            etDescription.setText(artwork.description);
-            etPrice.setText(String.valueOf(artwork.price));
-            etQuantity.setText(String.valueOf(artwork.quantity));
-            etMedium.setText(artwork.medium);
-            etDimensions.setText(artwork.dimensions);
+            String title = artwork.title;
+            String description = artwork.description;
+            double price = artwork.price;
+            int quantity = artwork.quantity;
+            String medium = artwork.medium;
+            String dimensions = artwork.dimensions;
+            String categoryName = artwork.categoryName;
+            List<String> imageUrls = artwork.imageUrls;
+
+            // A previous edit may still be in review - show that submission
+            // so the artist keeps editing their latest version.
+            if (Artwork.hasPendingEdit(artwork)) {
+                Map<String, Object> staged = artwork.pendingChanges;
+                if (staged.get("title") instanceof String s) title = s;
+                if (staged.get("description") instanceof String s) description = s;
+                if (staged.get("price") instanceof Number n) price = n.doubleValue();
+                if (staged.get("quantity") instanceof Number n) quantity = n.intValue();
+                if (staged.get("medium") instanceof String s) medium = s;
+                if (staged.get("dimensions") instanceof String s) dimensions = s;
+                if (staged.get("categoryName") instanceof String s) categoryName = s;
+                if (staged.get("imageUrls") instanceof List<?> list) {
+                    List<String> urls = new ArrayList<>();
+                    for (Object o : list) if (o instanceof String s) urls.add(s);
+                    imageUrls = urls;
+                }
+                toast("Your previous edit is still in review - saving replaces that submission.");
+            }
+
+            etTitle.setText(title);
+            etDescription.setText(description);
+            etPrice.setText(String.valueOf(price));
+            etQuantity.setText(String.valueOf(quantity));
+            etMedium.setText(medium);
+            etDimensions.setText(dimensions);
 
             for (int i = 0; i < chipGroupCategory.getChildCount(); i++) {
                 Chip chip = (Chip) chipGroupCategory.getChildAt(i);
-                if (chip.getText().toString().equalsIgnoreCase(artwork.categoryName)) {
+                if (chip.getText().toString().equalsIgnoreCase(categoryName)) {
                     chip.setChecked(true);
                 }
             }
 
-            if (artwork.imageUrls != null && !artwork.imageUrls.isEmpty()) {
-                existingImageUrl = artwork.imageUrls.get(0);
+            if (imageUrls != null && !imageUrls.isEmpty()) {
+                existingImageUrl = imageUrls.get(0);
                 imagePlaceholderContent.setVisibility(View.GONE);
                 Glide.with(this).load(existingImageUrl).into(ivPreview);
             }
@@ -195,12 +229,24 @@ public class AddEditArtworkActivity extends AppCompatActivity {
                                  String category, double price, int quantity, String medium,
                                  String dimensions, List<String> images) {
 
+        // Editing a published listing: the live version stays untouched and
+        // the changes wait in pendingChanges for admin review.
+        if (editMode && (existingArtwork == null || Artwork.isPublished(existingArtwork))) {
+            stagePendingChanges(ref, title, description, category, price, quantity,
+                    medium, dimensions, images);
+            return;
+        }
+
         FirebaseUtil.usersRef().document(uid).get().addOnSuccessListener(userDoc -> {
             String artistName = userDoc.getString("name");
 
             Artwork artwork = new Artwork(ref.getId(), title, description, category, category,
                     uid, artistName, price, quantity, images, medium, dimensions, true,
-                    System.currentTimeMillis());
+                    editMode && existingArtwork != null
+                            ? existingArtwork.createdAt : System.currentTimeMillis());
+            // New listings (and resubmissions of unpublished ones) are hidden
+            // from buyers until an admin approves them.
+            artwork.moderationStatus = Constants.REVIEW_STATUS_PENDING;
 
             ref.set(artwork)
                     .addOnSuccessListener(v -> {
@@ -209,7 +255,10 @@ public class AddEditArtworkActivity extends AppCompatActivity {
                                     .update("totalArtworks", FieldValue.increment(1));
                         }
                         setLoading(false);
-                        Toast.makeText(this, editMode ? "Artwork updated" : "Artwork listed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, editMode
+                                        ? "Artwork resubmitted for review"
+                                        : "Artwork submitted - it will be published once an admin approves it",
+                                Toast.LENGTH_LONG).show();
                         finish();
                     })
                     .addOnFailureListener(e -> {
@@ -217,6 +266,35 @@ public class AddEditArtworkActivity extends AppCompatActivity {
                         toast("Could not save artwork: " + e.getMessage());
                     });
         });
+    }
+
+    /** Writes the edited fields into pendingChanges without touching the live listing. */
+    private void stagePendingChanges(DocumentReference ref, String title, String description,
+                                      String category, double price, int quantity, String medium,
+                                      String dimensions, List<String> images) {
+        Map<String, Object> changes = new HashMap<>();
+        changes.put("title", title);
+        changes.put("description", description);
+        changes.put("categoryId", category);
+        changes.put("categoryName", category);
+        changes.put("price", price);
+        changes.put("quantity", quantity);
+        changes.put("medium", medium);
+        changes.put("dimensions", dimensions);
+        changes.put("imageUrls", images);
+
+        ref.update("pendingChanges", changes)
+                .addOnSuccessListener(v -> {
+                    setLoading(false);
+                    Toast.makeText(this,
+                            "Changes submitted for review - your current listing stays live until an admin approves the update",
+                            Toast.LENGTH_LONG).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    setLoading(false);
+                    toast("Could not submit changes: " + e.getMessage());
+                });
     }
 
     private String text(TextInputEditText et) {

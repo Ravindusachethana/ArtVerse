@@ -91,5 +91,16 @@
                 tools:text="LKR 24,000" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tvViewReceipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="View receipt ›"
+            android:textColor="@color/brand_primary"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

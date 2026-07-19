@@ -1,0 +1,65 @@
+<div class="page-head">
+  <h1>Dashboard</h1>
+  <p>Overview of the ArtVerse platform</p>
+</div>
+
+@if (livePending() > 0) {
+  <a routerLink="/artist-approvals" class="pending-banner av-card">
+    <span class="pending-dot"></span>
+    <strong>{{ livePending() }}</strong>&nbsp;artist registration{{ livePending() === 1 ? '' : 's' }} waiting for your review
+    <span class="banner-cta">Review now &rarr;</span>
+  </a>
+}
+
+@if (liveArtworkReviews() > 0) {
+  <a routerLink="/artwork-approvals" class="pending-banner av-card">
+    <span class="pending-dot"></span>
+    <strong>{{ liveArtworkReviews() }}</strong>&nbsp;artwork submission{{ liveArtworkReviews() === 1 ? '' : 's' }} &amp; edits waiting for review
+    <span class="banner-cta">Review now &rarr;</span>
+  </a>
+}
+
+@if (liveProfileChanges() > 0) {
+  <a routerLink="/profile-changes" class="pending-banner av-card">
+    <span class="pending-dot"></span>
+    <strong>{{ liveProfileChanges() }}</strong>&nbsp;profile change{{ liveProfileChanges() === 1 ? '' : 's' }} waiting for review
+    <span class="banner-cta">Review now &rarr;</span>
+  </a>
+}
+
+<div class="stat-grid">
+  <div class="stat-card av-card accent-primary">
+    <div class="stat-label">Pending approvals</div>
+    <div class="stat-value">{{ livePending() }}</div>
+    <div class="stat-hint">Artists awaiting review</div>
+  </div>
+  <div class="stat-card av-card">
+    <div class="stat-label">Artwork reviews</div>
+    <div class="stat-value">{{ liveArtworkReviews() }}</div>
+    <div class="stat-hint">New art &amp; edit requests</div>
+  </div>
+  <div class="stat-card av-card">
+    <div class="stat-label">Profile changes</div>
+    <div class="stat-value">{{ liveProfileChanges() }}</div>
+    <div class="stat-hint">Staged profile edits</div>
+  </div>
+  <div class="stat-card av-card">
+    <div class="stat-label">Artists</div>
+    <div class="stat-value">{{ counts()?.artists ?? '–' }}</div>
+    <div class="stat-hint">Registered artist accounts</div>
+  </div>
+  <div class="stat-card av-card">
+    <div class="stat-label">Art lovers</div>
+    <div class="stat-value">{{ counts()?.customers ?? '–' }}</div>
+    <div class="stat-hint">Customer accounts</div>
+  </div>
+  <div class="stat-card av-card">
+    <div class="stat-label">Artworks</div>
+    <div class="stat-value">{{ counts()?.artworks ?? '–' }}</div>
+    <div class="stat-hint">Listed on the marketplace</div>
+  </div>
+</div>
+
+@if (countsFailed()) {
+  <p class="counts-error">Some counters could not be loaded. Check your connection and Firestore rules.</p>
+}

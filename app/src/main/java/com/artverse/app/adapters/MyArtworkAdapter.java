@@ -78,11 +78,7 @@ public class MyArtworkAdapter extends RecyclerView.Adapter<MyArtworkAdapter.View
             NumberFormat format = NumberFormat.getInstance(Locale.US);
             tvPrice.setText("LKR " + format.format(artwork.price));
 
-            tvAvailability.setText(artwork.available ? "Available" : "Sold");
-            tvAvailability.setBackgroundResource(artwork.available
-                    ? R.drawable.bg_pill_completed : R.drawable.bg_pill_rejected);
-            tvAvailability.setTextColor(tvAvailability.getResources().getColor(
-                    artwork.available ? R.color.status_success : R.color.status_rejected, null));
+            bindStatusPill(artwork);
 
             String imageUrl = (artwork.imageUrls != null && !artwork.imageUrls.isEmpty())
                     ? artwork.imageUrls.get(0) : null;
@@ -95,6 +91,42 @@ public class MyArtworkAdapter extends RecyclerView.Adapter<MyArtworkAdapter.View
 
             btnEdit.setOnClickListener(v -> { if (listener != null) listener.onEdit(artwork); });
             btnDelete.setOnClickListener(v -> { if (listener != null) listener.onDelete(artwork); });
+        }
+
+        /**
+         * The pill reflects moderation first (in review / update in review /
+         * rejected), and only falls back to availability once published.
+         */
+        private void bindStatusPill(Artwork artwork) {
+            String label;
+            int background;
+            int color;
+
+            if ("pending".equals(artwork.moderationStatus)) {
+                label = "In review";
+                background = R.drawable.bg_pill_pending;
+                color = R.color.status_pending;
+            } else if ("rejected".equals(artwork.moderationStatus)) {
+                label = "Rejected";
+                background = R.drawable.bg_pill_rejected;
+                color = R.color.status_rejected;
+            } else if (Artwork.hasPendingEdit(artwork)) {
+                label = "Update in review";
+                background = R.drawable.bg_pill_pending;
+                color = R.color.status_pending;
+            } else if (artwork.available) {
+                label = "Available";
+                background = R.drawable.bg_pill_completed;
+                color = R.color.status_success;
+            } else {
+                label = "Sold";
+                background = R.drawable.bg_pill_rejected;
+                color = R.color.status_rejected;
+            }
+
+            tvAvailability.setText(label);
+            tvAvailability.setBackgroundResource(background);
+            tvAvailability.setTextColor(tvAvailability.getResources().getColor(color, null));
         }
     }
 }

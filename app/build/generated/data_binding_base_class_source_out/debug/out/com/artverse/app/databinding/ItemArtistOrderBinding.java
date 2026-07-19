@@ -48,11 +48,14 @@ public final class ItemArtistOrderBinding implements ViewBinding {
   @NonNull
   public final TextView tvTotal;
 
+  @NonNull
+  public final TextView tvViewReceipt;
+
   private ItemArtistOrderBinding(@NonNull MaterialCardView rootView,
       @NonNull LinearLayout actionRow, @NonNull MaterialButton btnAccept,
       @NonNull MaterialButton btnReject, @NonNull TextView tvCustomerName, @NonNull TextView tvDate,
       @NonNull TextView tvItemsSummary, @NonNull TextView tvOrderId, @NonNull TextView tvStatus,
-      @NonNull TextView tvTotal) {
+      @NonNull TextView tvTotal, @NonNull TextView tvViewReceipt) {
     this.rootView = rootView;
     this.actionRow = actionRow;
     this.btnAccept = btnAccept;
@@ -63,6 +66,7 @@ public final class ItemArtistOrderBinding implements ViewBinding {
     this.tvOrderId = tvOrderId;
     this.tvStatus = tvStatus;
     this.tvTotal = tvTotal;
+    this.tvViewReceipt = tvViewReceipt;
   }
 
   @Override
@@ -146,8 +150,15 @@ public final class ItemArtistOrderBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvViewReceipt;
+      TextView tvViewReceipt = ViewBindings.findChildViewById(rootView, id);
+      if (tvViewReceipt == null) {
+        break missingId;
+      }
+
       return new ItemArtistOrderBinding((MaterialCardView) rootView, actionRow, btnAccept,
-          btnReject, tvCustomerName, tvDate, tvItemsSummary, tvOrderId, tvStatus, tvTotal);
+          btnReject, tvCustomerName, tvDate, tvItemsSummary, tvOrderId, tvStatus, tvTotal,
+          tvViewReceipt);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

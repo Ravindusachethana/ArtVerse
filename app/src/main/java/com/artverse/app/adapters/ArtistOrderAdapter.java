@@ -1,5 +1,6 @@
 package com.artverse.app.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.artverse.app.R;
+import com.artverse.app.common.ReceiptActivity;
 import com.artverse.app.models.Order;
 import com.artverse.app.models.OrderItem;
 import com.artverse.app.utils.Constants;
@@ -58,7 +60,7 @@ public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvOrderId, tvStatus, tvCustomerName, tvDate, tvItemsSummary, tvTotal;
+        TextView tvOrderId, tvStatus, tvCustomerName, tvDate, tvItemsSummary, tvTotal, tvViewReceipt;
         View actionRow, btnAccept, btnReject;
 
         ViewHolder(@NonNull View itemView) {
@@ -69,6 +71,7 @@ public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.
             tvDate = itemView.findViewById(R.id.tvDate);
             tvItemsSummary = itemView.findViewById(R.id.tvItemsSummary);
             tvTotal = itemView.findViewById(R.id.tvTotal);
+            tvViewReceipt = itemView.findViewById(R.id.tvViewReceipt);
             actionRow = itemView.findViewById(R.id.actionRow);
             btnAccept = itemView.findViewById(R.id.btnAccept);
             btnReject = itemView.findViewById(R.id.btnReject);
@@ -96,13 +99,30 @@ public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.
             NumberFormat format = NumberFormat.getInstance(Locale.US);
             tvTotal.setText("LKR " + format.format(order.totalAmount));
 
-            boolean pending = Constants.STATUS_PENDING.equals(order.status);
-            actionRow.setVisibility(pending ? View.VISIBLE : View.GONE);
+            // New orders arrive as "processing" (awaiting the artist's decision);
+            // "pending" is kept for orders created before this flow existed.
+            boolean awaitingDecision = Constants.STATUS_PROCESSING.equals(order.status)
+                    || Constants.STATUS_PENDING.equals(order.status);
+            actionRow.setVisibility(awaitingDecision ? View.VISIBLE : View.GONE);
 
             btnAccept.setOnClickListener(v -> { if (listener != null) listener.onAccept(order); });
             btnReject.setOnClickListener(v -> { if (listener != null) listener.onReject(order); });
 
             bindStatus(order.status);
+            bindReceiptLink(order);
+        }
+
+        /** Settled orders (completed/rejected) open their receipt when tapped. */
+        private void bindReceiptLink(Order order) {
+            boolean settled = Constants.STATUS_COMPLETED.equals(order.status)
+                    || Constants.STATUS_REJECTED.equals(order.status);
+            tvViewReceipt.setVisibility(settled ? View.VISIBLE : View.GONE);
+            itemView.setClickable(settled);
+            itemView.setOnClickListener(!settled ? null : v -> {
+                Intent intent = new Intent(v.getContext(), ReceiptActivity.class);
+                intent.putExtra(Constants.EXTRA_ORDER_ID, order.id);
+                v.getContext().startActivity(intent);
+            });
         }
 
         private void bindStatus(String status) {
@@ -112,6 +132,8 @@ public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.
             int bg, color;
             switch (status != null ? status : "") {
                 case Constants.STATUS_PROCESSING:
+                    // The customer sees "Processing"; for the artist this order is new.
+                    tvStatus.setText("New");
                     bg = R.drawable.bg_pill_processing;
                     color = R.color.status_processing;
                     break;

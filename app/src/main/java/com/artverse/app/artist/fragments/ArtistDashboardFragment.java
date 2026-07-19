@@ -2,10 +2,12 @@ package com.artverse.app.artist.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,9 +24,9 @@ import com.artverse.app.models.Order;
 import com.artverse.app.models.User;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
+import com.artverse.app.utils.OrderActions;
 import com.artverse.app.utils.SessionManager;
 import com.bumptech.glide.Glide;
-import com.google.firebase.firestore.Query;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import java.text.NumberFormat;
@@ -67,10 +69,16 @@ public class ArtistDashboardFragment extends Fragment {
 
         adapter = new ArtistOrderAdapter(new ArtistOrderAdapter.OrderActionListener() {
             @Override
-            public void onAccept(Order order) { updateStatus(order, Constants.STATUS_PROCESSING); }
+            public void onAccept(Order order) {
+                OrderActions.accept(order)
+                        .addOnFailureListener(e -> toast("Could not accept order: " + e.getMessage()));
+            }
 
             @Override
-            public void onReject(Order order) { updateStatus(order, Constants.STATUS_REJECTED); }
+            public void onReject(Order order) {
+                OrderActions.reject(order)
+                        .addOnFailureListener(e -> toast("Could not reject order: " + e.getMessage()));
+            }
         });
         rvRecentOrders.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvRecentOrders.setAdapter(adapter);
@@ -128,12 +136,18 @@ public class ArtistDashboardFragment extends Fragment {
         String uid = FirebaseUtil.currentUid();
         if (uid == null) return;
 
+        // Equality filter only, sorted/trimmed client-side: keeps the query
+        // free of composite-index requirements (and lets the pending count
+        // cover every order, not just the visible five).
         FirebaseUtil.ordersRef()
                 .whereEqualTo("artistId", uid)
-                .orderBy("orderDate", Query.Direction.DESCENDING)
-                .limit(5)
                 .addSnapshotListener((snapshot, error) -> {
-                    if (error != null || snapshot == null || getContext() == null) return;
+                    if (getContext() == null) return;
+                    if (error != null) {
+                        Log.e("ArtistDashboard", "Order query failed", error);
+                        return;
+                    }
+                    if (snapshot == null) return;
 
                     List<Order> orders = new ArrayList<>();
                     int pendingCount = 0;
@@ -142,17 +156,21 @@ public class ArtistDashboardFragment extends Fragment {
                         if (order != null) {
                             order.id = d.getId();
                             orders.add(order);
-                            if (Constants.STATUS_PENDING.equals(order.status)) pendingCount++;
+                            // Orders still awaiting the artist's decision.
+                            if (Constants.STATUS_PROCESSING.equals(order.status)
+                                    || Constants.STATUS_PENDING.equals(order.status)) pendingCount++;
                         }
                     }
-                    adapter.submitList(orders);
+                    orders.sort((a, b) -> Long.compare(b.orderDate, a.orderDate));
+                    List<Order> recent = orders.size() > 5 ? orders.subList(0, 5) : orders;
+                    adapter.submitList(recent);
                     tvPendingOrders.setText(String.valueOf(pendingCount));
-                    tvNoOrders.setVisibility(orders.isEmpty() ? View.VISIBLE : View.GONE);
-                    rvRecentOrders.setVisibility(orders.isEmpty() ? View.GONE : View.VISIBLE);
+                    tvNoOrders.setVisibility(recent.isEmpty() ? View.VISIBLE : View.GONE);
+                    rvRecentOrders.setVisibility(recent.isEmpty() ? View.GONE : View.VISIBLE);
                 });
     }
 
-    private void updateStatus(Order order, String newStatus) {
-        FirebaseUtil.ordersRef().document(order.id).update("status", newStatus);
+    private void toast(String message) {
+        if (getContext() != null) Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 }

@@ -14,15 +14,14 @@ import com.artverse.app.R;
 import com.artverse.app.models.CartItem;
 import com.artverse.app.models.Order;
 import com.artverse.app.models.OrderItem;
-import com.artverse.app.models.Transaction;
 import com.artverse.app.models.User;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
+import com.artverse.app.utils.OrderActions;
 import com.artverse.app.utils.SessionManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.WriteBatch;
 
@@ -36,9 +35,12 @@ import java.util.Map;
 /**
  * Implements FR07 - Order Management Module and FR08 - Payment Module.
  * Reads the customer's cart, groups items by artist (an Order is scoped to
- * one artist per the ER design), and writes Order + Transaction records plus
- * the artwork stock decrement inside a single Firestore transaction so stock
- * is locked atomically - see placeOrder(). Clears the cart once that commits.
+ * one artist per the ER design), and writes the Order, the artist's new-order
+ * notification, and the artwork stock decrement inside a single Firestore
+ * transaction so stock is reserved atomically - see placeOrder(). The order
+ * starts as "processing" until the artist accepts (completed) or rejects it;
+ * Transaction records and the artist's totalSales are only written on accept,
+ * in OrderActions. Clears the cart once the transaction commits.
  * The payment step here is a confirmation-based simulation, as noted in the
  * dissertation's scope (Section 1.4) - swap sendOrder() for a real gateway
  * callback once one is integrated.
@@ -187,18 +189,13 @@ public class CheckoutActivity extends AppCompatActivity {
 
                 DocumentReference orderRef = FirebaseUtil.ordersRef().document();
                 Order order = new Order(orderRef.getId(), uid, customerName, artistId, address,
-                        orderItems, artistTotal, Constants.STATUS_PENDING, paymentMethod, now);
+                        orderItems, artistTotal, Constants.STATUS_PROCESSING, paymentMethod, now);
                 transaction.set(orderRef, order);
 
                 for (CartItem ci : artistItems) {
-                    DocumentReference txRef = FirebaseUtil.transactionsRef().document();
-                    String invoice = "INV-" + now + "-" + ci.artworkId.substring(0, Math.min(5, ci.artworkId.length()));
-                    Transaction tx = new Transaction(txRef.getId(), orderRef.getId(), ci.artworkId, artistId,
-                            invoice, ci.quantity, ci.price, ci.lineTotal(), now);
-                    transaction.set(txRef, tx);
-
-                    // Lock in the sale: decrement remaining stock and flip
-                    // availability off once the last piece is sold.
+                    // Reserve the stock: decrement remaining quantity and flip
+                    // availability off once the last piece is spoken for. It is
+                    // released again if the artist rejects (OrderActions.reject).
                     long newQuantity = remainingStock.get(ci.artworkId) - ci.quantity;
                     DocumentReference artworkRef = FirebaseUtil.artworksRef().document(ci.artworkId);
                     Map<String, Object> update = new HashMap<>();
@@ -207,8 +204,11 @@ public class CheckoutActivity extends AppCompatActivity {
                     transaction.update(artworkRef, update);
                 }
 
-                DocumentReference artistRef = FirebaseUtil.artistsRef().document(artistId);
-                transaction.update(artistRef, "totalSales", FieldValue.increment(artistTotal));
+                OrderActions.writeNotification(transaction, artistId, orderRef.getId(),
+                        "New order received",
+                        customerName + " placed order #" + OrderActions.shortId(orderRef.getId())
+                                + " (LKR " + NumberFormat.getInstance(Locale.US).format(artistTotal)
+                                + "). Accept or reject it in Incoming Orders.", now);
             }
             return null;
         }).addOnSuccessListener(v -> clearCartAndFinish(uid))

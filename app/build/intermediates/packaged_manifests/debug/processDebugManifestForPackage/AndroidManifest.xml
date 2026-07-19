@@ -14,6 +14,11 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Receipt PDF download on Android 9 and below (10+ uses MediaStore). -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
@@ -73,10 +78,16 @@
             android:name="com.artverse.app.artist.ArtistMainActivity"
             android:exported="false" />
         <activity
+            android:name="com.artverse.app.artist.ArtistPendingActivity"
+            android:exported="false" />
+        <activity
             android:name="com.artverse.app.artist.AddEditArtworkActivity"
             android:exported="false" />
         <activity
             android:name="com.artverse.app.artist.ArtistProfileEditActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.artverse.app.common.ReceiptActivity"
             android:exported="false" />
         <activity
             android:name="com.google.firebase.auth.internal.GenericIdpActivity"

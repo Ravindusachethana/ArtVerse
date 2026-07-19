@@ -1,5 +1,6 @@
 package com.artverse.app.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.artverse.app.R;
+import com.artverse.app.common.ReceiptActivity;
 import com.artverse.app.models.Order;
 import com.artverse.app.models.OrderItem;
 import com.artverse.app.utils.Constants;
@@ -48,7 +50,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView tvOrderId, tvStatus, tvDate, tvItemsSummary, tvTotal;
+        TextView tvOrderId, tvStatus, tvDate, tvItemsSummary, tvTotal, tvViewReceipt;
 
         OrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,6 +59,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             tvDate = itemView.findViewById(R.id.tvDate);
             tvItemsSummary = itemView.findViewById(R.id.tvItemsSummary);
             tvTotal = itemView.findViewById(R.id.tvTotal);
+            tvViewReceipt = itemView.findViewById(R.id.tvViewReceipt);
         }
 
         void bind(Order order) {
@@ -81,6 +84,20 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             tvTotal.setText("LKR " + format.format(order.totalAmount));
 
             bindStatus(order.status);
+            bindReceiptLink(order);
+        }
+
+        /** Settled orders (completed/rejected) open their receipt when tapped. */
+        private void bindReceiptLink(Order order) {
+            boolean settled = Constants.STATUS_COMPLETED.equals(order.status)
+                    || Constants.STATUS_REJECTED.equals(order.status);
+            tvViewReceipt.setVisibility(settled ? View.VISIBLE : View.GONE);
+            itemView.setClickable(settled);
+            itemView.setOnClickListener(!settled ? null : v -> {
+                Intent intent = new Intent(v.getContext(), ReceiptActivity.class);
+                intent.putExtra(Constants.EXTRA_ORDER_ID, order.id);
+                v.getContext().startActivity(intent);
+            });
         }
 
         private void bindStatus(String status) {

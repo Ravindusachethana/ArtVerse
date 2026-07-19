@@ -16,7 +16,6 @@ import com.artverse.app.models.Artist;
 import com.artverse.app.models.User;
 import com.artverse.app.utils.ArtCategories;
 import com.artverse.app.utils.ChipStyler;
-import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.SessionManager;
 import com.artverse.app.utils.ValidationUtil;
@@ -108,15 +107,33 @@ public class ArtistProfileEditActivity extends AppCompatActivity {
             Artist artist = artistDoc.toObject(Artist.class);
             if (artist == null) return;
 
-            etLocation.setText(artist.location);
-            etBio.setText(artist.bio);
+            String location = artist.location;
+            String bio = artist.bio;
+            List<String> categories = artist.categories;
 
-            if (artist.categories != null) {
+            // A previous edit may still be in review - show that submission
+            // so the artist keeps editing their latest version.
+            if (Artist.hasPendingEdit(artist)) {
+                Map<String, Object> staged = artist.pendingChanges;
+                if (staged.get("name") instanceof String s) etName.setText(s);
+                if (staged.get("phone") instanceof String s) etPhone.setText(s);
+                if (staged.get("location") instanceof String s) location = s;
+                if (staged.get("bio") instanceof String s) bio = s;
+                if (staged.get("categories") instanceof List<?> list) {
+                    List<String> stagedCategories = new ArrayList<>();
+                    for (Object o : list) if (o instanceof String s) stagedCategories.add(s);
+                    categories = stagedCategories;
+                }
+                toast("Your previous profile edit is still in review - saving replaces that submission.");
+            }
+
+            etLocation.setText(location);
+            etBio.setText(bio);
+
+            if (categories != null) {
                 for (int i = 0; i < chipGroupCategories.getChildCount(); i++) {
                     Chip chip = (Chip) chipGroupCategories.getChildAt(i);
-                    if (artist.categories.contains(chip.getText().toString())) {
-                        chip.setChecked(true);
-                    }
+                    chip.setChecked(categories.contains(chip.getText().toString()));
                 }
             }
         });
@@ -164,32 +181,35 @@ public class ArtistProfileEditActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Profile edits do not go live directly: they are staged in
+     * artists/{uid}.pendingChanges and the public profile keeps its current
+     * values until an admin approves the update in the web panel.
+     */
     private void saveProfile(String uid, String name, String phone, String location, String bio,
                               List<String> categories, String newImageUrl) {
 
-        Map<String, Object> userUpdates = new HashMap<>();
-        userUpdates.put("name", name);
-        userUpdates.put("phone", phone);
-        if (newImageUrl != null) userUpdates.put("profileImageUrl", newImageUrl);
+        Map<String, Object> staged = new HashMap<>();
+        staged.put("name", name);
+        staged.put("phone", phone);
+        if (newImageUrl != null) staged.put("profileImageUrl", newImageUrl);
+        staged.put("businessName", name);
+        staged.put("location", location);
+        staged.put("bio", bio);
+        staged.put("categories", categories);
 
-        Map<String, Object> artistUpdates = new HashMap<>();
-        artistUpdates.put("businessName", name);
-        artistUpdates.put("location", location);
-        artistUpdates.put("bio", bio);
-        artistUpdates.put("categories", categories);
-
-        FirebaseUtil.usersRef().document(uid).set(userUpdates, SetOptions.merge())
-                .continueWithTask(t -> FirebaseUtil.artistsRef().document(uid)
-                        .set(artistUpdates, SetOptions.merge()))
+        FirebaseUtil.artistsRef().document(uid)
+                .set(Map.of("pendingChanges", staged), SetOptions.merge())
                 .addOnSuccessListener(v -> {
-                    new SessionManager(this).saveSession(uid, Constants.ROLE_ARTIST, name);
                     setLoading(false);
-                    Toast.makeText(this, "Profile updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,
+                            "Profile changes submitted for review - they will appear once an admin approves them",
+                            Toast.LENGTH_LONG).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     setLoading(false);
-                    toast("Could not save profile: " + e.getMessage());
+                    toast("Could not submit changes: " + e.getMessage());
                 });
     }
 

@@ -1,10 +1,12 @@
 package com.artverse.app.artist.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +18,6 @@ import com.artverse.app.R;
 import com.artverse.app.adapters.TransactionAdapter;
 import com.artverse.app.models.Transaction;
 import com.artverse.app.utils.FirebaseUtil;
-import com.google.firebase.firestore.Query;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -61,11 +62,19 @@ public class SalesReportFragment extends Fragment {
         String uid = FirebaseUtil.currentUid();
         if (uid == null) return;
 
+        // Equality filter only, sorted client-side: keeps the query free of
+        // composite-index requirements so it can never fail on a fresh project.
         FirebaseUtil.transactionsRef()
                 .whereEqualTo("artistId", uid)
-                .orderBy("date", Query.Direction.DESCENDING)
                 .addSnapshotListener((snapshot, error) -> {
-                    if (error != null || snapshot == null || getContext() == null) return;
+                    if (getContext() == null) return;
+                    if (error != null) {
+                        Log.e("SalesReport", "Transaction query failed", error);
+                        Toast.makeText(getContext(), "Could not load sales: " + error.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    if (snapshot == null) return;
 
                     List<Transaction> transactions = new ArrayList<>();
                     double totalRevenue = 0;
@@ -78,6 +87,7 @@ public class SalesReportFragment extends Fragment {
                             totalPieces += tx.quantity;
                         }
                     }
+                    transactions.sort((a, b) -> Long.compare(b.date, a.date));
                     adapter.submitList(transactions);
 
                     NumberFormat format = NumberFormat.getInstance(Locale.US);

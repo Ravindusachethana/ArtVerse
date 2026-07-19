@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Receipt PDF download on Android 9 and below (10+ uses MediaStore). -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
 
     <application
         android:allowBackup="true"
@@ -38,8 +41,11 @@
         <activity
             android:name=".artist.ArtistMainActivity"
             android:exported="false" />
+        <activity android:name=".artist.ArtistPendingActivity" android:exported="false" />
         <activity android:name=".artist.AddEditArtworkActivity" android:exported="false" />
         <activity android:name=".artist.ArtistProfileEditActivity" android:exported="false" />
+
+        <activity android:name=".common.ReceiptActivity" android:exported="false" />
 
     </application>
 </manifest>

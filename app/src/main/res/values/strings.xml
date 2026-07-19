@@ -39,4 +39,14 @@
     <string name="edit_artwork">Edit Artwork</string>
     <string name="save">Save</string>
     <string name="edit_profile">Edit Profile</string>
+
+    <!-- Artist approval flow -->
+    <string name="pending_banner_title">Registration under review</string>
+    <string name="pending_banner_message">An ArtVerse admin is reviewing your artist registration. You\'ll get full access automatically once you\'re approved. Meanwhile, enjoy browsing the gallery.</string>
+    <string name="rejected_banner_title">Registration not approved</string>
+    <string name="rejected_banner_message">Unfortunately your artist registration was not approved. Please contact ArtVerse support for more information.</string>
+    <string name="pending_read_only">Browsing is view-only until your account is approved</string>
+    <string name="approved_toast">Congratulations! Your artist account has been approved.</string>
+    <string name="sign_out">Sign out</string>
+    <string name="explore_gallery">Explore the gallery</string>
 </resources>

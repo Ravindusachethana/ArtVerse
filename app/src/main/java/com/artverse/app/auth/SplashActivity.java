@@ -8,6 +8,7 @@ import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.artverse.app.artist.ArtistMainActivity;
+import com.artverse.app.artist.ArtistPendingActivity;
 import com.artverse.app.customer.CustomerMainActivity;
 import com.artverse.app.R;
 import com.artverse.app.utils.FirebaseUtil;
@@ -34,9 +35,15 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent;
 
         if (FirebaseUtil.isLoggedIn() && session.getRole() != null) {
-            intent = session.isArtist()
-                    ? new Intent(this, ArtistMainActivity.class)
-                    : new Intent(this, CustomerMainActivity.class);
+            if (session.isArtist()) {
+                // Unapproved artists stay in the read-only waiting room; it
+                // listens to Firestore and unlocks the dashboard on approval.
+                intent = session.isArtistApproved()
+                        ? new Intent(this, ArtistMainActivity.class)
+                        : new Intent(this, ArtistPendingActivity.class);
+            } else {
+                intent = new Intent(this, CustomerMainActivity.class);
+            }
         } else {
             intent = new Intent(this, LoginActivity.class);
         }

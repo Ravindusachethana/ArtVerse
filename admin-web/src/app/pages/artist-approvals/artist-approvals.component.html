@@ -1,0 +1,107 @@
+<div class="page-head">
+  <h1>Artist Approvals</h1>
+  <p>Review artist registrations and grant or deny access to the marketplace</p>
+</div>
+
+<div class="tabs">
+  @for (tab of tabs; track tab.key) {
+    <button type="button" class="tab" [class.active]="activeTab() === tab.key"
+            (click)="activeTab.set(tab.key)">
+      {{ tab.label }}
+      <span class="tab-count">{{ countsByStatus()[tab.key] }}</span>
+    </button>
+  }
+</div>
+
+@if (loading()) {
+  <div class="state-box">
+    <span class="av-spinner"></span>
+    <p>Loading artist registrations…</p>
+  </div>
+} @else if (visibleRows().length === 0) {
+  <div class="state-box av-card">
+    <div class="empty-icon">🎨</div>
+    <p>
+      @switch (activeTab()) {
+        @case ('pending') { No registrations waiting for review. }
+        @case ('approved') { No approved artists yet. }
+        @case ('rejected') { No rejected registrations. }
+      }
+    </p>
+  </div>
+} @else {
+  <div class="artist-list">
+    @for (row of visibleRows(); track row.artist.uid) {
+      <article class="artist-card av-card">
+
+        <div class="artist-head">
+          <div class="artist-avatar">{{ (row.artist.businessName || '?').charAt(0).toUpperCase() }}</div>
+          <div class="artist-id">
+            <h2>{{ row.artist.businessName || 'Unnamed artist' }}</h2>
+            <div class="artist-sub">
+              {{ row.user?.email || 'no email on file' }}
+              @if (row.user?.createdAt) {
+                <span class="dot-sep">•</span> registered {{ row.user?.createdAt | date:'MMM d, y' }}
+              }
+            </div>
+          </div>
+          <span class="av-badge {{ row.effectiveStatus }}">
+            {{ row.effectiveStatus }}@if (row.legacy) { (legacy) }
+          </span>
+        </div>
+
+        <div class="artist-details">
+          <div class="detail">
+            <span class="detail-label">Location</span>
+            <span>{{ row.artist.location || '—' }}</span>
+          </div>
+          <div class="detail detail-wide">
+            <span class="detail-label">Bio</span>
+            <span>{{ row.artist.bio || '—' }}</span>
+          </div>
+          <div class="detail detail-wide">
+            <span class="detail-label">Categories</span>
+            <span class="chip-row">
+              @for (category of row.artist.categories ?? []; track category) {
+                <span class="av-chip">{{ category }}</span>
+              } @empty { — }
+            </span>
+          </div>
+        </div>
+
+        <div class="artist-actions">
+          @if (row.effectiveStatus === 'pending') {
+            <button class="av-btn av-btn-success" type="button"
+                    [disabled]="busyUid() === row.artist.uid" (click)="approve(row)">
+              @if (busyUid() === row.artist.uid) { <span class="av-spinner light"></span> }
+              Approve
+            </button>
+            <button class="av-btn av-btn-danger" type="button"
+                    [disabled]="busyUid() === row.artist.uid" (click)="reject(row)">
+              Reject
+            </button>
+          } @else if (row.effectiveStatus === 'rejected') {
+            <button class="av-btn av-btn-success" type="button"
+                    [disabled]="busyUid() === row.artist.uid" (click)="approve(row)">
+              @if (busyUid() === row.artist.uid) { <span class="av-spinner light"></span> }
+              Approve instead
+            </button>
+          } @else if (!row.legacy) {
+            <button class="av-btn av-btn-danger" type="button"
+                    [disabled]="busyUid() === row.artist.uid" (click)="reject(row)">
+              Revoke access
+            </button>
+          }
+          @if (row.artist.reviewedAt) {
+            <span class="reviewed-note">Reviewed {{ row.artist.reviewedAt | date:'MMM d, y, h:mm a' }}</span>
+          }
+        </div>
+
+      </article>
+    }
+  </div>
+}
+
+@if (toast(); as t) {
+  <div class="av-toast" [class.error]="t.error">{{ t.text }}</div>
+}

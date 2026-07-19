@@ -10,8 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.artverse.app.R;
 import com.artverse.app.artist.ArtistMainActivity;
+import com.artverse.app.artist.ArtistPendingActivity;
 import com.artverse.app.customer.CustomerMainActivity;
+import com.artverse.app.models.Artist;
 import com.artverse.app.models.User;
+import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.SessionManager;
 import com.artverse.app.utils.ValidationUtil;
@@ -85,7 +88,11 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
                     sessionManager.saveSession(uid, user.role, user.name);
-                    routeToHome(user.role);
+                    if (Constants.ROLE_ARTIST.equals(user.role)) {
+                        routeArtistByApprovalStatus(uid);
+                    } else {
+                        routeTo(CustomerMainActivity.class);
+                    }
                 })
                 .addOnFailureListener(e -> {
                     setLoading(false);
@@ -93,10 +100,33 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void routeToHome(String role) {
-        Intent intent = "artist".equals(role)
-                ? new Intent(this, ArtistMainActivity.class)
-                : new Intent(this, CustomerMainActivity.class);
+    /**
+     * Artists only enter their dashboard once an admin has approved the
+     * registration; until then (or after a rejection) they land on the
+     * read-only gallery. A missing status means the account predates the
+     * approval feature and keeps its access.
+     */
+    private void routeArtistByApprovalStatus(String uid) {
+        FirebaseUtil.artistsRef().document(uid).get()
+                .addOnSuccessListener(doc -> {
+                    Artist artist = doc.toObject(Artist.class);
+                    String status = artist != null ? artist.status : null;
+                    sessionManager.saveArtistStatus(status);
+
+                    boolean approved = status == null
+                            || Constants.ARTIST_STATUS_APPROVED.equals(status);
+                    routeTo(approved ? ArtistMainActivity.class : ArtistPendingActivity.class);
+                })
+                .addOnFailureListener(e -> {
+                    // Fail closed: without a readable status the artist waits
+                    // on the pending screen, which keeps listening for it.
+                    routeTo(ArtistPendingActivity.class);
+                });
+    }
+
+    private void routeTo(Class<?> target) {
+        setLoading(false);
+        Intent intent = new Intent(this, target);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

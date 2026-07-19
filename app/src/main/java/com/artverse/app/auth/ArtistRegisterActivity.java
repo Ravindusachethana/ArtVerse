@@ -8,7 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.artverse.app.R;
-import com.artverse.app.artist.ArtistMainActivity;
+import com.artverse.app.artist.ArtistPendingActivity;
 import com.artverse.app.models.Artist;
 import com.artverse.app.models.User;
 import com.artverse.app.utils.ArtCategories;
@@ -102,13 +102,17 @@ public class ArtistRegisterActivity extends AppCompatActivity {
                     User user = new User(uid, businessName, email, null, location, null,
                             Constants.ROLE_ARTIST, System.currentTimeMillis());
                     Artist artist = new Artist(uid, businessName, bio, location, categories);
+                    // Every new artist waits for admin review before gaining access.
+                    artist.status = Constants.ARTIST_STATUS_PENDING;
 
                     FirebaseUtil.usersRef().document(uid).set(user)
                             .continueWithTask(t -> FirebaseUtil.artistsRef().document(uid).set(artist))
                             .addOnSuccessListener(v -> {
                                 setLoading(false);
-                                new SessionManager(this).saveSession(uid, Constants.ROLE_ARTIST, businessName);
-                                Intent intent = new Intent(this, ArtistMainActivity.class);
+                                SessionManager session = new SessionManager(this);
+                                session.saveSession(uid, Constants.ROLE_ARTIST, businessName);
+                                session.saveArtistStatus(Constants.ARTIST_STATUS_PENDING);
+                                Intent intent = new Intent(this, ArtistPendingActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();

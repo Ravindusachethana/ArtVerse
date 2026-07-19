@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-45:12
-INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-45:12
-INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-45:12
-INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-45:12
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:2:1-51:12
 MERGED from [androidx.databinding:viewbinding:8.4.1] C:\Users\sache\.gradle\caches\transforms-4\a95418d8b83fc576de0b718b17cf17a0\transformed\viewbinding-8.4.1\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\sache\.gradle\caches\transforms-4\a3112034f7d9dc410f3762532310d597\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\sache\.gradle\caches\transforms-4\77e4d6364977564f37a8e91bac94b408\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
@@ -155,9 +155,19 @@ ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\
 		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:7:78-104
 	android:name
 		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:7:22-77
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:8:5-77
+	android:name
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:8:22-74
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:10:5-108
+	android:maxSdkVersion
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:10:79-105
+	android:name
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:10:22-78
 application
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:9:5-44:19
-INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:9:5-44:19
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:12:5-50:19
+INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:12:5-50:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\sache\.gradle\caches\transforms-4\a3112034f7d9dc410f3762532310d597\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\sache\.gradle\caches\transforms-4\a3112034f7d9dc410f3762532310d597\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\sache\.gradle\caches\transforms-4\77e4d6364977564f37a8e91bac94b408\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -233,95 +243,107 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\sache\.gradle\cach
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] C:\Users\sache\.gradle\caches\transforms-4\165e599c66016ea466c9dd1766badcac\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:15:9-35
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:18:9-35
 	android:label
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:12:9-41
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:15:9-41
 	android:icon
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:11:9-43
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:14:9-43
 	android:allowBackup
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:10:9-35
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:13:9-35
 	android:theme
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:13:9-46
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:16:9-46
 	android:networkSecurityConfig
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:14:9-69
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:17:9-69
 activity#com.artverse.app.auth.SplashActivity
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:17:9-25:20
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:20:9-28:20
 	android:exported
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:19:13-36
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:22:13-36
 	android:theme
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:20:13-57
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:23:13-57
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:18:13-48
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:21:13-48
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:21:13-24:29
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:24:13-27:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:22:17-69
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:25:17-69
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:22:25-66
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:25:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:23:17-77
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:26:17-77
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:23:27-74
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:26:27-74
 activity#com.artverse.app.auth.LoginActivity
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:27:9-81
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:30:9-81
 	android:exported
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:27:54-78
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:30:54-78
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:27:19-53
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:30:19-53
 activity#com.artverse.app.auth.RoleSelectionActivity
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:28:9-89
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:31:9-89
 	android:exported
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:28:62-86
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:31:62-86
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:28:19-61
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:31:19-61
 activity#com.artverse.app.auth.CustomerRegisterActivity
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:29:9-92
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:32:9-92
 	android:exported
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:29:65-89
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:32:65-89
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:29:19-64
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:32:19-64
 activity#com.artverse.app.auth.ArtistRegisterActivity
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:30:9-90
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:33:9-90
 	android:exported
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:30:63-87
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:33:63-87
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:30:19-62
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:33:19-62
 activity#com.artverse.app.customer.CustomerMainActivity
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:32:9-34:40
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:35:9-37:40
 	android:exported
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:34:13-37
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:37:13-37
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:33:13-58
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:36:13-58
 activity#com.artverse.app.customer.ArtworkDetailActivity
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:35:9-93
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:38:9-93
 	android:exported
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:35:66-90
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:38:66-90
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:35:19-65
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:38:19-65
 activity#com.artverse.app.customer.CheckoutActivity
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:36:9-88
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:39:9-88
 	android:exported
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:36:61-85
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:39:61-85
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:36:19-60
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:39:19-60
 activity#com.artverse.app.artist.ArtistMainActivity
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:38:9-40:40
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:41:9-43:40
 	android:exported
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:40:13-37
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:43:13-37
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:39:13-54
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:42:13-54
+activity#com.artverse.app.artist.ArtistPendingActivity
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:44:9-91
+	android:exported
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:44:64-88
+	android:name
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:44:19-63
 activity#com.artverse.app.artist.AddEditArtworkActivity
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:41:9-92
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:45:9-92
 	android:exported
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:41:65-89
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:45:65-89
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:41:19-64
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:45:19-64
 activity#com.artverse.app.artist.ArtistProfileEditActivity
-ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:42:9-95
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:46:9-95
 	android:exported
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:42:68-92
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:46:68-92
 	android:name
-		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:42:19-67
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:46:19-67
+activity#com.artverse.app.common.ReceiptActivity
+ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:48:9-85
+	android:exported
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:48:58-82
+	android:name
+		ADDED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml:48:19-57
 uses-sdk
 INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\sache\OneDrive\Documents\Projects\ArtVerse\ArtVerse\app\src\main\AndroidManifest.xml

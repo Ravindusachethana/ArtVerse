@@ -1,5 +1,6 @@
 package com.artverse.app.customer;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,12 +13,15 @@ import com.artverse.app.customer.fragments.CartFragment;
 import com.artverse.app.customer.fragments.HomeFragment;
 import com.artverse.app.customer.fragments.CustomerOrdersFragment;
 import com.artverse.app.customer.fragments.ProfileFragment;
+import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.InAppNotifier;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CustomerMainActivity extends AppCompatActivity {
 
     private static final int REQ_POST_NOTIFICATIONS = 71;
+
+    private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +30,7 @@ public class CustomerMainActivity extends AppCompatActivity {
 
         requestNotificationPermissionIfNeeded();
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-
-        if (savedInstanceState == null) {
-            openFragment(new HomeFragment());
-        }
+        bottomNav = findViewById(R.id.bottomNav);
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
@@ -49,6 +49,34 @@ public class CustomerMainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        if (savedInstanceState == null && !openCartIfRequested(getIntent())) {
+            openFragment(new HomeFragment());
+        }
+    }
+
+    /**
+     * The cart shortcut on the artwork detail screen relaunches this activity
+     * with FLAG_ACTIVITY_CLEAR_TOP, so an already-running instance is reused
+     * and arrives here instead of through onCreate.
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        openCartIfRequested(intent);
+    }
+
+    /** Selects the Cart tab when asked to; the nav listener swaps the fragment. */
+    private boolean openCartIfRequested(Intent intent) {
+        if (intent == null || !intent.getBooleanExtra(Constants.EXTRA_OPEN_CART, false)) {
+            return false;
+        }
+        // Consume it so a later config change or back-navigation does not
+        // force the cart tab again.
+        intent.removeExtra(Constants.EXTRA_OPEN_CART);
+        bottomNav.setSelectedItemId(R.id.nav_cart);
+        return true;
     }
 
     @Override

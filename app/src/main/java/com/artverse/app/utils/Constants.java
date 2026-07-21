@@ -29,6 +29,8 @@ public final class Constants {
     public static final String STATUS_REJECTED = "rejected";
 
     public static final String EXTRA_ARTWORK_ID = "extra_artwork_id";
+    /** Tells CustomerMainActivity to land on the Cart tab instead of Home. */
+    public static final String EXTRA_OPEN_CART = "extra_open_cart";
     public static final String EXTRA_ORDER_ID = "extra_order_id";
     public static final String EXTRA_EDIT_MODE = "extra_edit_mode";
 }

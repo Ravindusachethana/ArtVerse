@@ -34,6 +34,7 @@
     <dimen name="spacing_xs">4dp</dimen>
     <string name="add_artwork">Add Artwork</string>
     <string name="add_to_cart">Add to Cart</string>
+    <string name="added_to_cart">Added to cart</string>
     <string name="app_name">ArtVerse</string>
     <string name="approved_toast">Congratulations! Your artist account has been approved.</string>
     <string name="buy_now">Buy Now</string>
@@ -79,6 +80,7 @@
     <string name="sign_out">Sign out</string>
     <string name="sign_up">Sign Up</string>
     <string name="tagline">Where Art Meets Its Audience</string>
+    <string name="view_cart">View cart</string>
     <style name="ArtVerse.BottomNav" parent="Widget.Material3.BottomNavigationView">
         <item name="itemIconTint">@color/bottom_nav_color</item>
         <item name="itemTextColor">@color/bottom_nav_color</item>

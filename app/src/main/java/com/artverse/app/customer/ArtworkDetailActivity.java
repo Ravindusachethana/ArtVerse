@@ -16,6 +16,7 @@ import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.QuantitySelector;
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -33,9 +34,11 @@ public class ArtworkDetailActivity extends AppCompatActivity {
     private int selectedQuantity = 1;
 
     private TextView tvTitle, tvArtist, tvPrice, tvStock, tvCategory, tvMedium, tvDimensions,
-            tvDescription, tvQtyValue, tvOrderTotal, tvSoldOut;
+            tvDescription, tvQtyValue, tvOrderTotal, tvSoldOut, tvCartBadge;
     private ImageView ivArtwork;
-    private View quantityRow, orderTotalRow, actionButtonsRow, btnQtyMinus, btnQtyPlus;
+    private View quantityRow, orderTotalRow, actionButtonsRow, btnQtyMinus, btnQtyPlus, cartShortcut;
+
+    private ListenerRegistration cartListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +62,62 @@ public class ArtworkDetailActivity extends AppCompatActivity {
         actionButtonsRow = findViewById(R.id.actionButtonsRow);
         btnQtyMinus = findViewById(R.id.btnQtyMinus);
         btnQtyPlus = findViewById(R.id.btnQtyPlus);
+        cartShortcut = findViewById(R.id.cartShortcut);
+        tvCartBadge = findViewById(R.id.tvCartBadge);
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
         findViewById(R.id.btnAddToCart).setOnClickListener(v -> addToCart(false));
         findViewById(R.id.btnBuyNow).setOnClickListener(v -> addToCart(true));
+        cartShortcut.setOnClickListener(v -> openCart());
         btnQtyMinus.setOnClickListener(v -> changeQuantity(-1));
         btnQtyPlus.setOnClickListener(v -> changeQuantity(1));
 
+        observeCart();
+
         String artworkId = getIntent().getStringExtra(Constants.EXTRA_ARTWORK_ID);
         if (artworkId != null) loadArtwork(artworkId);
+    }
+
+    /**
+     * Keeps the cart shortcut in sync with the customer's cart in real time:
+     * it stays hidden while the cart is empty and appears (with the item
+     * count) the moment something is added - including the add that happens
+     * on this very screen.
+     */
+    private void observeCart() {
+        String uid = FirebaseUtil.currentUid();
+        if (uid == null) return;
+
+        cartListener = FirebaseUtil.cartRef(uid).addSnapshotListener((snapshot, error) -> {
+            if (error != null || snapshot == null || isFinishing()) return;
+
+            int itemCount = snapshot.size();
+            boolean wasHidden = cartShortcut.getVisibility() != View.VISIBLE;
+
+            cartShortcut.setVisibility(itemCount > 0 ? View.VISIBLE : View.GONE);
+            tvCartBadge.setText(itemCount > 99 ? "99+" : String.valueOf(itemCount));
+
+            // Small pop so the button is noticed when it first shows up.
+            if (itemCount > 0 && wasHidden) {
+                cartShortcut.setScaleX(0.6f);
+                cartShortcut.setScaleY(0.6f);
+                cartShortcut.animate().scaleX(1f).scaleY(1f).setDuration(220).start();
+            }
+        });
+    }
+
+    /** Opens the Cart tab, reusing the existing customer screen underneath. */
+    private void openCart() {
+        Intent intent = new Intent(this, CustomerMainActivity.class);
+        intent.putExtra(Constants.EXTRA_OPEN_CART, true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (cartListener != null) cartListener.remove();
+        super.onDestroy();
     }
 
     private void loadArtwork(String artworkId) {
@@ -169,7 +219,9 @@ public class ArtworkDetailActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, CheckoutActivity.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
+                        // The cart shortcut in the header appears via the
+                        // snapshot listener, so no navigation is needed here.
+                        Toast.makeText(this, R.string.added_to_cart, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show());

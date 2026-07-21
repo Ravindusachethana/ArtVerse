@@ -25,6 +25,8 @@
     <string name="nav_profile">Profile</string>
     <string name="search_hint">Search artworks, artists, styles…</string>
     <string name="add_to_cart">Add to Cart</string>
+    <string name="view_cart">View cart</string>
+    <string name="added_to_cart">Added to cart</string>
     <string name="buy_now">Buy Now</string>
     <string name="checkout">Checkout</string>
     <string name="place_order">Place Order</string>

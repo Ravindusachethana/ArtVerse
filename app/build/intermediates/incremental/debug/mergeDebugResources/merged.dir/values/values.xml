@@ -2026,6 +2026,7 @@
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="add_artwork">Add Artwork</string>
     <string name="add_to_cart">Add to Cart</string>
+    <string name="added_to_cart">Added to cart</string>
     <string name="android.credentials.TYPE_PASSWORD_CREDENTIAL">Password</string>
     <string name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">Passkey</string>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
@@ -2244,6 +2245,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="tagline">Where Art Meets Its Audience</string>
+    <string name="view_cart">View cart</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>

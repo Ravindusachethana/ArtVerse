@@ -3049,6 +3049,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable bg_badge_count
 drawable bg_circle_accent
 drawable bg_circle_gold
 drawable bg_image_placeholder
@@ -3342,6 +3343,7 @@ id btnAddArtwork
 id btnAddToCart
 id btnBack
 id btnBuyNow
+id btnCart
 id btnChangePhoto
 id btnCheckout
 id btnDelete
@@ -3367,6 +3369,7 @@ id cardArtist
 id cardCustomer
 id cardStatus
 id carryVelocity
+id cartShortcut
 id center
 id centerCrop
 id centerInside
@@ -3808,6 +3811,7 @@ id tvAddress
 id tvAmount
 id tvArtist
 id tvAvailability
+id tvCartBadge
 id tvCartTotal
 id tvCategory
 id tvCustomer
@@ -4138,6 +4142,7 @@ string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string add_artwork
 string add_to_cart
+string added_to_cart
 string android_credentials_TYPE_PASSWORD_CREDENTIAL
 string androidx_credentials_TYPE_PUBLIC_KEY_CREDENTIAL
 string androidx_startup
@@ -4346,6 +4351,7 @@ string sign_out
 string sign_up
 string status_bar_notification_info_overflow
 string tagline
+string view_cart
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

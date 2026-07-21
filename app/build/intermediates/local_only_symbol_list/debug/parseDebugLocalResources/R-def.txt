@@ -36,6 +36,7 @@ dimen spacing_sm
 dimen spacing_xl
 dimen spacing_xs
 drawable aaa
+drawable bg_badge_count
 drawable bg_circle_accent
 drawable bg_circle_gold
 drawable bg_image_placeholder
@@ -93,6 +94,7 @@ id btnAddArtwork
 id btnAddToCart
 id btnBack
 id btnBuyNow
+id btnCart
 id btnChangePhoto
 id btnCheckout
 id btnDelete
@@ -113,6 +115,7 @@ id btnSignOut
 id cardArtist
 id cardCustomer
 id cardStatus
+id cartShortcut
 id checkoutBar
 id chipGroupCategories
 id chipGroupCategory
@@ -174,6 +177,7 @@ id tvAddress
 id tvAmount
 id tvArtist
 id tvAvailability
+id tvCartBadge
 id tvCartTotal
 id tvCategory
 id tvCustomer
@@ -255,6 +259,7 @@ mipmap ic_launcher
 mipmap ic_launcher_round
 string add_artwork
 string add_to_cart
+string added_to_cart
 string app_name
 string approved_toast
 string buy_now
@@ -300,6 +305,7 @@ string search_hint
 string sign_out
 string sign_up
 string tagline
+string view_cart
 style ArtVerse.BottomNav
 style ArtVerse.BottomNav.ActiveIndicator
 style ArtVerse.BottomSheet

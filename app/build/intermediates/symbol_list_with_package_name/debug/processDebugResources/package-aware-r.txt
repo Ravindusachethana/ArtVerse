@@ -3227,6 +3227,7 @@ drawable ph_artwork
 drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
+drawable w
 id ALT
 id BOTTOM_END
 id BOTTOM_START
@@ -3234,6 +3235,7 @@ id CTRL
 id FUNCTION
 id META
 id NO_DEBUG
+id RoundedCornersImage
 id SHIFT
 id SHOW_ALL
 id SHOW_PATH
@@ -4687,6 +4689,7 @@ style Platform_V25_AppCompat_Light
 style Platform_Widget_AppCompat_Spinner
 style ReceiptLabel
 style ReceiptValue
+style RoundedCornersImage
 style RtlOverlay_DialogWindowTitle_AppCompat
 style RtlOverlay_Widget_AppCompat_ActionBar_TitleItem
 style RtlOverlay_Widget_AppCompat_DialogTitle_Icon

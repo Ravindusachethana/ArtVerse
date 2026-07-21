@@ -3226,6 +3226,7 @@ int drawable ph_artwork 0x7f070127
 int drawable test_level_drawable 0x7f070128
 int drawable tooltip_frame_dark 0x7f070129
 int drawable tooltip_frame_light 0x7f07012a
+int drawable w 0x7f07012c
 int id ALT 0x7f080000
 int id BOTTOM_END 0x7f080001
 int id BOTTOM_START 0x7f080002
@@ -3233,6 +3234,7 @@ int id CTRL 0x7f080003
 int id FUNCTION 0x7f080004
 int id META 0x7f080005
 int id NO_DEBUG 0x7f080006
+int id RoundedCornersImage 0x7f08028b
 int id SHIFT 0x7f080007
 int id SHOW_ALL 0x7f080008
 int id SHOW_PATH 0x7f080009
@@ -4686,6 +4688,7 @@ int style Platform_V25_AppCompat_Light 0x7f120153
 int style Platform_Widget_AppCompat_Spinner 0x7f120154
 int style ReceiptLabel 0x7f120155
 int style ReceiptValue 0x7f120156
+int style RoundedCornersImage 0x7f12047e
 int style RtlOverlay_DialogWindowTitle_AppCompat 0x7f120157
 int style RtlOverlay_Widget_AppCompat_ActionBar_TitleItem 0x7f120158
 int style RtlOverlay_Widget_AppCompat_DialogTitle_Icon 0x7f120159

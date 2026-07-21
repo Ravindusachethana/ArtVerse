@@ -83,6 +83,8 @@ drawable ic_star
 drawable ic_star_outline
 drawable ic_wallet
 drawable ph_artwork
+drawable w
+id RoundedCornersImage
 id actionButtonsRow
 id actionRow
 id bottomNav
@@ -317,6 +319,7 @@ style ArtVerse.Text.Section
 style ArtVerse.Text.Title
 style ReceiptLabel
 style ReceiptValue
+style RoundedCornersImage
 style ThemeOverlay.ArtVerse.BottomSheet
 style ThemeOverlay.ArtVerse.Dialog
 style Theme.ArtVerse

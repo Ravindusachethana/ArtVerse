@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One picked/existing extra photo in the artist's "more views" strip, with a
+     remove button on its corner. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="86dp"
+    android:layout_height="86dp"
+    android:layout_marginEnd="8dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        android:layout_gravity="bottom|start"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/divider"
+        app:strokeWidth="1dp">
+
+        <ImageView
+            android:id="@+id/ivThumb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ph_artwork" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <ImageView
+        android:id="@+id/btnRemove"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="top|end"
+        android:background="@drawable/bg_circle_gold"
+        android:backgroundTint="@color/text_primary"
+        android:contentDescription="@string/remove_image"
+        android:padding="5dp"
+        android:src="@drawable/ic_close"
+        android:tint="@color/white" />
+</FrameLayout>

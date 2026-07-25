@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.artverse.app.utils.ArtworkDownloaderTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-07-25T03:57:41" hostname="RAVINDU" time="0.003">
+<testsuite name="com.artverse.app.utils.ArtworkDownloaderTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-07-25T05:30:01" hostname="RAVINDU" time="0.007">
   <properties/>
-  <testcase name="extensionOf_keepsTheOriginalFormat" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.0"/>
-  <testcase name="fileNameFor_staysUsableWhenTheTitleIsMissing" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.0"/>
+  <testcase name="extensionOf_keepsTheOriginalFormat" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.004"/>
+  <testcase name="fileNameFor_staysUsableWhenTheTitleIsMissing" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.001"/>
   <testcase name="extensionOf_readsPastTheQueryString" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.0"/>
   <testcase name="mimeTypeFor_matchesTheSavedExtension" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.0"/>
-  <testcase name="fileNameFor_buildsAReadableNameFromTheTitle" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.001"/>
-  <testcase name="fileNameFor_keepsLongTitlesWithinFileSystemLimits" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.0"/>
+  <testcase name="fileNameFor_buildsAReadableNameFromTheTitle" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.0"/>
+  <testcase name="fileNameFor_keepsLongTitlesWithinFileSystemLimits" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.001"/>
   <testcase name="extensionOf_fallsBackToJpgWhenTheUrlCarriesNone" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.0"/>
-  <testcase name="fileNameFor_stripsCharactersAFileSystemRejects" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.001"/>
+  <testcase name="fileNameFor_stripsCharactersAFileSystemRejects" classname="com.artverse.app.utils.ArtworkDownloaderTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

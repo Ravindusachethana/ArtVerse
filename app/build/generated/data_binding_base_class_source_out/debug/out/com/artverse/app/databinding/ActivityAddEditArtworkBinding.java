@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.artverse.app.R;
@@ -26,6 +27,9 @@ import java.lang.String;
 public final class ActivityAddEditArtworkBinding implements ViewBinding {
   @NonNull
   private final CoordinatorLayout rootView;
+
+  @NonNull
+  public final LinearLayout additionalImagesSection;
 
   @NonNull
   public final ImageView btnBack;
@@ -67,21 +71,26 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
   public final ProgressBar progressBar;
 
   @NonNull
+  public final RecyclerView rvAdditionalImages;
+
+  @NonNull
   public final TextInputLayout tilQuantity;
 
   @NonNull
   public final TextView tvScreenTitle;
 
   private ActivityAddEditArtworkBinding(@NonNull CoordinatorLayout rootView,
-      @NonNull ImageView btnBack, @NonNull MaterialButton btnSave,
-      @NonNull ChipGroup chipGroupCategory, @NonNull TextInputEditText etDescription,
-      @NonNull TextInputEditText etDimensions, @NonNull TextInputEditText etMedium,
-      @NonNull TextInputEditText etPrice, @NonNull TextInputEditText etQuantity,
-      @NonNull TextInputEditText etTitle, @NonNull FrameLayout imagePickerFrame,
-      @NonNull LinearLayout imagePlaceholderContent, @NonNull ImageView ivPreview,
-      @NonNull ProgressBar progressBar, @NonNull TextInputLayout tilQuantity,
+      @NonNull LinearLayout additionalImagesSection, @NonNull ImageView btnBack,
+      @NonNull MaterialButton btnSave, @NonNull ChipGroup chipGroupCategory,
+      @NonNull TextInputEditText etDescription, @NonNull TextInputEditText etDimensions,
+      @NonNull TextInputEditText etMedium, @NonNull TextInputEditText etPrice,
+      @NonNull TextInputEditText etQuantity, @NonNull TextInputEditText etTitle,
+      @NonNull FrameLayout imagePickerFrame, @NonNull LinearLayout imagePlaceholderContent,
+      @NonNull ImageView ivPreview, @NonNull ProgressBar progressBar,
+      @NonNull RecyclerView rvAdditionalImages, @NonNull TextInputLayout tilQuantity,
       @NonNull TextView tvScreenTitle) {
     this.rootView = rootView;
+    this.additionalImagesSection = additionalImagesSection;
     this.btnBack = btnBack;
     this.btnSave = btnSave;
     this.chipGroupCategory = chipGroupCategory;
@@ -95,6 +104,7 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
     this.imagePlaceholderContent = imagePlaceholderContent;
     this.ivPreview = ivPreview;
     this.progressBar = progressBar;
+    this.rvAdditionalImages = rvAdditionalImages;
     this.tilQuantity = tilQuantity;
     this.tvScreenTitle = tvScreenTitle;
   }
@@ -126,6 +136,12 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.additionalImagesSection;
+      LinearLayout additionalImagesSection = ViewBindings.findChildViewById(rootView, id);
+      if (additionalImagesSection == null) {
+        break missingId;
+      }
+
       id = R.id.btnBack;
       ImageView btnBack = ViewBindings.findChildViewById(rootView, id);
       if (btnBack == null) {
@@ -204,6 +220,12 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.rvAdditionalImages;
+      RecyclerView rvAdditionalImages = ViewBindings.findChildViewById(rootView, id);
+      if (rvAdditionalImages == null) {
+        break missingId;
+      }
+
       id = R.id.tilQuantity;
       TextInputLayout tilQuantity = ViewBindings.findChildViewById(rootView, id);
       if (tilQuantity == null) {
@@ -216,10 +238,10 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityAddEditArtworkBinding((CoordinatorLayout) rootView, btnBack, btnSave,
-          chipGroupCategory, etDescription, etDimensions, etMedium, etPrice, etQuantity, etTitle,
-          imagePickerFrame, imagePlaceholderContent, ivPreview, progressBar, tilQuantity,
-          tvScreenTitle);
+      return new ActivityAddEditArtworkBinding((CoordinatorLayout) rootView,
+          additionalImagesSection, btnBack, btnSave, chipGroupCategory, etDescription, etDimensions,
+          etMedium, etPrice, etQuantity, etTitle, imagePickerFrame, imagePlaceholderContent,
+          ivPreview, progressBar, rvAdditionalImages, tilQuantity, tvScreenTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -16,8 +16,9 @@ service firebase.storage {
                    && request.resource.size < 5 * 1024 * 1024;
     }
 
-    // Artwork cover images: "artwork_images/{artworkId}/{fileName}",
-    // uploaded by artists when creating/editing an artwork.
+    // Artwork images: "artwork_images/{artworkId}/{fileName}" - the cover plus
+    // any extra angles (Sculpture, Ceramics, Printmaking), uploaded by artists
+    // when creating/editing an artwork.
     match /artwork_images/{artworkId}/{fileName} {
       allow read: if request.auth != null;
       allow write: if request.auth != null

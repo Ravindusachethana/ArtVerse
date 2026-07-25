@@ -94,6 +94,8 @@ drawable w
 id RoundedCornersImage
 id actionButtonsRow
 id actionRow
+id addTile
+id additionalImagesSection
 id bottomBar
 id bottomNav
 id btnAccept
@@ -163,6 +165,7 @@ id etSearch
 id etTitle
 id fabAdd
 id fragmentContainer
+id imageDots
 id imagePickerFrame
 id imagePlaceholderContent
 id itemsContainer
@@ -174,6 +177,7 @@ id ivPage
 id ivPreview
 id ivProfile
 id ivSingleCopyIcon
+id ivThumb
 id lbl0
 id lbl1
 id lbl2
@@ -199,9 +203,11 @@ id radioCard
 id radioCash
 id radioGroupPayment
 id receiptCard
+id rvAdditionalImages
 id rvArtworks
 id rvCart
 id rvCollection
+id rvImages
 id rvList
 id rvOrders
 id rvPages
@@ -318,9 +324,12 @@ layout fragment_profile
 layout fragment_sales_report
 layout item_artist_order
 layout item_artwork
+layout item_artwork_image
 layout item_cart
 layout item_collection_art
 layout item_collection_header
+layout item_image_add
+layout item_image_slot
 layout item_my_artwork
 layout item_order
 layout item_report_stat
@@ -332,6 +341,7 @@ menu menu_customer_bottom_nav
 mipmap ic_launcher
 mipmap ic_launcher_round
 string add_artwork
+string add_image
 string add_to_cart
 string added_to_cart
 string app_name
@@ -349,6 +359,7 @@ string collection_empty_message
 string collection_empty_title
 string collection_pieces
 string collection_pieces_plural
+string cover_photo_hint
 string digital_badge
 string digital_delivery_message
 string digital_delivery_title
@@ -373,6 +384,8 @@ string label_original
 string login_button
 string login_subtitle
 string login_title
+string more_views_hint
+string more_views_label
 string my_collection
 string my_collection_hint
 string nav_cart
@@ -395,6 +408,7 @@ string place_order
 string project_id
 string rejected_banner_message
 string rejected_banner_title
+string remove_image
 string report_best_sellers
 string report_best_sellers_hint
 string report_completed_orders

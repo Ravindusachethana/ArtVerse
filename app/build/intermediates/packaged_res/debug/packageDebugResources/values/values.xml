@@ -33,6 +33,7 @@
     <dimen name="spacing_xl">32dp</dimen>
     <dimen name="spacing_xs">4dp</dimen>
     <string name="add_artwork">Add Artwork</string>
+    <string name="add_image">Add</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="added_to_cart">Added to cart</string>
     <string name="app_name">ArtVerse</string>
@@ -50,6 +51,7 @@
     <string name="collection_empty_title">Your collection is empty</string>
     <string name="collection_pieces">%1$d piece</string>
     <string name="collection_pieces_plural">%1$d pieces</string>
+    <string name="cover_photo_hint">Tap to add the cover photo</string>
     <string name="digital_badge">Digital</string>
     <string name="digital_delivery_message">One copy, delivered straight to your collection in the app — nothing to ship.</string>
     <string name="digital_delivery_title">Digital piece</string>
@@ -74,6 +76,8 @@
     <string name="login_button">Log In</string>
     <string name="login_subtitle">Sign in to continue exploring art</string>
     <string name="login_title">Welcome back</string>
+    <string name="more_views_hint">Add extra angles so buyers can picture the whole piece</string>
+    <string name="more_views_label">More views</string>
     <string name="my_collection">My Collection</string>
     <string name="my_collection_hint">Every piece you\'ve bought</string>
     <string name="nav_cart">Cart</string>
@@ -96,6 +100,7 @@
     <string name="project_id" translatable="false">artverse-61539</string>
     <string name="rejected_banner_message">Unfortunately your artist registration was not approved. Please contact ArtVerse support for more information.</string>
     <string name="rejected_banner_title">Registration not approved</string>
+    <string name="remove_image">Remove image</string>
     <string name="report_best_sellers">Best-selling artworks</string>
     <string name="report_best_sellers_hint">Pieces sold across completed orders</string>
     <string name="report_completed_orders">Completed orders</string>

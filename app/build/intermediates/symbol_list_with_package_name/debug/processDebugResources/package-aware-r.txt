@@ -3309,6 +3309,8 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id addTile
+id additionalImagesSection
 id adjust_height
 id adjust_width
 id alertTitle
@@ -3538,6 +3540,7 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
+id imageDots
 id imagePickerFrame
 id imagePlaceholderContent
 id immediateStop
@@ -3558,6 +3561,7 @@ id ivPage
 id ivPreview
 id ivProfile
 id ivSingleCopyIcon
+id ivThumb
 id jumpToEnd
 id jumpToStart
 id labeled
@@ -3722,9 +3726,11 @@ id right_icon
 id right_side
 id rounded
 id row_index_key
+id rvAdditionalImages
 id rvArtworks
 id rvCart
 id rvCollection
+id rvImages
 id rvList
 id rvOrders
 id rvPages
@@ -4110,9 +4116,12 @@ layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
 layout item_artist_order
 layout item_artwork
+layout item_artwork_image
 layout item_cart
 layout item_collection_art
 layout item_collection_header
+layout item_image_add
+layout item_image_slot
 layout item_my_artwork
 layout item_order
 layout item_report_stat
@@ -4214,6 +4223,7 @@ string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string add_artwork
+string add_image
 string add_to_cart
 string added_to_cart
 string android_credentials_TYPE_PASSWORD_CREDENTIAL
@@ -4271,6 +4281,7 @@ string common_open_on_phone
 string common_signin_button_text
 string common_signin_button_text_long
 string copy_toast_msg
+string cover_photo_hint
 string digital_badge
 string digital_delivery_message
 string digital_delivery_title
@@ -4345,6 +4356,8 @@ string material_timepicker_minute
 string material_timepicker_pm
 string material_timepicker_select_time
 string material_timepicker_text_input_mode_description
+string more_views_hint
+string more_views_label
 string mtrl_badge_numberless_content_description
 string mtrl_checkbox_button_icon_path_checked
 string mtrl_checkbox_button_icon_path_group_name
@@ -4434,6 +4447,7 @@ string place_order
 string project_id
 string rejected_banner_message
 string rejected_banner_title
+string remove_image
 string report_best_sellers
 string report_best_sellers_hint
 string report_completed_orders

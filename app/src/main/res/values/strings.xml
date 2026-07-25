@@ -65,6 +65,11 @@
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_my_art">My Art</string>
     <string name="nav_sales">Sales</string>
+    <string name="cover_photo_hint">Tap to add the cover photo</string>
+    <string name="more_views_label">More views</string>
+    <string name="more_views_hint">Add extra angles so buyers can picture the whole piece</string>
+    <string name="add_image">Add</string>
+    <string name="remove_image">Remove image</string>
     <string name="add_artwork">Add Artwork</string>
     <string name="edit_artwork">Edit Artwork</string>
     <string name="save">Save</string>

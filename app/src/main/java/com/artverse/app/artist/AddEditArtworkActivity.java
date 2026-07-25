@@ -10,8 +10,11 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.artverse.app.R;
+import com.artverse.app.adapters.AdditionalImagesAdapter;
 import com.artverse.app.models.Artwork;
 import com.artverse.app.utils.ArtCategories;
 import com.artverse.app.utils.ChipStyler;
@@ -19,25 +22,31 @@ import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.ValidationUtil;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Implements FR04 - Artwork Management Module: artists add, update, and
  * remove artwork listings, including images, price, and description.
- * A single representative image is uploaded to Firebase Cloud Storage
- * (artwork_images/{artworkId}/cover.jpg); the ER model supports up to five
- * images per item, and this list can be extended the same way.
+ *
+ * The cover photo goes up first (imageUrls[0], used for the grid card and the
+ * order-line thumbnail). Physical categories that a buyer needs to see from
+ * several angles - Sculpture, Ceramics, Printmaking (ArtCategories
+ * .supportsMultipleImages) - also show a "more views" strip, so a listing can
+ * carry up to ArtCategories.MAX_IMAGES photos in Firebase Storage.
  */
 public class AddEditArtworkActivity extends AppCompatActivity {
 
@@ -45,7 +54,9 @@ public class AddEditArtworkActivity extends AppCompatActivity {
     private TextInputLayout tilQuantity;
     private ChipGroup chipGroupCategory;
     private ImageView ivPreview;
-    private View imagePlaceholderContent, progressBar, btnSave;
+    private View imagePlaceholderContent, additionalImagesSection, progressBar, btnSave;
+    private RecyclerView rvAdditionalImages;
+    private AdditionalImagesAdapter additionalAdapter;
 
     private Uri selectedImageUri;
     private String existingImageUrl;
@@ -63,6 +74,12 @@ public class AddEditArtworkActivity extends AppCompatActivity {
                 Glide.with(this).load(uri).into(ivPreview);
             });
 
+    /** Picks one or more extra photos for the "more views" strip at once. */
+    private final ActivityResultLauncher<String> additionalImagePicker =
+            registerForActivityResult(new ActivityResultContracts.GetMultipleContents(), uris -> {
+                if (uris != null && !uris.isEmpty()) additionalAdapter.addImages(uris);
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,14 +95,22 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         chipGroupCategory = findViewById(R.id.chipGroupCategory);
         ivPreview = findViewById(R.id.ivPreview);
         imagePlaceholderContent = findViewById(R.id.imagePlaceholderContent);
+        additionalImagesSection = findViewById(R.id.additionalImagesSection);
+        rvAdditionalImages = findViewById(R.id.rvAdditionalImages);
         progressBar = findViewById(R.id.progressBar);
         btnSave = findViewById(R.id.btnSave);
 
+        // The cover counts towards the cap, so the strip holds one fewer.
+        additionalAdapter = new AdditionalImagesAdapter(ArtCategories.MAX_IMAGES - 1,
+                () -> additionalImagePicker.launch("image/*"));
+        rvAdditionalImages.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        rvAdditionalImages.setAdapter(additionalAdapter);
+
         populateCategoryChips();
-        // The quantity field only applies to reproducible categories; picking a
-        // one-time original or a digital category locks it to a single piece.
-        chipGroupCategory.setOnCheckedStateChangeListener((group, checkedIds) -> applyQuantityRule());
-        applyQuantityRule();
+        // Category drives both the quantity field and whether the extra-views
+        // strip is offered, so re-apply both whenever the choice changes.
+        chipGroupCategory.setOnCheckedStateChangeListener((group, checkedIds) -> onCategoryChanged());
+        onCategoryChanged();
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
         findViewById(R.id.imagePickerFrame).setOnClickListener(v -> imagePicker.launch("image/*"));
@@ -161,6 +186,14 @@ public class AddEditArtworkActivity extends AppCompatActivity {
                 existingImageUrl = imageUrls.get(0);
                 imagePlaceholderContent.setVisibility(View.GONE);
                 Glide.with(this).load(existingImageUrl).into(ivPreview);
+
+                // Any images past the cover are the extra angles - load them
+                // into the strip so the artist can add to or trim them.
+                List<AdditionalImagesAdapter.ImageSlot> extra = new ArrayList<>();
+                for (int i = 1; i < imageUrls.size(); i++) {
+                    extra.add(AdditionalImagesAdapter.ImageSlot.existing(imageUrls.get(i)));
+                }
+                additionalAdapter.setSlots(extra);
             }
         });
     }
@@ -170,6 +203,18 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         if (checkedId == View.NO_ID) return null;
         Chip chip = findViewById(checkedId);
         return chip != null ? chip.getText().toString() : null;
+    }
+
+    /** Re-applies every category-dependent rule after the choice changes. */
+    private void onCategoryChanged() {
+        applyQuantityRule();
+        applyImageRule();
+    }
+
+    /** The extra-views strip is offered only for multi-angle physical pieces. */
+    private void applyImageRule() {
+        additionalImagesSection.setVisibility(
+                ArtCategories.supportsMultipleImages(selectedCategory()) ? View.VISIBLE : View.GONE);
     }
 
     /**
@@ -238,23 +283,63 @@ public class AddEditArtworkActivity extends AppCompatActivity {
                 ? FirebaseUtil.artworksRef().document(artworkId)
                 : FirebaseUtil.artworksRef().document();
 
+        // The cover leads the list; the extra angles follow, but only for the
+        // categories that show the strip.
+        List<AdditionalImagesAdapter.ImageSlot> imageSlots = new ArrayList<>();
         if (selectedImageUri != null) {
-            FirebaseUtil.artworkImageRef(ref.getId(), "cover.jpg")
-                    .putFile(selectedImageUri)
-                    .continueWithTask(task -> FirebaseUtil.artworkImageRef(ref.getId(), "cover.jpg").getDownloadUrl())
-                    .addOnSuccessListener(downloadUri ->
-                            saveArtworkDoc(ref, uid, title, description, category, Double.parseDouble(priceText),
-                                    quantity, medium, dimensions, Collections.singletonList(downloadUri.toString())))
-                    .addOnFailureListener(e -> {
-                        setLoading(false);
-                        toast("Image upload failed: " + e.getMessage());
-                    });
-        } else {
-            List<String> images = existingImageUrl != null
-                    ? Collections.singletonList(existingImageUrl) : new ArrayList<>();
-            saveArtworkDoc(ref, uid, title, description, category, Double.parseDouble(priceText),
-                    quantity, medium, dimensions, images);
+            imageSlots.add(AdditionalImagesAdapter.ImageSlot.local(selectedImageUri));
+        } else if (existingImageUrl != null) {
+            imageSlots.add(AdditionalImagesAdapter.ImageSlot.existing(existingImageUrl));
         }
+        if (ArtCategories.supportsMultipleImages(category)) {
+            imageSlots.addAll(additionalAdapter.getSlots());
+        }
+
+        final double price = Double.parseDouble(priceText);
+        uploadImages(ref, imageSlots, imageUrls -> saveArtworkDoc(ref, uid, title, description,
+                category, price, quantity, medium, dimensions, imageUrls));
+    }
+
+    /**
+     * Resolves every image slot to a download URL - existing ones untouched,
+     * freshly picked ones uploaded to Storage - preserving order so the cover
+     * stays first, then hands the assembled list back. Any upload failure
+     * aborts the save with a message rather than persisting a half-imaged
+     * listing.
+     */
+    private void uploadImages(DocumentReference ref, List<AdditionalImagesAdapter.ImageSlot> slots,
+                              Consumer<List<String>> onReady) {
+        if (slots.isEmpty()) {
+            onReady.accept(new ArrayList<>());
+            return;
+        }
+
+        List<Task<String>> urlTasks = new ArrayList<>();
+        long stamp = System.currentTimeMillis();
+        for (int i = 0; i < slots.size(); i++) {
+            AdditionalImagesAdapter.ImageSlot slot = slots.get(i);
+            if (slot.existingUrl != null) {
+                urlTasks.add(Tasks.forResult(slot.existingUrl));
+                continue;
+            }
+            StorageReference imageRef =
+                    FirebaseUtil.artworkImageRef(ref.getId(), "img_" + stamp + "_" + i + ".jpg");
+            urlTasks.add(imageRef.putFile(slot.localUri)
+                    .continueWithTask(task -> {
+                        if (!task.isSuccessful() && task.getException() != null) throw task.getException();
+                        return imageRef.getDownloadUrl();
+                    })
+                    .continueWith(task -> task.getResult().toString()));
+        }
+
+        Tasks.whenAllSuccess(urlTasks).addOnSuccessListener(results -> {
+            List<String> imageUrls = new ArrayList<>();
+            for (Task<String> task : urlTasks) imageUrls.add(task.getResult());
+            onReady.accept(imageUrls);
+        }).addOnFailureListener(e -> {
+            setLoading(false);
+            toast("Image upload failed: " + e.getMessage());
+        });
     }
 
     private void saveArtworkDoc(DocumentReference ref, String uid, String title, String description,

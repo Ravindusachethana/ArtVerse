@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.artverse.app.utils.ValidationUtilTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-07-25T03:57:41" hostname="RAVINDU" time="2.233">
+<testsuite name="com.artverse.app.utils.ValidationUtilTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-07-25T05:30:01" hostname="RAVINDU" time="3.263">
   <properties/>
-  <testcase name="isValidEmail_rejectsMissingAtSymbol" classname="com.artverse.app.utils.ValidationUtilTest" time="1.98"/>
-  <testcase name="isValidPassword_rejectsFewerThanSixCharacters" classname="com.artverse.app.utils.ValidationUtilTest" time="0.019"/>
-  <testcase name="isValidPrice_rejectsNonNumericText" classname="com.artverse.app.utils.ValidationUtilTest" time="0.015"/>
-  <testcase name="isValidPrice_rejectsZero" classname="com.artverse.app.utils.ValidationUtilTest" time="0.019"/>
-  <testcase name="isValidEmail_rejectsNull" classname="com.artverse.app.utils.ValidationUtilTest" time="0.024"/>
-  <testcase name="isNotEmpty_acceptsNonBlankText" classname="com.artverse.app.utils.ValidationUtilTest" time="0.017"/>
-  <testcase name="isValidPrice_acceptsPositiveDecimal" classname="com.artverse.app.utils.ValidationUtilTest" time="0.016"/>
-  <testcase name="isValidPrice_rejectsNegativeValue" classname="com.artverse.app.utils.ValidationUtilTest" time="0.02"/>
-  <testcase name="isValidPrice_rejectsEmptyString" classname="com.artverse.app.utils.ValidationUtilTest" time="0.017"/>
-  <testcase name="isValidEmail_rejectsEmptyString" classname="com.artverse.app.utils.ValidationUtilTest" time="0.024"/>
-  <testcase name="isValidPassword_acceptsSixOrMoreCharacters" classname="com.artverse.app.utils.ValidationUtilTest" time="0.024"/>
-  <testcase name="isValidEmail_acceptsWellFormedAddress" classname="com.artverse.app.utils.ValidationUtilTest" time="0.021"/>
-  <testcase name="isValidPassword_rejectsNull" classname="com.artverse.app.utils.ValidationUtilTest" time="0.017"/>
-  <testcase name="isNotEmpty_rejectsBlankAndWhitespaceOnly" classname="com.artverse.app.utils.ValidationUtilTest" time="0.019"/>
+  <testcase name="isValidEmail_rejectsMissingAtSymbol" classname="com.artverse.app.utils.ValidationUtilTest" time="2.916"/>
+  <testcase name="isValidPassword_rejectsFewerThanSixCharacters" classname="com.artverse.app.utils.ValidationUtilTest" time="0.024"/>
+  <testcase name="isValidPrice_rejectsNonNumericText" classname="com.artverse.app.utils.ValidationUtilTest" time="0.02"/>
+  <testcase name="isValidPrice_rejectsZero" classname="com.artverse.app.utils.ValidationUtilTest" time="0.027"/>
+  <testcase name="isValidEmail_rejectsNull" classname="com.artverse.app.utils.ValidationUtilTest" time="0.032"/>
+  <testcase name="isNotEmpty_acceptsNonBlankText" classname="com.artverse.app.utils.ValidationUtilTest" time="0.032"/>
+  <testcase name="isValidPrice_acceptsPositiveDecimal" classname="com.artverse.app.utils.ValidationUtilTest" time="0.027"/>
+  <testcase name="isValidPrice_rejectsNegativeValue" classname="com.artverse.app.utils.ValidationUtilTest" time="0.029"/>
+  <testcase name="isValidPrice_rejectsEmptyString" classname="com.artverse.app.utils.ValidationUtilTest" time="0.026"/>
+  <testcase name="isValidEmail_rejectsEmptyString" classname="com.artverse.app.utils.ValidationUtilTest" time="0.026"/>
+  <testcase name="isValidPassword_acceptsSixOrMoreCharacters" classname="com.artverse.app.utils.ValidationUtilTest" time="0.03"/>
+  <testcase name="isValidEmail_acceptsWellFormedAddress" classname="com.artverse.app.utils.ValidationUtilTest" time="0.026"/>
+  <testcase name="isValidPassword_rejectsNull" classname="com.artverse.app.utils.ValidationUtilTest" time="0.025"/>
+  <testcase name="isNotEmpty_rejectsBlankAndWhitespaceOnly" classname="com.artverse.app.utils.ValidationUtilTest" time="0.02"/>
   <system-out><![CDATA[WARNING: No manifest file found at .\AndroidManifest.xml.
 Falling back to the Android OS resources only.
 To remove this warning, annotate your test class with @Config(manifest=Config.NONE).

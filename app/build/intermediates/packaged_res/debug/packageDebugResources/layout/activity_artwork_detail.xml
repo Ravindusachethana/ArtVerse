@@ -20,12 +20,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="340dp">
 
-                <ImageView
-                    android:id="@+id/ivArtwork"
+                <!-- Swipeable gallery of the piece's photos. A physical work
+                     may carry several angles; with one image it reads exactly
+                     like the old static hero. -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvImages"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ph_artwork" />
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:id="@+id/imageDots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="14dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/btnBack"

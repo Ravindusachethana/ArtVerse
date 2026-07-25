@@ -76,16 +76,20 @@
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\item_transaction.xml"
     },
     {
+        "merged": "com.artverse.app-mergeDebugResources-46:/layout/item_image_add.xml",
+        "source": "com.artverse.app-main-49:/layout/item_image_add.xml"
+    },
+    {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-46:\\layout\\activity_splash.xml",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\activity_splash.xml"
     },
     {
-        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-46:\\layout\\item_cart.xml",
-        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\item_cart.xml"
+        "merged": "com.artverse.app-mergeDebugResources-46:/layout/item_image_slot.xml",
+        "source": "com.artverse.app-main-49:/layout/item_image_slot.xml"
     },
     {
-        "merged": "com.artverse.app-mergeDebugResources-46:/layout/activity_artwork_detail.xml",
-        "source": "com.artverse.app-main-49:/layout/activity_artwork_detail.xml"
+        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-46:\\layout\\item_cart.xml",
+        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\item_cart.xml"
     },
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-46:\\layout\\activity_customer_register.xml",
@@ -148,7 +152,7 @@
         "source": "com.artverse.app-main-49:/layout/activity_add_edit_artwork.xml"
     },
     {
-        "merged": "com.artverse.app-mergeDebugResources-46:/layout/item_cart.xml",
-        "source": "com.artverse.app-main-49:/layout/item_cart.xml"
+        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-mergeDebugResources-46:\\layout\\item_artwork_image.xml",
+        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\item_artwork_image.xml"
     }
 ]

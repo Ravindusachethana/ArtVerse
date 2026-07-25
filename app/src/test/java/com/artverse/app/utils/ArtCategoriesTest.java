@@ -142,6 +142,40 @@ public class ArtCategoriesTest {
     }
 
     @Test
+    public void supportsMultipleImages_trueForPhysicalMultiAngleCategories() {
+        assertTrue(ArtCategories.supportsMultipleImages("Sculpture"));
+        assertTrue(ArtCategories.supportsMultipleImages("Ceramics"));
+        assertTrue(ArtCategories.supportsMultipleImages("Printmaking"));
+    }
+
+    @Test
+    public void supportsMultipleImages_falseForFlatOriginalsAndDigital() {
+        // Flat 2D originals and single-file digital pieces keep one image.
+        assertFalse(ArtCategories.supportsMultipleImages("Painting"));
+        assertFalse(ArtCategories.supportsMultipleImages("Drawing"));
+        assertFalse(ArtCategories.supportsMultipleImages("Mixed Media"));
+        assertFalse(ArtCategories.supportsMultipleImages("Digital Art"));
+        assertFalse(ArtCategories.supportsMultipleImages("Photography"));
+    }
+
+    @Test
+    public void supportsMultipleImages_ignoresCaseAndMissingCategory() {
+        assertTrue(ArtCategories.supportsMultipleImages("  sculpture "));
+        assertFalse(ArtCategories.supportsMultipleImages(null));
+        assertFalse(ArtCategories.supportsMultipleImages(""));
+    }
+
+    @Test
+    public void multiImageCategories_areAllOfferedToArtists() {
+        assertTrue(ArtCategories.DEFAULT.containsAll(ArtCategories.MULTI_IMAGE));
+    }
+
+    @Test
+    public void maxImages_leavesRoomForACoverAndExtras() {
+        assertTrue(ArtCategories.MAX_IMAGES >= 2);
+    }
+
+    @Test
     public void everyDefaultCategory_hasExactlyOneSellingRule() {
         // Each category is digital, reproducible, or one-of-a-kind - never two,
         // and never none - so the stepper and retirement rules stay unambiguous.

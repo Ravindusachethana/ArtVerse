@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.artverse.app-mergeDebugResources-44:/values-v28/values-v28.xml",
+            "outputFile": "com.artverse.app-mergeDebugResources-45:/values-v28/values-v28.xml",
             "map": [
                 {
                     "source": "C:\\Users\\sache\\.gradle\\caches\\transforms-4\\a3112034f7d9dc410f3762532310d597\\transformed\\material-1.12.0\\res\\values-v28\\values-v28.xml",

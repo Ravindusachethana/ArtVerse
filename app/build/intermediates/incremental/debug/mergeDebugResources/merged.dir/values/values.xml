@@ -2033,6 +2033,8 @@
     <string name="app_name">ArtVerse</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="approved_toast">Congratulations! Your artist account has been approved.</string>
+    <string name="awaiting_delivery_confirmation">Out for delivery — awaiting the admin\'s delivery confirmation.</string>
+    <string name="back">Back</string>
     <string name="bottom_sheet_behavior" translatable="false">com.google.android.material.bottomsheet.BottomSheetBehavior</string>
     <string description="A description of an accessibility action to collapse the bottom sheet [CHAR LIMIT=NONE]" name="bottomsheet_action_collapse">Collapse the bottom sheet</string>
     <string description="A description of an accessibility action to expand the bottom sheet [CHAR LIMIT=NONE]" name="bottomsheet_action_expand">Expand the bottom sheet</string>
@@ -2051,9 +2053,16 @@
     <string name="character_counter_content_description">Characters entered %1$d of %2$d</string>
     <string name="character_counter_overflowed_content_description">Character limit exceeded %1$d of %2$d</string>
     <string name="character_counter_pattern" translatable="false">%1$d/%2$d</string>
+    <string name="chart_next">Next chart</string>
+    <string name="chart_previous">Previous chart</string>
     <string name="checkout">Checkout</string>
     <string name="choose_role_title">Join ArtVerse as</string>
     <string name="clear_text_end_icon_content_description">Clear text</string>
+    <string name="close">Close</string>
+    <string name="collection_empty_message">Artworks appear here once your orders are delivered. Digital pieces arrive as soon as the artist confirms them.</string>
+    <string name="collection_empty_title">Your collection is empty</string>
+    <string name="collection_pieces">%1$d piece</string>
+    <string name="collection_pieces_plural">%1$d pieces</string>
     <string msgid="2523291102206661146" name="common_google_play_services_enable_button">Enable</string>
     <string msgid="227660514972886228" name="common_google_play_services_enable_text"><ns2:g id="app_name">%1$s</ns2:g> won\'t work unless you enable Google Play services.</string>
     <string msgid="5122002158466380389" name="common_google_play_services_enable_title">Enable Google Play services</string>
@@ -2073,6 +2082,15 @@
     <string name="common_signin_button_text">Sign in</string>
     <string name="common_signin_button_text_long">Sign in with Google</string>
     <string name="copy_toast_msg">Link copied to clipboard</string>
+    <string name="digital_badge">Digital</string>
+    <string name="digital_delivery_message">One copy, delivered straight to your collection in the app — nothing to ship.</string>
+    <string name="digital_delivery_title">Digital piece</string>
+    <string name="download_artwork">Download</string>
+    <string name="download_failed">Download failed: %1$s</string>
+    <string name="download_nothing_to_save">There is no file to save for this piece</string>
+    <string name="download_permission_needed">Storage permission is needed to save the artwork</string>
+    <string name="download_saved">Saved to Pictures/ArtVerse as %1$s</string>
+    <string name="download_started">Downloading %1$s…</string>
     <string name="edit_artwork">Edit Artwork</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="email">Email</string>
@@ -2087,15 +2105,18 @@
     <string name="fallback_menu_item_copy_link">Copy link</string>
     <string name="fallback_menu_item_open_in_browser">Open in browser</string>
     <string name="fallback_menu_item_share_link">Share link</string>
+    <string name="fcm_fallback_notification_channel_label">Miscellaneous</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="gcm_defaultSenderId" translatable="false">227106672464</string>
     <string name="google_api_key" translatable="false">AIzaSyDEuWUo4cHBVXCrWRFUHvOAa4Ek4XdPA54</string>
     <string name="google_app_id" translatable="false">1:227106672464:android:11998cf8b6019b79aa6655</string>
     <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDEuWUo4cHBVXCrWRFUHvOAa4Ek4XdPA54</string>
     <string name="google_storage_bucket" translatable="false">artverse-61539.firebasestorage.app</string>
+    <string name="hand_over_to_delivery">Hand over to delivery</string>
     <string name="hide_bottom_view_on_scroll_behavior" translatable="false">com.google.android.material.behavior.HideBottomViewOnScrollBehavior</string>
     <string description="Content description for an icon that appears in the title area of a dialog" name="icon_content_description">Dialog Icon</string>
     <string name="item_view_role_description">Tab</string>
+    <string name="label_original">Original</string>
     <string name="login_button">Log In</string>
     <string name="login_subtitle">Sign in to continue exploring art</string>
     <string name="login_title">Welcome back</string>
@@ -2205,12 +2226,15 @@
     <string name="mtrl_switch_track_path" translatable="false">M0,16 A16,16 0 0,1 16,0 H36 A16,16 0 0,1 36,32 H16 A16,16 0 0,1 0,16</string>
     <string description="Button text to indicate that the widget will ignore the user&apos;s selection [CHAR_LIMIT=16]" name="mtrl_timepicker_cancel">Cancel</string>
     <string description="Button text to indicate that the widget will save the user&apos;s selection [CHAR_LIMIT=16]" name="mtrl_timepicker_confirm">OK</string>
+    <string name="my_collection">My Collection</string>
+    <string name="my_collection_hint">Every piece you\'ve bought</string>
     <string name="nav_cart">Cart</string>
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_home">Home</string>
     <string name="nav_my_art">My Art</string>
     <string name="nav_orders">Orders</string>
     <string name="nav_profile">Profile</string>
+    <string name="nav_reports">Reports</string>
     <string name="nav_sales">Sales</string>
     <string name="no_account">Don\'t have an account?</string>
     <string name="order_total">Order Total</string>
@@ -2223,10 +2247,29 @@
     <string name="pending_banner_message">An ArtVerse admin is reviewing your artist registration. You\'ll get full access automatically once you\'re approved. Meanwhile, enjoy browsing the gallery.</string>
     <string name="pending_banner_title">Registration under review</string>
     <string name="pending_read_only">Browsing is view-only until your account is approved</string>
+    <string name="period_monthly">Monthly</string>
+    <string name="period_weekly">Weekly</string>
     <string name="place_order">Place Order</string>
     <string name="project_id" translatable="false">artverse-61539</string>
     <string name="rejected_banner_message">Unfortunately your artist registration was not approved. Please contact ArtVerse support for more information.</string>
     <string name="rejected_banner_title">Registration not approved</string>
+    <string name="report_best_sellers">Best-selling artworks</string>
+    <string name="report_best_sellers_hint">Pieces sold across completed orders</string>
+    <string name="report_completed_orders">Completed orders</string>
+    <string name="report_delivery">Delivery report</string>
+    <string name="report_delivery_hint">Fulfilment across all of your orders</string>
+    <string name="report_no_completed">No completed orders yet</string>
+    <string name="report_no_published">No artworks published yet</string>
+    <string name="report_no_rejected">No rejected orders</string>
+    <string name="report_no_sales">No completed sales yet</string>
+    <string name="report_published">Artworks published</string>
+    <string name="report_published_hint">New artworks you listed</string>
+    <string name="report_rejected_orders">Rejected orders</string>
+    <string name="report_sales">Sales report</string>
+    <string name="report_sales_hint">Revenue from completed sales</string>
+    <string name="reports_subtitle_artist">Your live sales &amp; delivery insights</string>
+    <string name="reports_summary">Reports</string>
+    <string name="reports_title">Reports</string>
     <string name="role_artist">Artist</string>
     <string name="role_artist_desc">List and sell your artwork</string>
     <string name="role_customer">Art Lover</string>
@@ -2243,9 +2286,21 @@
     <string name="side_sheet_behavior" translatable="false">com.google.android.material.sidesheet.SideSheetBehavior</string>
     <string name="sign_out">Sign out</string>
     <string name="sign_up">Sign Up</string>
+    <string name="single_piece_helper">Sold as a single piece</string>
+    <string name="single_piece_helper_digital">Digital — delivered as one copy</string>
+    <string name="single_piece_helper_unique">One-of-a-kind — sold once, then retired</string>
+    <string name="stat_avg_days">Avg days</string>
+    <string name="stat_delivered">Delivered</string>
+    <string name="stat_in_delivery">In delivery</string>
+    <string name="stat_rejected">Rejected</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="tagline">Where Art Meets Its Audience</string>
+    <string name="unique_piece_message">A single original piece — once it sells, there won\'t be another exactly like it.</string>
+    <string name="unique_piece_title">One-of-a-kind</string>
     <string name="view_cart">View cart</string>
+    <string name="view_full_reports">View full reports</string>
+    <string name="viewer_subtitle_digital">Original quality · yours to download</string>
+    <string name="viewer_subtitle_physical">In your collection</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>
@@ -2370,6 +2425,28 @@
         <item name="hintTextColor">@color/brand_primary</item>
         <item name="android:textColorHint">@color/text_hint</item>
         <item name="boxStrokeWidth">1dp</item>
+    </style>
+    <style name="ArtVerse.Toggle" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="backgroundTint">@color/chip_category_background</item>
+        <item name="android:textColor">@color/chip_category_text</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="rippleColor">@color/brand_accent_light</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="ArtVerse.Toggle.Segment" parent="ArtVerse.Toggle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
     </style>
     <style name="Base.AlertDialog.AppCompat" parent="android:Widget">
         <item name="android:layout">@layout/abc_alert_dialog_material</item>
@@ -6628,6 +6705,13 @@
         <item name="android:windowBackground">@color/brand_primary</item>
         <item name="android:statusBarColor">@color/brand_primary</item>
         <item name="android:windowLightStatusBar">false</item>
+    </style>
+    <style name="Theme.ArtVerse.Viewer" parent="Theme.ArtVerse">
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" ns1:targetApi="o_mr1">false</item>
     </style>
     <style name="Theme.Design" parent="Theme.AppCompat">
   </style>

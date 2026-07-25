@@ -12,7 +12,9 @@ export const routes: Routes = [
       { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent) },
       { path: 'artist-approvals', loadComponent: () => import('./pages/artist-approvals/artist-approvals.component').then(m => m.ArtistApprovalsComponent) },
       { path: 'artwork-approvals', loadComponent: () => import('./pages/artwork-approvals/artwork-approvals.component').then(m => m.ArtworkApprovalsComponent) },
-      { path: 'profile-changes', loadComponent: () => import('./pages/profile-changes/profile-changes.component').then(m => m.ProfileChangesComponent) }
+      { path: 'profile-changes', loadComponent: () => import('./pages/profile-changes/profile-changes.component').then(m => m.ProfileChangesComponent) },
+      { path: 'deliveries', loadComponent: () => import('./pages/deliveries/deliveries.component').then(m => m.DeliveriesComponent) },
+      { path: 'reports', loadComponent: () => import('./pages/reports/reports.component').then(m => m.ReportsComponent) }
     ]
   },
   { path: '**', redirectTo: '' }

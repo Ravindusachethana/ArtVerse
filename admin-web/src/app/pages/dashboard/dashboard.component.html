@@ -27,6 +27,14 @@
   </a>
 }
 
+@if (liveDeliveries() > 0) {
+  <a routerLink="/deliveries" class="pending-banner av-card">
+    <span class="pending-dot"></span>
+    <strong>{{ liveDeliveries() }}</strong>&nbsp;order{{ liveDeliveries() === 1 ? '' : 's' }} out for delivery awaiting confirmation
+    <span class="banner-cta">Track now &rarr;</span>
+  </a>
+}
+
 <div class="stat-grid">
   <div class="stat-card av-card accent-primary">
     <div class="stat-label">Pending approvals</div>
@@ -42,6 +50,11 @@
     <div class="stat-label">Profile changes</div>
     <div class="stat-value">{{ liveProfileChanges() }}</div>
     <div class="stat-hint">Staged profile edits</div>
+  </div>
+  <div class="stat-card av-card">
+    <div class="stat-label">In delivery</div>
+    <div class="stat-value">{{ liveDeliveries() }}</div>
+    <div class="stat-hint">Awaiting delivery confirmation</div>
   </div>
   <div class="stat-card av-card">
     <div class="stat-label">Artists</div>
@@ -63,3 +76,24 @@
 @if (countsFailed()) {
   <p class="counts-error">Some counters could not be loaded. Check your connection and Firestore rules.</p>
 }
+
+<a routerLink="/reports" class="report-summary av-card">
+  <div class="report-head">
+    <h2>Reports</h2>
+    <span class="banner-cta">View full reports &rarr;</span>
+  </div>
+  <div class="report-figures">
+    <div class="report-figure">
+      <div class="report-value">{{ reportCompleted() }}</div>
+      <div class="report-label">Completed orders</div>
+    </div>
+    <div class="report-figure">
+      <div class="report-value">LKR {{ reportRevenue() | number:'1.0-0' }}</div>
+      <div class="report-label">Revenue</div>
+    </div>
+    <div class="report-figure">
+      <div class="report-value">{{ reportCancelled() }}</div>
+      <div class="report-label">Cancelled orders</div>
+    </div>
+  </div>
+</a>

@@ -15,6 +15,7 @@ import com.artverse.app.auth.LoginActivity;
 import com.artverse.app.models.Artist;
 import com.artverse.app.models.User;
 import com.artverse.app.utils.ArtCategories;
+import com.artverse.app.utils.AuthActions;
 import com.artverse.app.utils.ChipStyler;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.SessionManager;
@@ -214,12 +215,12 @@ public class ArtistProfileEditActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        FirebaseUtil.auth().signOut();
-        new SessionManager(this).clear();
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        AuthActions.signOut(this, () -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private String text(TextInputEditText et) {

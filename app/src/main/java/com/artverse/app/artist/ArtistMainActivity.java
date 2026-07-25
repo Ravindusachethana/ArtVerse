@@ -1,5 +1,6 @@
 package com.artverse.app.artist;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,12 +13,16 @@ import com.artverse.app.artist.fragments.ArtistDashboardFragment;
 import com.artverse.app.artist.fragments.ArtistOrdersFragment;
 import com.artverse.app.artist.fragments.MyArtworkFragment;
 import com.artverse.app.artist.fragments.SalesReportFragment;
+import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.InAppNotifier;
+import com.artverse.app.utils.PushTokens;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ArtistMainActivity extends AppCompatActivity {
 
     private static final int REQ_POST_NOTIFICATIONS = 71;
+
+    private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +31,7 @@ public class ArtistMainActivity extends AppCompatActivity {
 
         requestNotificationPermissionIfNeeded();
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-
-        if (savedInstanceState == null) {
-            openFragment(new ArtistDashboardFragment());
-        }
+        bottomNav = findViewById(R.id.bottomNav);
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
@@ -49,6 +50,31 @@ public class ArtistMainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        if (savedInstanceState == null && !openOrdersIfRequested(getIntent())) {
+            openFragment(new ArtistDashboardFragment());
+        }
+    }
+
+    /**
+     * A tapped "new order" push lands here via SplashActivity, which has
+     * already verified the session; all that is left is to show the orders.
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        openOrdersIfRequested(intent);
+    }
+
+    private boolean openOrdersIfRequested(Intent intent) {
+        if (intent == null || !intent.getBooleanExtra(Constants.EXTRA_OPEN_ORDERS, false)) {
+            return false;
+        }
+        // Consume it so a later config change does not force the tab again.
+        intent.removeExtra(Constants.EXTRA_OPEN_ORDERS);
+        bottomNav.setSelectedItemId(R.id.nav_artist_orders);
+        return true;
     }
 
     @Override
@@ -56,6 +82,8 @@ public class ArtistMainActivity extends AppCompatActivity {
         super.onStart();
         // Surfaces "new order received" alerts while the artist uses the app.
         InAppNotifier.start(this);
+        // Keeps this device registered for pushes while the app is closed.
+        PushTokens.register();
     }
 
     @Override

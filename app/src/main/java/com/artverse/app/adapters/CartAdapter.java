@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.artverse.app.R;
 import com.artverse.app.models.CartItem;
+import com.artverse.app.utils.ArtCategories;
 import com.bumptech.glide.Glide;
 
 import java.text.NumberFormat;
@@ -61,7 +62,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView ivArtwork, btnMinus, btnPlus, btnRemove;
-        TextView tvTitle, tvArtist, tvPrice, tvQuantity;
+        TextView tvTitle, tvArtist, tvPrice, tvQuantity, tvSingleCopyBadge;
+        View quantityStepper;
 
         CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +72,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             tvArtist = itemView.findViewById(R.id.tvArtist);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvQuantity = itemView.findViewById(R.id.tvQuantity);
+            tvSingleCopyBadge = itemView.findViewById(R.id.tvSingleCopyBadge);
+            quantityStepper = itemView.findViewById(R.id.quantityStepper);
             btnMinus = itemView.findViewById(R.id.btnMinus);
             btnPlus = itemView.findViewById(R.id.btnPlus);
             btnRemove = itemView.findViewById(R.id.btnRemove);
@@ -89,6 +93,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     .error(R.drawable.ph_artwork)
                     .centerCrop()
                     .into(ivArtwork);
+
+            // Only reproducible pieces keep the stepper; a single-copy line -
+            // an original or a digital file - shows a badge saying which,
+            // since there is no second piece to order.
+            boolean reproducible = ArtCategories.isReproducible(item.categoryName);
+            quantityStepper.setVisibility(reproducible ? View.VISIBLE : View.GONE);
+            tvSingleCopyBadge.setVisibility(reproducible ? View.GONE : View.VISIBLE);
+            tvSingleCopyBadge.setText(ArtCategories.isDigital(item.categoryName)
+                    ? R.string.digital_badge : R.string.label_original);
 
             btnMinus.setOnClickListener(v -> {
                 if (item.quantity > 1 && listener != null) {

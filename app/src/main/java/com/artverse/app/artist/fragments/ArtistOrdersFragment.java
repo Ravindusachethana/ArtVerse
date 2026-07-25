@@ -22,19 +22,22 @@ import com.artverse.app.models.Order;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.OrderActions;
+import com.artverse.app.utils.OrderStatus;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implements FR07 (artist side) - artists view incoming orders split into
- * three tabs (New / Rejected / Completed), accept or reject the new ones,
- * and can open the receipt of any settled order (see ReceiptActivity).
+ * Implements FR07 (artist side) - incoming orders split into three tabs.
+ * "Pending" holds every order still in flight; the artist confirms or
+ * rejects a new one, then hands the confirmed one to the delivery section,
+ * and the card updates in place until the admin closes it out. Settled
+ * orders open their receipt (see ReceiptActivity).
  */
 public class ArtistOrdersFragment extends Fragment {
 
-    private static final String[] TAB_LABELS = {"New", "Rejected", "Completed"};
+    private static final String[] TAB_LABELS = {"Pending", "Completed", "Rejected"};
 
     private RecyclerView rvList;
     private View emptyState;
@@ -82,10 +85,17 @@ public class ArtistOrdersFragment extends Fragment {
 
         adapter = new ArtistOrderAdapter(new ArtistOrderAdapter.OrderActionListener() {
             @Override
-            public void onAccept(Order order) {
-                OrderActions.accept(order)
-                        .addOnSuccessListener(v -> toast("Order accepted - sale recorded"))
-                        .addOnFailureListener(e -> toast("Could not accept order: " + e.getMessage()));
+            public void onConfirm(Order order) {
+                OrderActions.confirm(order)
+                        .addOnSuccessListener(v -> toast("Order confirmed - hand it over when it's ready"))
+                        .addOnFailureListener(e -> toast("Could not confirm order: " + e.getMessage()));
+            }
+
+            @Override
+            public void onHandOver(Order order) {
+                OrderActions.handOverToDelivery(order)
+                        .addOnSuccessListener(v -> toast("Marked out for delivery"))
+                        .addOnFailureListener(e -> toast("Could not update order: " + e.getMessage()));
             }
 
             @Override
@@ -144,11 +154,14 @@ public class ArtistOrdersFragment extends Fragment {
 
     private boolean belongsToSelectedTab(Order order) {
         switch (selectedTab) {
-            case 1: return Constants.STATUS_REJECTED.equals(order.status);
-            case 2: return Constants.STATUS_COMPLETED.equals(order.status);
-            default: // "New" tab also covers legacy "pending" orders.
-                return Constants.STATUS_PROCESSING.equals(order.status)
-                        || Constants.STATUS_PENDING.equals(order.status);
+            case 1: return Constants.STATUS_COMPLETED.equals(order.status);
+            case 2: return Constants.STATUS_REJECTED.equals(order.status);
+            default:
+                // "Pending" is every order still on its way: awaiting a
+                // decision (incl. legacy "pending"), confirmed, or out for
+                // delivery. The stage-appropriate buttons and the tracking
+                // bar change in place as the order progresses.
+                return !OrderStatus.isSettled(order.status);
         }
     }
 

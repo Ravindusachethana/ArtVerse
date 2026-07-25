@@ -3,6 +3,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 import { AuthService } from '../../core/auth.service';
 import { ArtistsService } from '../../core/artists.service';
 import { ArtworksService } from '../../core/artworks.service';
+import { OrdersService } from '../../core/orders.service';
 
 /** Authenticated layout: brand sidebar + top bar around the admin pages. */
 @Component({
@@ -17,6 +18,7 @@ export class ShellComponent {
   private readonly authService = inject(AuthService);
   private readonly artistsService = inject(ArtistsService);
   private readonly artworksService = inject(ArtworksService);
+  private readonly ordersService = inject(OrdersService);
   private readonly router = inject(Router);
 
   readonly admin = this.authService.admin;
@@ -27,6 +29,8 @@ export class ShellComponent {
   readonly artworkReviewCount = this.artworksService.reviewCount;
 
   readonly profileChangeCount = computed(() => this.artistsService.profileEdits().length);
+
+  readonly deliveryCount = this.ordersService.deliveryCount;
 
   readonly initials = computed(() => {
     const name = this.admin()?.name ?? 'A';

@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 
@@ -41,6 +42,7 @@ import java.util.Map;
 public class AddEditArtworkActivity extends AppCompatActivity {
 
     private TextInputEditText etTitle, etDescription, etPrice, etQuantity, etMedium, etDimensions;
+    private TextInputLayout tilQuantity;
     private ChipGroup chipGroupCategory;
     private ImageView ivPreview;
     private View imagePlaceholderContent, progressBar, btnSave;
@@ -70,6 +72,7 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         etDescription = findViewById(R.id.etDescription);
         etPrice = findViewById(R.id.etPrice);
         etQuantity = findViewById(R.id.etQuantity);
+        tilQuantity = findViewById(R.id.tilQuantity);
         etMedium = findViewById(R.id.etMedium);
         etDimensions = findViewById(R.id.etDimensions);
         chipGroupCategory = findViewById(R.id.chipGroupCategory);
@@ -79,6 +82,10 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
 
         populateCategoryChips();
+        // The quantity field only applies to reproducible categories; picking a
+        // one-time original or a digital category locks it to a single piece.
+        chipGroupCategory.setOnCheckedStateChangeListener((group, checkedIds) -> applyQuantityRule());
+        applyQuantityRule();
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
         findViewById(R.id.imagePickerFrame).setOnClickListener(v -> imagePicker.launch("image/*"));
@@ -165,6 +172,28 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         return chip != null ? chip.getText().toString() : null;
     }
 
+    /**
+     * Reproducible categories keep an editable quantity; one-time originals and
+     * digital files are locked to a single piece so they can never be listed
+     * with stock that would let one sell more than once. Left editable until a
+     * category is chosen.
+     */
+    private void applyQuantityRule() {
+        String category = selectedCategory();
+        boolean sellByQuantity = category == null || ArtCategories.isReproducible(category);
+
+        etQuantity.setEnabled(sellByQuantity);
+        if (!sellByQuantity) etQuantity.setText("1");
+        tilQuantity.setHelperText(sellByQuantity ? null : singlePieceHelper(category));
+    }
+
+    /** Why the quantity is fixed at one, worded for the kind of piece. */
+    private String singlePieceHelper(String category) {
+        if (ArtCategories.isDigital(category)) return getString(R.string.single_piece_helper_digital);
+        if (ArtCategories.isOneOfAKind(category)) return getString(R.string.single_piece_helper_unique);
+        return getString(R.string.single_piece_helper);
+    }
+
     private void save() {
         String title = text(etTitle);
         String description = text(etDescription);
@@ -186,14 +215,17 @@ public class AddEditArtworkActivity extends AppCompatActivity {
             toast("Please enter a valid price");
             return;
         }
-        int quantity;
+        int parsedQuantity;
         try {
-            quantity = Integer.parseInt(quantityText);
-            if (quantity < 1) throw new NumberFormatException();
+            parsedQuantity = Integer.parseInt(quantityText);
+            if (parsedQuantity < 1) throw new NumberFormatException();
         } catch (NumberFormatException e) {
             toast("Please enter a valid quantity");
             return;
         }
+        // A one-time original or digital piece is a single copy, whatever the
+        // field says - guards against stale text left when the category changed.
+        final int quantity = ArtCategories.isReproducible(category) ? parsedQuantity : 1;
 
         setLoading(true);
         String uid = FirebaseUtil.currentUid();

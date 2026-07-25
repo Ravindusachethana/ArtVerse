@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.artverse.app.utils.ArtCategoriesTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-07-19T16:56:40" hostname="RAVINDU" time="0.002">
+<testsuite name="com.artverse.app.utils.ArtCategoriesTest" tests="20" skipped="0" failures="0" errors="0" timestamp="2026-07-25T03:57:41" hostname="RAVINDU" time="0.011">
   <properties/>
+  <testcase name="isDigital_trueForFileDeliveredCategories" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.002"/>
+  <testcase name="isDigital_falseWhenCategoryIsMissing" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.001"/>
+  <testcase name="isReproducible_trueForCategoriesRemadeToOrder" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="reproducibleCategories_areAllOfferedToArtists" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.001"/>
   <testcase name="defaultCategories_isNotEmpty" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="oneOfAKind_ignoresCaseAndSurroundingSpace" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="oneOfAKind_falseWhenCategoryIsMissing" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="isReproducible_falseWhenCategoryIsMissing" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="digitalCategories_areAllOfferedToArtists" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
   <testcase name="defaultCategories_containsCoreCategories" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.001"/>
+  <testcase name="isReproducible_falseForDigitalCategories" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
   <testcase name="defaultCategories_hasNoDuplicates" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.001"/>
+  <testcase name="isDigital_ignoresCaseAndSurroundingSpace" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="isReproducible_falseForOneTimeOriginals" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="digitalAndReproducible_neverOverlap" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="oneOfAKind_excludesReproducibleAndDigital" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="oneOfAKind_coversPhysicalOriginals" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="isReproducible_ignoresCaseAndSurroundingSpace" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="everyDefaultCategory_hasExactlyOneSellingRule" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.0"/>
+  <testcase name="isDigital_falseForPhysicalCategories" classname="com.artverse.app.utils.ArtCategoriesTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

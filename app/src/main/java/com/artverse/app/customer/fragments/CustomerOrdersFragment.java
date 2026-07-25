@@ -20,20 +20,25 @@ import com.artverse.app.adapters.OrderAdapter;
 import com.artverse.app.models.Order;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
+import com.artverse.app.utils.OrderStatus;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Customer-facing order history (part of FR07), split into three tabs -
- * Processing / Rejected / Completed - backed by one live query filtered
- * client-side. Tapping a settled (completed/rejected) order opens its
- * receipt (see OrderAdapter / ReceiptActivity).
+ * Customer-facing order history and live delivery tracking (part of FR07),
+ * split into three tabs backed by one live query filtered client-side.
+ * "Pending" holds every order still in flight - awaiting the artist,
+ * confirmed, or out for delivery - and because the query is a snapshot
+ * listener the card's status pill and tracking bar advance in place as the
+ * artist and admin act, then the order jumps to Completed or Rejected on
+ * its own. Tapping a settled order opens its receipt (see OrderAdapter /
+ * ReceiptActivity).
  */
 public class CustomerOrdersFragment extends Fragment {
 
-    private static final String[] TAB_LABELS = {"Processing", "Rejected", "Completed"};
+    private static final String[] TAB_LABELS = {"Pending", "Completed", "Rejected"};
 
     private RecyclerView rvList;
     private View emptyState;
@@ -129,11 +134,14 @@ public class CustomerOrdersFragment extends Fragment {
 
     private boolean belongsToSelectedTab(Order order) {
         switch (selectedTab) {
-            case 1: return Constants.STATUS_REJECTED.equals(order.status);
-            case 2: return Constants.STATUS_COMPLETED.equals(order.status);
-            default: // Processing tab also covers legacy "pending" orders.
-                return Constants.STATUS_PROCESSING.equals(order.status)
-                        || Constants.STATUS_PENDING.equals(order.status);
+            case 1: return Constants.STATUS_COMPLETED.equals(order.status);
+            case 2: return Constants.STATUS_REJECTED.equals(order.status);
+            default:
+                // "Pending" is every order still on its way: awaiting the
+                // artist (incl. legacy "pending"), confirmed, or out for
+                // delivery. The card's pill and tracking bar show which,
+                // and update live without the order leaving this tab.
+                return !OrderStatus.isSettled(order.status);
         }
     }
 }

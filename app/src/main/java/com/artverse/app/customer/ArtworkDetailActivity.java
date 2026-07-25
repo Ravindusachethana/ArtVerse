@@ -1,21 +1,29 @@
 package com.artverse.app.customer;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.artverse.app.R;
+import com.artverse.app.adapters.ArtworkImageCarouselAdapter;
 import com.artverse.app.models.Artwork;
 import com.artverse.app.models.CartItem;
+import com.artverse.app.utils.ArtCategories;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.QuantitySelector;
-import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.text.NumberFormat;
@@ -27,6 +35,12 @@ import java.util.Locale;
  * The quantity stepper is capped to the artwork's live remaining stock
  * ("quantity" in Firestore) - the actual stock lock happens atomically at
  * checkout (see CheckoutActivity), this is just a client-side hint.
+ *
+ * The quantity stepper only appears for reproducible pieces (Sculpture,
+ * Ceramics, Printmaking), which the artist can remake to order. A one-time
+ * original (Painting, Drawing, Mixed Media) and a digital file (Digital Art,
+ * Photography) are each a single copy, so they show an explanatory note in
+ * place of the stepper instead - see ArtCategories.isReproducible.
  */
 public class ArtworkDetailActivity extends AppCompatActivity {
 
@@ -34,9 +48,16 @@ public class ArtworkDetailActivity extends AppCompatActivity {
     private int selectedQuantity = 1;
 
     private TextView tvTitle, tvArtist, tvPrice, tvStock, tvCategory, tvMedium, tvDimensions,
-            tvDescription, tvQtyValue, tvOrderTotal, tvSoldOut, tvCartBadge;
-    private ImageView ivArtwork;
-    private View quantityRow, orderTotalRow, actionButtonsRow, btnQtyMinus, btnQtyPlus, cartShortcut;
+            tvDescription, tvQtyValue, tvOrderTotal, tvSoldOut, tvCartBadge,
+            tvSingleCopyTitle, tvSingleCopyMessage;
+    private ImageView ivSingleCopyIcon;
+    private View quantityRow, orderTotalRow, actionButtonsRow, btnQtyMinus, btnQtyPlus,
+            cartShortcut, singleCopyNote;
+
+    private RecyclerView rvImages;
+    private LinearLayout imageDots;
+    private ArtworkImageCarouselAdapter imageAdapter;
+    private final PagerSnapHelper imageSnapHelper = new PagerSnapHelper();
 
     private ListenerRegistration cartListener;
 
@@ -56,8 +77,12 @@ public class ArtworkDetailActivity extends AppCompatActivity {
         tvQtyValue = findViewById(R.id.tvQtyValue);
         tvOrderTotal = findViewById(R.id.tvOrderTotal);
         tvSoldOut = findViewById(R.id.tvSoldOut);
-        ivArtwork = findViewById(R.id.ivArtwork);
+        setupImageCarousel();
         quantityRow = findViewById(R.id.quantityRow);
+        singleCopyNote = findViewById(R.id.singleCopyNote);
+        ivSingleCopyIcon = findViewById(R.id.ivSingleCopyIcon);
+        tvSingleCopyTitle = findViewById(R.id.tvSingleCopyTitle);
+        tvSingleCopyMessage = findViewById(R.id.tvSingleCopyMessage);
         orderTotalRow = findViewById(R.id.orderTotalRow);
         actionButtonsRow = findViewById(R.id.actionButtonsRow);
         btnQtyMinus = findViewById(R.id.btnQtyMinus);
@@ -151,18 +176,23 @@ public class ArtworkDetailActivity extends AppCompatActivity {
         NumberFormat format = NumberFormat.getInstance(Locale.US);
         tvPrice.setText("LKR " + format.format(artwork.price));
 
-        String imageUrl = (artwork.imageUrls != null && !artwork.imageUrls.isEmpty())
-                ? artwork.imageUrls.get(0) : null;
-        Glide.with(this).load(imageUrl)
-                .placeholder(R.drawable.ph_artwork)
-                .error(R.drawable.ph_artwork)
-                .into(ivArtwork);
+        bindImages(artwork.imageUrls);
 
         boolean inStock = artwork.available && artwork.quantity > 0;
-        tvStock.setText(artwork.quantity + (artwork.quantity == 1 ? " piece available" : " pieces available"));
-        tvStock.setVisibility(inStock ? View.VISIBLE : View.GONE);
+        // Only reproducible pieces are sold in multiples; the remaining-stock
+        // line and the stepper belong to them. A single-copy piece - a one-time
+        // original or a digital file - shows an explanatory note instead.
+        boolean reproducible = ArtCategories.isReproducible(artwork.categoryName);
 
-        quantityRow.setVisibility(inStock ? View.VISIBLE : View.GONE);
+        tvStock.setText(artwork.quantity + (artwork.quantity == 1 ? " piece available" : " pieces available"));
+        tvStock.setVisibility(inStock && reproducible ? View.VISIBLE : View.GONE);
+
+        quantityRow.setVisibility(inStock && reproducible ? View.VISIBLE : View.GONE);
+
+        boolean singleCopy = inStock && !reproducible;
+        singleCopyNote.setVisibility(singleCopy ? View.VISIBLE : View.GONE);
+        if (singleCopy) bindSingleCopyNote(ArtCategories.isDigital(artwork.categoryName));
+
         orderTotalRow.setVisibility(inStock ? View.VISIBLE : View.GONE);
         actionButtonsRow.setVisibility(inStock ? View.VISIBLE : View.GONE);
         tvSoldOut.setVisibility(inStock ? View.GONE : View.VISIBLE);
@@ -171,8 +201,94 @@ public class ArtworkDetailActivity extends AppCompatActivity {
         updateQuantityUi();
     }
 
+    /**
+     * The note that stands in for the stepper on single-copy pieces: a digital
+     * one is delivered and downloadable in the app, a physical original is
+     * one-of-a-kind.
+     */
+    private void bindSingleCopyNote(boolean digital) {
+        ivSingleCopyIcon.setImageResource(digital ? R.drawable.ic_download : R.drawable.ic_palette);
+        tvSingleCopyTitle.setText(digital ? R.string.digital_delivery_title : R.string.unique_piece_title);
+        tvSingleCopyMessage.setText(digital ? R.string.digital_delivery_message : R.string.unique_piece_message);
+    }
+
+    private void setupImageCarousel() {
+        rvImages = findViewById(R.id.rvImages);
+        imageDots = findViewById(R.id.imageDots);
+        imageAdapter = new ArtworkImageCarouselAdapter(null);
+        rvImages.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        rvImages.setAdapter(imageAdapter);
+        imageSnapHelper.attachToRecyclerView(rvImages);
+        rvImages.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) updateActiveDot();
+            }
+        });
+    }
+
+    /**
+     * Feeds the photo carousel. A listing with no image still gets one page so
+     * the placeholder shows, exactly as the old single image view did.
+     */
+    private void bindImages(java.util.List<String> imageUrls) {
+        java.util.List<String> pages = imageUrls != null && !imageUrls.isEmpty()
+                ? imageUrls : java.util.Collections.singletonList(null);
+        imageAdapter.submitImages(pages);
+        rvImages.scrollToPosition(0);
+        buildDots(pages.size());
+    }
+
+    private void buildDots(int count) {
+        imageDots.removeAllViews();
+        // A single photo needs no pager dots - keep the frame clean.
+        if (count <= 1) {
+            imageDots.setVisibility(View.GONE);
+            return;
+        }
+        imageDots.setVisibility(View.VISIBLE);
+        int size = dp(7);
+        int margin = dp(3);
+        for (int i = 0; i < count; i++) {
+            View dot = new View(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
+            params.setMargins(margin, 0, margin, 0);
+            dot.setLayoutParams(params);
+            GradientDrawable shape = new GradientDrawable();
+            shape.setShape(GradientDrawable.OVAL);
+            dot.setBackground(shape);
+            imageDots.addView(dot);
+        }
+        updateActiveDot();
+    }
+
+    private void updateActiveDot() {
+        int count = imageDots.getChildCount();
+        if (count == 0) return;
+        int active = currentImagePage();
+        for (int i = 0; i < count; i++) {
+            GradientDrawable shape = (GradientDrawable) imageDots.getChildAt(i).getBackground();
+            // White reads on any photo; the resting dots are a translucent white.
+            shape.setColor(i == active ? Color.WHITE : Color.argb(120, 255, 255, 255));
+        }
+    }
+
+    /** Index of the photo snapped into view, 0 before anything settles. */
+    private int currentImagePage() {
+        RecyclerView.LayoutManager layoutManager = rvImages.getLayoutManager();
+        if (layoutManager == null) return 0;
+        View snapped = imageSnapHelper.findSnapView(layoutManager);
+        if (snapped == null) return 0;
+        int position = layoutManager.getPosition(snapped);
+        return position == RecyclerView.NO_POSITION ? 0 : position;
+    }
+
+    private int dp(int value) {
+        return Math.round(value * getResources().getDisplayMetrics().density);
+    }
+
     private void changeQuantity(int delta) {
-        if (currentArtwork == null) return;
+        if (currentArtwork == null || !ArtCategories.isReproducible(currentArtwork.categoryName)) return;
         selectedQuantity = QuantitySelector.nextQuantity(selectedQuantity, delta, currentArtwork.quantity);
         updateQuantityUi();
     }
@@ -211,7 +327,8 @@ public class ArtworkDetailActivity extends AppCompatActivity {
                 ? currentArtwork.imageUrls.get(0) : null;
 
         CartItem item = new CartItem(currentArtwork.id, currentArtwork.title, imageUrl,
-                currentArtwork.artistId, currentArtwork.artistName, currentArtwork.price, selectedQuantity);
+                currentArtwork.categoryName, currentArtwork.artistId, currentArtwork.artistName,
+                currentArtwork.price, selectedQuantity);
 
         FirebaseUtil.cartRef(uid).document(currentArtwork.id).set(item)
                 .addOnSuccessListener(v -> {

@@ -19,6 +19,7 @@ import com.artverse.app.auth.LoginActivity;
 import com.artverse.app.adapters.ArtworkAdapter;
 import com.artverse.app.models.Artist;
 import com.artverse.app.models.Artwork;
+import com.artverse.app.utils.AuthActions;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.SessionManager;
@@ -139,12 +140,12 @@ public class ArtistPendingActivity extends AppCompatActivity {
     }
 
     private void signOut() {
-        FirebaseUtil.auth().signOut();
-        sessionManager.clear();
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        AuthActions.signOut(this, () -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
     }
 
     @Override

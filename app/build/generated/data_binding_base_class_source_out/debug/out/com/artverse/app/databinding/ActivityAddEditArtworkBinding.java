@@ -18,6 +18,7 @@ import com.artverse.app.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -66,6 +67,9 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
   public final ProgressBar progressBar;
 
   @NonNull
+  public final TextInputLayout tilQuantity;
+
+  @NonNull
   public final TextView tvScreenTitle;
 
   private ActivityAddEditArtworkBinding(@NonNull CoordinatorLayout rootView,
@@ -75,7 +79,8 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
       @NonNull TextInputEditText etPrice, @NonNull TextInputEditText etQuantity,
       @NonNull TextInputEditText etTitle, @NonNull FrameLayout imagePickerFrame,
       @NonNull LinearLayout imagePlaceholderContent, @NonNull ImageView ivPreview,
-      @NonNull ProgressBar progressBar, @NonNull TextView tvScreenTitle) {
+      @NonNull ProgressBar progressBar, @NonNull TextInputLayout tilQuantity,
+      @NonNull TextView tvScreenTitle) {
     this.rootView = rootView;
     this.btnBack = btnBack;
     this.btnSave = btnSave;
@@ -90,6 +95,7 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
     this.imagePlaceholderContent = imagePlaceholderContent;
     this.ivPreview = ivPreview;
     this.progressBar = progressBar;
+    this.tilQuantity = tilQuantity;
     this.tvScreenTitle = tvScreenTitle;
   }
 
@@ -198,6 +204,12 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tilQuantity;
+      TextInputLayout tilQuantity = ViewBindings.findChildViewById(rootView, id);
+      if (tilQuantity == null) {
+        break missingId;
+      }
+
       id = R.id.tvScreenTitle;
       TextView tvScreenTitle = ViewBindings.findChildViewById(rootView, id);
       if (tvScreenTitle == null) {
@@ -206,7 +218,8 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
 
       return new ActivityAddEditArtworkBinding((CoordinatorLayout) rootView, btnBack, btnSave,
           chipGroupCategory, etDescription, etDimensions, etMedium, etPrice, etQuantity, etTitle,
-          imagePickerFrame, imagePlaceholderContent, ivPreview, progressBar, tvScreenTitle);
+          imagePickerFrame, imagePlaceholderContent, ivPreview, progressBar, tilQuantity,
+          tvScreenTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

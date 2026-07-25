@@ -13,7 +13,9 @@ import androidx.fragment.app.Fragment;
 
 import com.artverse.app.R;
 import com.artverse.app.auth.LoginActivity;
+import com.artverse.app.customer.MyCollectionActivity;
 import com.artverse.app.models.User;
+import com.artverse.app.utils.AuthActions;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.SessionManager;
 
@@ -32,6 +34,8 @@ public class ProfileFragment extends Fragment {
 
         loadProfile(view);
 
+        view.findViewById(R.id.cardCollection).setOnClickListener(v ->
+                startActivity(new Intent(requireContext(), MyCollectionActivity.class)));
         view.findViewById(R.id.btnLogout).setOnClickListener(v -> logout());
     }
 
@@ -53,11 +57,12 @@ public class ProfileFragment extends Fragment {
     }
 
     private void logout() {
-        FirebaseUtil.auth().signOut();
-        new SessionManager(requireContext()).clear();
-        Intent intent = new Intent(requireContext(), LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        requireActivity().finish();
+        AuthActions.signOut(requireContext(), () -> {
+            if (!isAdded()) return;
+            Intent intent = new Intent(requireContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            requireActivity().finish();
+        });
     }
 }

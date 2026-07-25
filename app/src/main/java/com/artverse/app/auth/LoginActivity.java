@@ -16,6 +16,7 @@ import com.artverse.app.models.Artist;
 import com.artverse.app.models.User;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
+import com.artverse.app.utils.PushTokens;
 import com.artverse.app.utils.SessionManager;
 import com.artverse.app.utils.ValidationUtil;
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,12 +29,21 @@ public class LoginActivity extends AppCompatActivity {
     private View progressBar, btnLogin;
     private SessionManager sessionManager;
 
+    /** Deep link parked by SplashActivity when a push was tapped while signed out. */
+    private boolean pendingOpenOrders;
+    private String pendingOrderId;
+    private String pendingTargetUid;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         sessionManager = new SessionManager(this);
+
+        pendingOpenOrders = Constants.ROUTE_ORDERS.equals(getIntent().getStringExtra(Constants.EXTRA_ROUTE));
+        pendingOrderId = getIntent().getStringExtra(Constants.EXTRA_ORDER_ID);
+        pendingTargetUid = getIntent().getStringExtra(Constants.EXTRA_TARGET_UID);
 
         tilEmail = findViewById(R.id.tilEmail);
         tilPassword = findViewById(R.id.tilPassword);
@@ -88,6 +98,8 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
                     sessionManager.saveSession(uid, user.role, user.name);
+                    // This device can now receive order pushes for the account.
+                    PushTokens.register();
                     if (Constants.ROLE_ARTIST.equals(user.role)) {
                         routeArtistByApprovalStatus(uid);
                     } else {
@@ -127,6 +139,17 @@ public class LoginActivity extends AppCompatActivity {
     private void routeTo(Class<?> target) {
         setLoading(false);
         Intent intent = new Intent(this, target);
+
+        // Replay a parked notification tap - but only into a real home screen,
+        // and only when the account that just signed in is the one the alert
+        // was addressed to.
+        boolean sameRecipient = pendingTargetUid == null
+                || pendingTargetUid.equals(FirebaseUtil.currentUid());
+        if (pendingOpenOrders && sameRecipient && target != ArtistPendingActivity.class) {
+            intent.putExtra(Constants.EXTRA_OPEN_ORDERS, true);
+            if (pendingOrderId != null) intent.putExtra(Constants.EXTRA_ORDER_ID, pendingOrderId);
+        }
+
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

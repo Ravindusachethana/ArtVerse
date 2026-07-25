@@ -183,7 +183,11 @@ public class CheckoutActivity extends AppCompatActivity {
                 List<OrderItem> orderItems = new ArrayList<>();
                 double artistTotal = 0;
                 for (CartItem ci : artistItems) {
-                    orderItems.add(new OrderItem(ci.artworkId, ci.title, ci.imageUrl, ci.price, ci.quantity));
+                    // The category travels onto the order line so the buyer's
+                    // collection can tell a digital piece from a shipped one
+                    // even if the listing changes later (see CollectionAccess).
+                    orderItems.add(new OrderItem(ci.artworkId, ci.title, ci.imageUrl,
+                            ci.categoryName, ci.price, ci.quantity));
                     artistTotal += ci.lineTotal();
                 }
 

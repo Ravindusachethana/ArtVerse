@@ -40,6 +40,17 @@ public class Artwork {
     public long reviewedAt;
     public String reviewedBy;
 
+    /**
+     * True once a one-of-a-kind piece (Painting, Drawing, Mixed Media) has been
+     * sold and its delivery completed: there is only ever one, so it leaves the
+     * shop. The document is kept - the buyer's collection and everyone's sales
+     * reports still read it - it is only dropped from the browse gallery and the
+     * artist's My Art listing. Set by the admin panel when it settles the
+     * delivery (admin-web OrdersService.markDelivered); always false for
+     * reproducible pieces and anything still for sale.
+     */
+    public boolean retired;
+
     /** True when buyers may see this listing. Static so Firestore ignores it. */
     public static boolean isPublished(Artwork artwork) {
         return artwork.moderationStatus == null

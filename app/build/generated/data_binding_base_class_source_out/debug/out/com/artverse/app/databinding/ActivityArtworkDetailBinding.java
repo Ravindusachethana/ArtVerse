@@ -51,10 +51,16 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
   public final ImageView ivArtwork;
 
   @NonNull
+  public final ImageView ivSingleCopyIcon;
+
+  @NonNull
   public final LinearLayout orderTotalRow;
 
   @NonNull
   public final LinearLayout quantityRow;
+
+  @NonNull
+  public final LinearLayout singleCopyNote;
 
   @NonNull
   public final TextView tvArtist;
@@ -84,6 +90,12 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
   public final TextView tvQtyValue;
 
   @NonNull
+  public final TextView tvSingleCopyMessage;
+
+  @NonNull
+  public final TextView tvSingleCopyTitle;
+
+  @NonNull
   public final TextView tvSoldOut;
 
   @NonNull
@@ -97,10 +109,12 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
       @NonNull ImageView btnBack, @NonNull MaterialButton btnBuyNow, @NonNull ImageView btnCart,
       @NonNull ImageView btnQtyMinus, @NonNull ImageView btnQtyPlus,
       @NonNull FrameLayout cartShortcut, @NonNull ImageView ivArtwork,
-      @NonNull LinearLayout orderTotalRow, @NonNull LinearLayout quantityRow,
+      @NonNull ImageView ivSingleCopyIcon, @NonNull LinearLayout orderTotalRow,
+      @NonNull LinearLayout quantityRow, @NonNull LinearLayout singleCopyNote,
       @NonNull TextView tvArtist, @NonNull TextView tvCartBadge, @NonNull TextView tvCategory,
       @NonNull TextView tvDescription, @NonNull TextView tvDimensions, @NonNull TextView tvMedium,
       @NonNull TextView tvOrderTotal, @NonNull TextView tvPrice, @NonNull TextView tvQtyValue,
+      @NonNull TextView tvSingleCopyMessage, @NonNull TextView tvSingleCopyTitle,
       @NonNull TextView tvSoldOut, @NonNull TextView tvStock, @NonNull TextView tvTitle) {
     this.rootView = rootView;
     this.actionButtonsRow = actionButtonsRow;
@@ -112,8 +126,10 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
     this.btnQtyPlus = btnQtyPlus;
     this.cartShortcut = cartShortcut;
     this.ivArtwork = ivArtwork;
+    this.ivSingleCopyIcon = ivSingleCopyIcon;
     this.orderTotalRow = orderTotalRow;
     this.quantityRow = quantityRow;
+    this.singleCopyNote = singleCopyNote;
     this.tvArtist = tvArtist;
     this.tvCartBadge = tvCartBadge;
     this.tvCategory = tvCategory;
@@ -123,6 +139,8 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
     this.tvOrderTotal = tvOrderTotal;
     this.tvPrice = tvPrice;
     this.tvQtyValue = tvQtyValue;
+    this.tvSingleCopyMessage = tvSingleCopyMessage;
+    this.tvSingleCopyTitle = tvSingleCopyTitle;
     this.tvSoldOut = tvSoldOut;
     this.tvStock = tvStock;
     this.tvTitle = tvTitle;
@@ -209,6 +227,12 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.ivSingleCopyIcon;
+      ImageView ivSingleCopyIcon = ViewBindings.findChildViewById(rootView, id);
+      if (ivSingleCopyIcon == null) {
+        break missingId;
+      }
+
       id = R.id.orderTotalRow;
       LinearLayout orderTotalRow = ViewBindings.findChildViewById(rootView, id);
       if (orderTotalRow == null) {
@@ -218,6 +242,12 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
       id = R.id.quantityRow;
       LinearLayout quantityRow = ViewBindings.findChildViewById(rootView, id);
       if (quantityRow == null) {
+        break missingId;
+      }
+
+      id = R.id.singleCopyNote;
+      LinearLayout singleCopyNote = ViewBindings.findChildViewById(rootView, id);
+      if (singleCopyNote == null) {
         break missingId;
       }
 
@@ -275,6 +305,18 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvSingleCopyMessage;
+      TextView tvSingleCopyMessage = ViewBindings.findChildViewById(rootView, id);
+      if (tvSingleCopyMessage == null) {
+        break missingId;
+      }
+
+      id = R.id.tvSingleCopyTitle;
+      TextView tvSingleCopyTitle = ViewBindings.findChildViewById(rootView, id);
+      if (tvSingleCopyTitle == null) {
+        break missingId;
+      }
+
       id = R.id.tvSoldOut;
       TextView tvSoldOut = ViewBindings.findChildViewById(rootView, id);
       if (tvSoldOut == null) {
@@ -295,8 +337,9 @@ public final class ActivityArtworkDetailBinding implements ViewBinding {
 
       return new ActivityArtworkDetailBinding((CoordinatorLayout) rootView, actionButtonsRow,
           btnAddToCart, btnBack, btnBuyNow, btnCart, btnQtyMinus, btnQtyPlus, cartShortcut,
-          ivArtwork, orderTotalRow, quantityRow, tvArtist, tvCartBadge, tvCategory, tvDescription,
-          tvDimensions, tvMedium, tvOrderTotal, tvPrice, tvQtyValue, tvSoldOut, tvStock, tvTitle);
+          ivArtwork, ivSingleCopyIcon, orderTotalRow, quantityRow, singleCopyNote, tvArtist,
+          tvCartBadge, tvCategory, tvDescription, tvDimensions, tvMedium, tvOrderTotal, tvPrice,
+          tvQtyValue, tvSingleCopyMessage, tvSingleCopyTitle, tvSoldOut, tvStock, tvTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

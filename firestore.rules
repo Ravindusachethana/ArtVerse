@@ -78,21 +78,38 @@ service cloud.firestore {
 
     match /orders/{orderId} {
       allow create: if signedIn() && request.resource.data.customerId == request.auth.uid;
-      allow read: if signedIn()
-                  && (resource.data.customerId == request.auth.uid
-                      || resource.data.artistId == request.auth.uid);
-      // Only the artist settles an order, and only its status may change.
+      // Buyers and artists see their own; the admin tracks every delivery.
+      allow read: if isAdmin()
+                  || (signedIn()
+                      && (resource.data.customerId == request.auth.uid
+                          || resource.data.artistId == request.auth.uid));
+      // The artist drives the first half of the delivery lifecycle:
+      // confirm, hand over to delivery, or reject. Only the stage fields
+      // may change - never the money or the items - and the artist can
+      // never mark an order delivered; settling it is the admin's call.
       allow update: if signedIn()
                     && resource.data.artistId == request.auth.uid
                     && request.resource.data.diff(resource.data).affectedKeys()
-                           .hasOnly(['status']);
+                           .hasOnly(['status', 'confirmedAt', 'dispatchedAt', 'settledBy'])
+                    && (request.resource.data.status == 'confirmed'
+                        || request.resource.data.status == 'out_for_delivery'
+                        || request.resource.data.status == 'rejected');
+      // The admin closes orders out: delivery completed, or rejected.
+      allow update: if isAdmin()
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                           .hasOnly(['status', 'deliveredAt', 'settledBy'])
+                    && (request.resource.data.status == 'completed'
+                        || request.resource.data.status == 'rejected');
       allow delete: if false;
     }
 
     match /transactions/{transactionId} {
-      // Written by the artist when accepting an order (OrderActions.accept).
-      allow create: if signedIn() && request.resource.data.artistId == request.auth.uid;
-      allow read: if signedIn() && resource.data.artistId == request.auth.uid;
+      // The sale is settled when the admin confirms delivery, so the admin
+      // panel writes these audit records on the artist's behalf.
+      allow create: if isAdmin()
+                    || (signedIn() && request.resource.data.artistId == request.auth.uid);
+      allow read: if signedIn()
+                  && (resource.data.artistId == request.auth.uid || isAdmin());
       allow update, delete: if false;
     }
 

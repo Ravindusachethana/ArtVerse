@@ -5,8 +5,16 @@ import java.util.List;
 /**
  * Represents a customer order, scoped to a single artist (checkout splits the
  * cart per artist). Stored in "orders/{orderId}".
- * Status flow: created as "processing" when the customer buys, then the
- * artist's decision settles it as "completed" (accepted) or "rejected".
+ *
+ * Delivery tracking lifecycle:
+ *   processing        - placed by the customer, awaiting the artist (shown as "Pending")
+ *   confirmed         - artist accepted and is preparing it
+ *   out_for_delivery  - artist handed it to the delivery section
+ *   completed         - admin confirmed delivery; the sale is recorded here
+ *   rejected          - declined by the artist, or by the admin during delivery
+ *
+ * The stage timestamps below drive the tracking bar shown on both the
+ * customer's and the artist's order cards.
  */
 public class Order {
     public String id;
@@ -16,9 +24,16 @@ public class Order {
     public String deliveryAddress;
     public List<OrderItem> items;
     public double totalAmount;
-    public String status;       // pending, processing, completed, rejected
+    public String status;       // processing, confirmed, out_for_delivery, completed, rejected
     public String paymentMethod;
     public long orderDate;
+
+    /** Stage timestamps - 0 until the order reaches that stage. */
+    public long confirmedAt;
+    public long dispatchedAt;
+    public long deliveredAt;
+    /** UID of whoever settled the order (artist on reject, admin on delivery). */
+    public String settledBy;
 
     public Order() { }
 

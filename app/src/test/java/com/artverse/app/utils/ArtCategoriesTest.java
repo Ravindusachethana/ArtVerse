@@ -29,5 +29,128 @@ public class ArtCategoriesTest {
         long distinctCount = ArtCategories.DEFAULT.stream().distinct().count();
         assertTrue(distinctCount == ArtCategories.DEFAULT.size());
     }
+
+    @Test
+    public void digitalCategories_areAllOfferedToArtists() {
+        // A digital category the artist can never pick would be dead code.
+        assertTrue(ArtCategories.DEFAULT.containsAll(ArtCategories.DIGITAL));
+    }
+
+    @Test
+    public void isDigital_trueForFileDeliveredCategories() {
+        assertTrue(ArtCategories.isDigital("Digital Art"));
+        assertTrue(ArtCategories.isDigital("Photography"));
+    }
+
+    @Test
+    public void isDigital_falseForPhysicalCategories() {
+        assertFalse(ArtCategories.isDigital("Painting"));
+        assertFalse(ArtCategories.isDigital("Sculpture"));
+        assertFalse(ArtCategories.isDigital("Ceramics"));
+    }
+
+    @Test
+    public void isDigital_ignoresCaseAndSurroundingSpace() {
+        assertTrue(ArtCategories.isDigital("  digital art "));
+        assertTrue(ArtCategories.isDigital("PHOTOGRAPHY"));
+    }
+
+    @Test
+    public void isDigital_falseWhenCategoryIsMissing() {
+        // Order lines written before the category was recorded carry null.
+        assertFalse(ArtCategories.isDigital(null));
+        assertFalse(ArtCategories.isDigital(""));
+    }
+
+    @Test
+    public void reproducibleCategories_areAllOfferedToArtists() {
+        assertTrue(ArtCategories.DEFAULT.containsAll(ArtCategories.REPRODUCIBLE));
+    }
+
+    @Test
+    public void isReproducible_trueForCategoriesRemadeToOrder() {
+        assertTrue(ArtCategories.isReproducible("Sculpture"));
+        assertTrue(ArtCategories.isReproducible("Ceramics"));
+        assertTrue(ArtCategories.isReproducible("Printmaking"));
+    }
+
+    @Test
+    public void isReproducible_falseForOneTimeOriginals() {
+        // Painting and Drawing cannot be recreated exactly, so they sell as one.
+        assertFalse(ArtCategories.isReproducible("Painting"));
+        assertFalse(ArtCategories.isReproducible("Drawing"));
+        assertFalse(ArtCategories.isReproducible("Mixed Media"));
+    }
+
+    @Test
+    public void isReproducible_falseForDigitalCategories() {
+        // A digital file is a single copy, never sold by quantity.
+        assertFalse(ArtCategories.isReproducible("Digital Art"));
+        assertFalse(ArtCategories.isReproducible("Photography"));
+    }
+
+    @Test
+    public void isReproducible_ignoresCaseAndSurroundingSpace() {
+        assertTrue(ArtCategories.isReproducible("  sculpture "));
+        assertTrue(ArtCategories.isReproducible("CERAMICS"));
+    }
+
+    @Test
+    public void isReproducible_falseWhenCategoryIsMissing() {
+        assertFalse(ArtCategories.isReproducible(null));
+        assertFalse(ArtCategories.isReproducible(""));
+    }
+
+    @Test
+    public void digitalAndReproducible_neverOverlap() {
+        // A category is at most one of the two - the stepper rule depends on it.
+        for (String digital : ArtCategories.DIGITAL) {
+            assertFalse(ArtCategories.isReproducible(digital));
+        }
+        for (String reproducible : ArtCategories.REPRODUCIBLE) {
+            assertFalse(ArtCategories.isDigital(reproducible));
+        }
+    }
+
+    @Test
+    public void oneOfAKind_coversPhysicalOriginals() {
+        assertTrue(ArtCategories.isOneOfAKind("Painting"));
+        assertTrue(ArtCategories.isOneOfAKind("Drawing"));
+        assertTrue(ArtCategories.isOneOfAKind("Mixed Media"));
+    }
+
+    @Test
+    public void oneOfAKind_excludesReproducibleAndDigital() {
+        // Only these retire on sale; a reproducible or digital piece stays listed.
+        assertFalse(ArtCategories.isOneOfAKind("Sculpture"));
+        assertFalse(ArtCategories.isOneOfAKind("Ceramics"));
+        assertFalse(ArtCategories.isOneOfAKind("Printmaking"));
+        assertFalse(ArtCategories.isOneOfAKind("Digital Art"));
+        assertFalse(ArtCategories.isOneOfAKind("Photography"));
+    }
+
+    @Test
+    public void oneOfAKind_ignoresCaseAndSurroundingSpace() {
+        assertTrue(ArtCategories.isOneOfAKind("  painting "));
+        assertTrue(ArtCategories.isOneOfAKind("MIXED MEDIA"));
+    }
+
+    @Test
+    public void oneOfAKind_falseWhenCategoryIsMissing() {
+        assertFalse(ArtCategories.isOneOfAKind(null));
+        assertFalse(ArtCategories.isOneOfAKind(""));
+    }
+
+    @Test
+    public void everyDefaultCategory_hasExactlyOneSellingRule() {
+        // Each category is digital, reproducible, or one-of-a-kind - never two,
+        // and never none - so the stepper and retirement rules stay unambiguous.
+        for (String category : ArtCategories.DEFAULT) {
+            int rules = (ArtCategories.isDigital(category) ? 1 : 0)
+                    + (ArtCategories.isReproducible(category) ? 1 : 0)
+                    + (ArtCategories.isOneOfAKind(category) ? 1 : 0);
+            assertTrue("exactly one rule for " + category, rules == 1);
+        }
+    }
 }
   

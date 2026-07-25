@@ -27,6 +27,14 @@ same Firebase project as the Android app (`artverse-61539`) — Auth + Firestore
   phone and photo are applied to `users/{uid}`; studio name, location, bio
   and categories to `artists/{uid}`).
 
+- **Order Delivery**: live delivery tracking. Once an artist hands an order to
+  the delivery section it becomes `out_for_delivery` and appears here.
+  *Delivery Completed* settles the sale — it writes the `transactions` audit
+  records and credits the artist's `totalSales`, so the Sales Report only
+  counts artwork that actually reached the buyer. *Reject order* cancels it
+  and returns the reserved stock. Both notify the customer and the artist,
+  whose order screens update live.
+
 More admin modules will be added here later.
 
 ## Run locally
@@ -60,10 +68,16 @@ The panel does not self-register admins (by design). Create one manually:
    and apply profile edits:
 
    ```bash
+   npm install -g firebase-tools   # once
+   firebase login                  # once
    firebase deploy --only firestore:rules
    ```
 
-   (or paste the file into Firebase console → Firestore → Rules).
+   The repo root now carries `firebase.json` and `.firebaserc` (project
+   `artverse-61539`), so the deploy command works as-is from there.
+
+   No CLI? Paste `firestore.rules` into Firebase console → Firestore
+   Database → Rules → **Publish**. That is the fastest one-off route.
 
    > ⚠️ **Redeploy the rules whenever `firestore.rules` changes.** The rules
    > are checked in but Firebase does not pick them up automatically. Symptom
@@ -88,6 +102,8 @@ web config.
 | `moderationStatus` | `artworks/{id}` | `pending` (new/resubmitted art), `approved`, `rejected` |
 | `pendingChanges` | `artworks/{id}` | staged edit of a published artwork |
 | `reviewedAt` / `reviewedBy` | both | epoch millis + admin UID of the decision |
+| `status` | `orders/{id}` | `processing` → `confirmed` → `out_for_delivery` → `completed` / `rejected` |
+| `confirmedAt` / `dispatchedAt` / `deliveredAt` | `orders/{id}` | stage timestamps driving the tracking bar |
 
 Documents created **before** these features have no status field and are
 treated as approved ("legacy" badge for artists), so existing accounts and

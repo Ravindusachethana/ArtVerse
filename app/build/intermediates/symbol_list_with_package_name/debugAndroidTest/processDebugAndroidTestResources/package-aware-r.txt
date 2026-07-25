@@ -1,3 +1,0 @@
-com.artverse.app.test
-style WhiteBackgroundDialogTheme
-style WhiteBackgroundTheme

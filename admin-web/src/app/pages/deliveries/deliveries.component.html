@@ -1,0 +1,122 @@
+<div class="page-head">
+  <h1>Order Delivery</h1>
+  <p>Track orders in delivery and confirm completion</p>
+</div>
+
+<div class="tabs">
+  @for (tab of tabs; track tab.key) {
+    <button type="button" class="tab" [class.active]="activeTab() === tab.key"
+            (click)="activeTab.set(tab.key)">
+      {{ tab.label }}
+      <span class="tab-count">{{ countsByTab()[tab.key] }}</span>
+    </button>
+  }
+</div>
+
+@if (loading()) {
+  <div class="state-box">
+    <span class="av-spinner"></span>
+    <p>Loading orders…</p>
+  </div>
+} @else if (visibleOrders().length === 0) {
+  <div class="state-box av-card">
+    <div class="empty-icon">📦</div>
+    <p>
+      @switch (activeTab()) {
+        @case ('delivery') { No orders are out for delivery right now. }
+        @case ('progress') { No orders are waiting with an artist. }
+        @case ('completed') { No completed deliveries yet. }
+        @case ('rejected') { No rejected orders. }
+      }
+    </p>
+  </div>
+} @else {
+  <div class="order-list">
+    @for (order of visibleOrders(); track order.id) {
+      <article class="order-card av-card">
+
+        <div class="order-head">
+          <div class="order-id">
+            <h2>Order #{{ shortId(order) }}</h2>
+            <div class="order-sub">
+              {{ order.customerName || 'Customer' }}
+              @if (order.orderDate) {
+                <span class="dot-sep">•</span> placed {{ order.orderDate | date:'MMM d, y' }}
+              }
+            </div>
+          </div>
+          <span class="av-badge status-{{ order.status }}">{{ statusLabel(order.status) }}</span>
+        </div>
+
+        <!-- Same four stages the buyer sees in the app. -->
+        @if (trackerStep(order.status) >= 0) {
+          <div class="tracker">
+            @for (label of stepLabels; track label; let i = $index) {
+              <div class="track-step" [class.reached]="i <= trackerStep(order.status)"
+                   [class.done]="trackerStep(order.status) >= 3">
+                @if (i > 0) { <span class="track-line"></span> }
+                <span class="track-dot"></span>
+                <span class="track-label">{{ label }}</span>
+              </div>
+            }
+          </div>
+        }
+
+        <div class="order-details">
+          <div class="detail">
+            <span class="detail-label">Items</span>
+            <span>{{ itemsSummary(order) || '—' }}</span>
+          </div>
+          <div class="detail">
+            <span class="detail-label">Deliver to</span>
+            <span>{{ order.deliveryAddress || '—' }}</span>
+          </div>
+          <div class="detail">
+            <span class="detail-label">Total</span>
+            <span class="total">LKR {{ (order.totalAmount ?? 0).toLocaleString('en-US') }}</span>
+          </div>
+          <div class="detail">
+            <span class="detail-label">Payment</span>
+            <span>{{ order.paymentMethod || '—' }}</span>
+          </div>
+          @if (order.dispatchedAt) {
+            <div class="detail">
+              <span class="detail-label">Dispatched</span>
+              <span>{{ order.dispatchedAt | date:'MMM d, y, h:mm a' }}</span>
+            </div>
+          }
+          @if (order.deliveredAt) {
+            <div class="detail">
+              <span class="detail-label">Delivered</span>
+              <span>{{ order.deliveredAt | date:'MMM d, y, h:mm a' }}</span>
+            </div>
+          }
+        </div>
+
+        @if (activeTab() === 'delivery') {
+          <div class="order-actions">
+            <button class="av-btn av-btn-success" type="button"
+                    [disabled]="busyId() === order.id" (click)="markDelivered(order)">
+              @if (busyId() === order.id) { <span class="av-spinner light"></span> }
+              Delivery Completed
+            </button>
+            <button class="av-btn av-btn-danger" type="button"
+                    [disabled]="busyId() === order.id" (click)="rejectOrder(order)">
+              {{ confirmingId() === order.id ? 'Tap again to confirm' : 'Reject order' }}
+            </button>
+            @if (confirmingId() === order.id) {
+              <span class="warn-note">This cancels the order and returns the stock.</span>
+            }
+          </div>
+        } @else if (activeTab() === 'progress') {
+          <p class="await-note">Waiting for the artist to hand this order to the delivery section.</p>
+        }
+
+      </article>
+    }
+  </div>
+}
+
+@if (toast(); as t) {
+  <div class="av-toast" [class.error]="t.error">{{ t.text }}</div>
+}

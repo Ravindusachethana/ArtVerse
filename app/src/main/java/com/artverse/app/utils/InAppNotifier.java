@@ -1,31 +1,29 @@
 package com.artverse.app.utils;
 
-import android.Manifest;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
-
-import com.artverse.app.R;
 import com.artverse.app.models.AppNotification;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.ListenerRegistration;
 
 /**
- * Watches "notifications" for the signed-in user and surfaces each
- * undelivered entry as a system notification, then marks it delivered.
- * Started/stopped by the two main activities, so both roles get alerted
- * while the app is open; entries created while the user is offline are
- * delivered on their next launch (the initial snapshot replays them).
+ * Fallback alerting for entries the push path did not deliver.
+ *
+ * Order alerts normally arrive as an FCM push sent by the Cloud Function
+ * watching "notifications" (that is what reaches a closed app). The function
+ * flips {@code delivered} to true once a push has been accepted for at least
+ * one device, so this listener - which only ever queries undelivered entries -
+ * stays quiet for them and no alert is shown twice.
+ *
+ * It still matters when the push could not be sent: the recipient had no
+ * registered device (never opened the app since install), the token was stale,
+ * or the Cloud Function is not deployed. Those entries remain undelivered and
+ * are surfaced here the next time the user opens the app. Notifications are
+ * posted under the notification document's id, so a push copy and a fallback
+ * copy of the same alert replace each other rather than stacking.
  */
 public final class InAppNotifier {
 
-    private static final String CHANNEL_ID = "artverse_orders";
     private static ListenerRegistration registration;
 
     private InAppNotifier() { }
@@ -34,7 +32,7 @@ public final class InAppNotifier {
         String uid = FirebaseUtil.currentUid();
         if (uid == null) return;
 
-        createChannel(context);
+        NotificationRouter.createChannel(context);
         stop();
 
         Context appContext = context.getApplicationContext();
@@ -61,32 +59,16 @@ public final class InAppNotifier {
     }
 
     /**
-     * Returns true when the notification was actually shown. When the user
-     * has not granted POST_NOTIFICATIONS yet, the entry stays undelivered so
-     * it is retried once permission is granted.
+     * Returns true when the notification was actually shown. When the user has
+     * not granted POST_NOTIFICATIONS yet, the entry stays undelivered so it is
+     * retried once permission is granted.
      */
     private static boolean post(Context context, AppNotification notification) {
-        if (Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(context,
-                Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            return false;
-        }
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_orders)
-                .setContentTitle(notification.title)
-                .setContentText(notification.message)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(notification.message))
-                .setAutoCancel(true);
-        NotificationManagerCompat.from(context).notify(
-                notification.id != null ? notification.id.hashCode() : (int) notification.createdAt,
-                builder.build());
-        return true;
-    }
-
-    private static void createChannel(Context context) {
-        if (Build.VERSION.SDK_INT < 26) return;
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Order updates",
-                NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription("New orders and order accept/reject alerts");
-        context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
+        return NotificationRouter.post(context,
+                notification.title,
+                notification.message,
+                notification.id,
+                NotificationRouter.deepLinkIntent(context, Constants.ROUTE_ORDERS,
+                        notification.orderId, notification.userId));
     }
 }

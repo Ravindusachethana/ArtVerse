@@ -20,12 +20,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="340dp">
 
-                <ImageView
-                    android:id="@+id/ivArtwork"
+                <!-- Swipeable gallery of the piece's photos. A physical work
+                     may carry several angles; with one image it reads exactly
+                     like the old static hero. -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvImages"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ph_artwork" />
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:id="@+id/imageDots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="14dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/btnBack"
@@ -177,6 +188,54 @@
                             android:layout_height="34dp"
                             android:padding="9dp"
                             android:src="@drawable/ic_add" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Stands in for the quantity row on single-copy pieces: a
+                     digital file delivered in the app, or a one-of-a-kind
+                     original. The icon and text are set in code per piece. -->
+                <LinearLayout
+                    android:id="@+id/singleCopyNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/bg_image_placeholder"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/ivSingleCopyIcon"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_download"
+                        android:tint="@color/brand_primary" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvSingleCopyTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/digital_delivery_title"
+                            android:textAppearance="@style/ArtVerse.Text.Section"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvSingleCopyMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:lineSpacingExtra="2dp"
+                            android:text="@string/digital_delivery_message"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
 

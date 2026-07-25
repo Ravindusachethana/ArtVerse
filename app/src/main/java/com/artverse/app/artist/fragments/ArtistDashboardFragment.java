@@ -19,12 +19,14 @@ import com.artverse.app.R;
 import com.artverse.app.adapters.ArtistOrderAdapter;
 import com.artverse.app.artist.AddEditArtworkActivity;
 import com.artverse.app.artist.ArtistProfileEditActivity;
+import com.artverse.app.artist.ArtistReportsActivity;
 import com.artverse.app.models.Artist;
 import com.artverse.app.models.Order;
 import com.artverse.app.models.User;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.OrderActions;
+import com.artverse.app.utils.OrderStatus;
 import com.artverse.app.utils.SessionManager;
 import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,7 +39,8 @@ import java.util.Locale;
 /** Artist landing screen: quick stats sourced from "artists/{uid}" plus a live orders count. */
 public class ArtistDashboardFragment extends Fragment {
 
-    private TextView tvTotalArtworks, tvPendingOrders, tvTotalSales, tvNoOrders;
+    private TextView tvTotalArtworks, tvPendingOrders, tvTotalSales, tvNoOrders,
+            tvReportCompleted, tvReportRejected;
     private RecyclerView rvRecentOrders;
     private CircleImageView ivArtistAvatar;
     private ArtistOrderAdapter adapter;
@@ -57,8 +60,13 @@ public class ArtistDashboardFragment extends Fragment {
         tvPendingOrders = view.findViewById(R.id.tvPendingOrders);
         tvTotalSales = view.findViewById(R.id.tvTotalSales);
         tvNoOrders = view.findViewById(R.id.tvNoOrders);
+        tvReportCompleted = view.findViewById(R.id.tvReportCompleted);
+        tvReportRejected = view.findViewById(R.id.tvReportRejected);
         rvRecentOrders = view.findViewById(R.id.rvRecentOrders);
         ivArtistAvatar = view.findViewById(R.id.ivArtistAvatar);
+
+        view.findViewById(R.id.cardReports).setOnClickListener(v ->
+                startActivity(new Intent(requireContext(), ArtistReportsActivity.class)));
 
         SessionManager session = new SessionManager(requireContext());
         ((TextView) view.findViewById(R.id.tvGreeting)).setText("Welcome back");
@@ -69,9 +77,15 @@ public class ArtistDashboardFragment extends Fragment {
 
         adapter = new ArtistOrderAdapter(new ArtistOrderAdapter.OrderActionListener() {
             @Override
-            public void onAccept(Order order) {
-                OrderActions.accept(order)
-                        .addOnFailureListener(e -> toast("Could not accept order: " + e.getMessage()));
+            public void onConfirm(Order order) {
+                OrderActions.confirm(order)
+                        .addOnFailureListener(e -> toast("Could not confirm order: " + e.getMessage()));
+            }
+
+            @Override
+            public void onHandOver(Order order) {
+                OrderActions.handOverToDelivery(order)
+                        .addOnFailureListener(e -> toast("Could not update order: " + e.getMessage()));
             }
 
             @Override
@@ -151,20 +165,27 @@ public class ArtistDashboardFragment extends Fragment {
 
                     List<Order> orders = new ArrayList<>();
                     int pendingCount = 0;
+                    int completedCount = 0;
+                    int rejectedCount = 0;
                     for (var d : snapshot.getDocuments()) {
                         Order order = d.toObject(Order.class);
                         if (order != null) {
                             order.id = d.getId();
                             orders.add(order);
-                            // Orders still awaiting the artist's decision.
-                            if (Constants.STATUS_PROCESSING.equals(order.status)
-                                    || Constants.STATUS_PENDING.equals(order.status)) pendingCount++;
+                            // Orders still needing the artist: awaiting a
+                            // decision, or confirmed but not yet dispatched.
+                            if (OrderStatus.isAwaitingArtist(order.status)
+                                    || OrderStatus.isConfirmed(order.status)) pendingCount++;
+                            else if (Constants.STATUS_COMPLETED.equals(order.status)) completedCount++;
+                            else if (Constants.STATUS_REJECTED.equals(order.status)) rejectedCount++;
                         }
                     }
                     orders.sort((a, b) -> Long.compare(b.orderDate, a.orderDate));
                     List<Order> recent = orders.size() > 5 ? orders.subList(0, 5) : orders;
                     adapter.submitList(recent);
                     tvPendingOrders.setText(String.valueOf(pendingCount));
+                    tvReportCompleted.setText(String.valueOf(completedCount));
+                    tvReportRejected.setText(String.valueOf(rejectedCount));
                     tvNoOrders.setVisibility(recent.isEmpty() ? View.VISIBLE : View.GONE);
                     rvRecentOrders.setVisibility(recent.isEmpty() ? View.GONE : View.VISIBLE);
                 });

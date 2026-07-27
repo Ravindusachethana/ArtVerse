@@ -40,10 +40,6 @@
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\fragment_profile.xml"
     },
     {
-        "merged": "com.artverse.app-debug-47:/layout_item_image_add.xml.flat",
-        "source": "com.artverse.app-main-49:/layout/item_image_add.xml"
-    },
-    {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\mipmap-xxxhdpi\\ic_launcher_round.png"
     },
@@ -80,12 +76,12 @@
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\item_artist_order.xml"
     },
     {
-        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\layout_view_order_tracker.xml.flat",
-        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\view_order_tracker.xml"
-    },
-    {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\layout_activity_login.xml.flat",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\layout_view_order_tracker.xml.flat",
+        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\view_order_tracker.xml"
     },
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\drawable_ic_placeholder_image.xml.flat",
@@ -126,14 +122,6 @@
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\drawable_ic_chevron_right.xml.flat",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\drawable\\ic_chevron_right.xml"
-    },
-    {
-        "merged": "com.artverse.app-debug-47:/layout_item_image_slot.xml.flat",
-        "source": "com.artverse.app-main-49:/layout/item_image_slot.xml"
-    },
-    {
-        "merged": "com.artverse.app-debug-47:/layout_activity_add_edit_artwork.xml.flat",
-        "source": "com.artverse.app-main-49:/layout/activity_add_edit_artwork.xml"
     },
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\layout_fragment_cart.xml.flat",
@@ -240,12 +228,20 @@
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\mipmap-mdpi\\ic_launcher_round.png"
     },
     {
+        "merged": "com.artverse.app-debug-47:/layout_item_artist_order.xml.flat",
+        "source": "com.artverse.app-main-49:/layout/item_artist_order.xml"
+    },
+    {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\drawable_ic_wallet.xml.flat",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\drawable\\ic_wallet.xml"
     },
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\drawable_bg_image_placeholder.xml.flat",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\drawable\\bg_image_placeholder.xml"
+    },
+    {
+        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\layout_item_image_add.xml.flat",
+        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\item_image_add.xml"
     },
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\drawable_bg_badge_count.xml.flat",
@@ -430,6 +426,10 @@
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\drawable_ic_person_outline.xml.flat",
         "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\drawable\\ic_person_outline.xml"
+    },
+    {
+        "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\layout_item_image_slot.xml.flat",
+        "source": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-main-49:\\layout\\item_image_slot.xml"
     },
     {
         "merged": "C:\\Users\\sache\\.gradle\\daemon\\8.6\\com.artverse.app-debug-47:\\layout_activity_customer_main.xml.flat",

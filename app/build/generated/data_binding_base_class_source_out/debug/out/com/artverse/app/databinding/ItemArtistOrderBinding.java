@@ -32,9 +32,6 @@ public final class ItemArtistOrderBinding implements ViewBinding {
   public final MaterialButton btnHandOver;
 
   @NonNull
-  public final MaterialButton btnReject;
-
-  @NonNull
   public final OrderTrackerView orderTracker;
 
   @NonNull
@@ -63,16 +60,14 @@ public final class ItemArtistOrderBinding implements ViewBinding {
 
   private ItemArtistOrderBinding(@NonNull MaterialCardView rootView,
       @NonNull LinearLayout actionRow, @NonNull MaterialButton btnAccept,
-      @NonNull MaterialButton btnHandOver, @NonNull MaterialButton btnReject,
-      @NonNull OrderTrackerView orderTracker, @NonNull TextView tvAwaitingAdmin,
-      @NonNull TextView tvCustomerName, @NonNull TextView tvDate, @NonNull TextView tvItemsSummary,
-      @NonNull TextView tvOrderId, @NonNull TextView tvStatus, @NonNull TextView tvTotal,
-      @NonNull TextView tvViewReceipt) {
+      @NonNull MaterialButton btnHandOver, @NonNull OrderTrackerView orderTracker,
+      @NonNull TextView tvAwaitingAdmin, @NonNull TextView tvCustomerName, @NonNull TextView tvDate,
+      @NonNull TextView tvItemsSummary, @NonNull TextView tvOrderId, @NonNull TextView tvStatus,
+      @NonNull TextView tvTotal, @NonNull TextView tvViewReceipt) {
     this.rootView = rootView;
     this.actionRow = actionRow;
     this.btnAccept = btnAccept;
     this.btnHandOver = btnHandOver;
-    this.btnReject = btnReject;
     this.orderTracker = orderTracker;
     this.tvAwaitingAdmin = tvAwaitingAdmin;
     this.tvCustomerName = tvCustomerName;
@@ -126,12 +121,6 @@ public final class ItemArtistOrderBinding implements ViewBinding {
       id = R.id.btnHandOver;
       MaterialButton btnHandOver = ViewBindings.findChildViewById(rootView, id);
       if (btnHandOver == null) {
-        break missingId;
-      }
-
-      id = R.id.btnReject;
-      MaterialButton btnReject = ViewBindings.findChildViewById(rootView, id);
-      if (btnReject == null) {
         break missingId;
       }
 
@@ -190,8 +179,8 @@ public final class ItemArtistOrderBinding implements ViewBinding {
       }
 
       return new ItemArtistOrderBinding((MaterialCardView) rootView, actionRow, btnAccept,
-          btnHandOver, btnReject, orderTracker, tvAwaitingAdmin, tvCustomerName, tvDate,
-          tvItemsSummary, tvOrderId, tvStatus, tvTotal, tvViewReceipt);
+          btnHandOver, orderTracker, tvAwaitingAdmin, tvCustomerName, tvDate, tvItemsSummary,
+          tvOrderId, tvStatus, tvTotal, tvViewReceipt);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

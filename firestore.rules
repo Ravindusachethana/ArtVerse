@@ -83,17 +83,16 @@ service cloud.firestore {
                   || (signedIn()
                       && (resource.data.customerId == request.auth.uid
                           || resource.data.artistId == request.auth.uid));
-      // The artist drives the first half of the delivery lifecycle:
-      // confirm, hand over to delivery, or reject. Only the stage fields
-      // may change - never the money or the items - and the artist can
-      // never mark an order delivered; settling it is the admin's call.
+      // The artist drives the first half of the delivery lifecycle: confirm,
+      // then hand over to delivery. Only those stage fields may change - never
+      // the money or the items - and the artist can neither cancel an order nor
+      // mark it delivered; both are the admin's call.
       allow update: if signedIn()
                     && resource.data.artistId == request.auth.uid
                     && request.resource.data.diff(resource.data).affectedKeys()
-                           .hasOnly(['status', 'confirmedAt', 'dispatchedAt', 'settledBy'])
+                           .hasOnly(['status', 'confirmedAt', 'dispatchedAt'])
                     && (request.resource.data.status == 'confirmed'
-                        || request.resource.data.status == 'out_for_delivery'
-                        || request.resource.data.status == 'rejected');
+                        || request.resource.data.status == 'out_for_delivery');
       // The admin closes orders out: delivery completed, or rejected.
       allow update: if isAdmin()
                     && request.resource.data.diff(resource.data).affectedKeys()

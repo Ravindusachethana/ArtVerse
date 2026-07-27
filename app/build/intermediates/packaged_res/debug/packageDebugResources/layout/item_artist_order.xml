@@ -117,6 +117,8 @@
             android:textSize="12sp"
             android:visibility="gone" />
 
+        <!-- A new order is the artist's to confirm; only the admin can cancel
+             one, so there is no reject here. -->
         <LinearLayout
             android:id="@+id/actionRow"
             android:layout_width="match_parent"
@@ -125,26 +127,10 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnReject"
-                style="@style/ArtVerse.Button.Outline"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:text="Reject"
-                android:textSize="13sp" />
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="1dp" />
-
-            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAccept"
                 style="@style/ArtVerse.Button.Primary"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:text="Confirm"

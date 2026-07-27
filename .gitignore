@@ -11,3 +11,6 @@ local.properties
 
 # Firebase config - each developer/environment should add their own
 app/google-services.json
+
+# Local editor / tooling config
+.claude/

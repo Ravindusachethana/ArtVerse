@@ -30,10 +30,11 @@ import java.util.List;
 
 /**
  * Implements FR07 (artist side) - incoming orders split into three tabs.
- * "Pending" holds every order still in flight; the artist confirms or
- * rejects a new one, then hands the confirmed one to the delivery section,
- * and the card updates in place until the admin closes it out. Settled
- * orders open their receipt (see ReceiptActivity).
+ * "Pending" holds every order still in flight; the artist confirms a new one
+ * then hands the confirmed one to the delivery section, and the card updates
+ * in place until the admin closes it out. Cancelling an order is the admin's
+ * call, so the artist has no reject action. Settled orders open their receipt
+ * (see ReceiptActivity).
  */
 public class ArtistOrdersFragment extends Fragment {
 
@@ -96,13 +97,6 @@ public class ArtistOrdersFragment extends Fragment {
                 OrderActions.handOverToDelivery(order)
                         .addOnSuccessListener(v -> toast("Marked out for delivery"))
                         .addOnFailureListener(e -> toast("Could not update order: " + e.getMessage()));
-            }
-
-            @Override
-            public void onReject(Order order) {
-                OrderActions.reject(order)
-                        .addOnSuccessListener(v -> toast("Order rejected - stock restored"))
-                        .addOnFailureListener(e -> toast("Could not reject order: " + e.getMessage()));
             }
         });
         rvList.setLayoutManager(new LinearLayoutManager(requireContext()));

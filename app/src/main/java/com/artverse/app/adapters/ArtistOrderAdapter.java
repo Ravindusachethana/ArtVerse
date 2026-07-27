@@ -31,7 +31,6 @@ public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.
         void onConfirm(Order order);
         /** Artist hands a confirmed order to the delivery section. */
         void onHandOver(Order order);
-        void onReject(Order order);
     }
 
     private final List<Order> orders = new ArrayList<>();
@@ -67,7 +66,7 @@ public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvOrderId, tvStatus, tvCustomerName, tvDate, tvItemsSummary, tvTotal,
                 tvViewReceipt, tvAwaitingAdmin;
-        View actionRow, btnAccept, btnReject, btnHandOver;
+        View actionRow, btnAccept, btnHandOver;
         OrderTrackerView orderTracker;
 
         ViewHolder(@NonNull View itemView) {
@@ -82,7 +81,6 @@ public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.
             tvAwaitingAdmin = itemView.findViewById(R.id.tvAwaitingAdmin);
             actionRow = itemView.findViewById(R.id.actionRow);
             btnAccept = itemView.findViewById(R.id.btnAccept);
-            btnReject = itemView.findViewById(R.id.btnReject);
             btnHandOver = itemView.findViewById(R.id.btnHandOver);
             orderTracker = itemView.findViewById(R.id.orderTracker);
         }
@@ -120,7 +118,6 @@ public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.
 
             btnAccept.setOnClickListener(v -> { if (listener != null) listener.onConfirm(order); });
             btnHandOver.setOnClickListener(v -> { if (listener != null) listener.onHandOver(order); });
-            btnReject.setOnClickListener(v -> { if (listener != null) listener.onReject(order); });
 
             bindStatus(order.status);
             bindReceiptLink(order);

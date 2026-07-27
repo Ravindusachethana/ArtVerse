@@ -199,7 +199,8 @@ public class CheckoutActivity extends AppCompatActivity {
                 for (CartItem ci : artistItems) {
                     // Reserve the stock: decrement remaining quantity and flip
                     // availability off once the last piece is spoken for. It is
-                    // released again if the artist rejects (OrderActions.reject).
+                    // released again if the admin cancels the order in delivery
+                    // (OrdersService.rejectOrder in the web panel).
                     long newQuantity = remainingStock.get(ci.artworkId) - ci.quantity;
                     DocumentReference artworkRef = FirebaseUtil.artworksRef().document(ci.artworkId);
                     Map<String, Object> update = new HashMap<>();

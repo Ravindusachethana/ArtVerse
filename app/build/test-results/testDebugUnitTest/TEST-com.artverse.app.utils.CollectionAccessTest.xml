@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.artverse.app.utils.CollectionAccessTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-07-25T05:30:01" hostname="RAVINDU" time="0.003">
+<testsuite name="com.artverse.app.utils.CollectionAccessTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-07-26T04:08:44" hostname="RAVINDU" time="0.002">
   <properties/>
-  <testcase name="unknownStatus_isNotOwned" classname="com.artverse.app.utils.CollectionAccessTest" time="0.001"/>
+  <testcase name="unknownStatus_isNotOwned" classname="com.artverse.app.utils.CollectionAccessTest" time="0.0"/>
   <testcase name="digitalPiece_isNotOwnedWhileTheArtistHasNotDecided" classname="com.artverse.app.utils.CollectionAccessTest" time="0.001"/>
   <testcase name="onlyOwnedDigitalPieces_canBeDownloaded" classname="com.artverse.app.utils.CollectionAccessTest" time="0.0"/>
   <testcase name="deliveryLabel_distinguishesInAppDelivery" classname="com.artverse.app.utils.CollectionAccessTest" time="0.0"/>
   <testcase name="digitalPiece_joinsCollectionAsSoonAsTheArtistConfirms" classname="com.artverse.app.utils.CollectionAccessTest" time="0.0"/>
   <testcase name="physicalPiece_joinsCollectionOnlyOnceDelivered" classname="com.artverse.app.utils.CollectionAccessTest" time="0.0"/>
-  <testcase name="rejectedOrder_neverEntersTheCollection" classname="com.artverse.app.utils.CollectionAccessTest" time="0.0"/>
+  <testcase name="rejectedOrder_neverEntersTheCollection" classname="com.artverse.app.utils.CollectionAccessTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

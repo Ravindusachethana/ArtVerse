@@ -2,10 +2,8 @@ package com.artverse.app.utils;
 
 import com.artverse.app.models.AppNotification;
 import com.artverse.app.models.Order;
-import com.artverse.app.models.OrderItem;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.HashMap;
@@ -22,8 +20,9 @@ import java.util.Map;
  * it over to the delivery section. From there the admin tracks it and marks
  * it delivered - that is where the sale is settled (Transaction records and
  * the artist's totalSales credit), so the Sales Report only ever counts
- * artwork that actually reached the buyer. reject() releases the reserved
- * stock. Every stage change notifies the customer.
+ * artwork that actually reached the buyer. Cancelling an order is the admin's
+ * job (the web panel releases the reserved stock on reject); the artist has no
+ * reject action. Every stage change notifies the customer.
  */
 public final class OrderActions {
 
@@ -61,32 +60,6 @@ public final class OrderActions {
         return FirebaseUtil.ordersRef().document(order.id).update(updates)
                 .addOnSuccessListener(v -> notifyCustomer(order, "Out for delivery",
                         "Order #" + shortId(order.id) + " is on its way to you.", now));
-    }
-
-    /** Artist rejects: order is closed, reserved stock is released, customer notified. */
-    public static Task<Void> reject(Order order) {
-        WriteBatch batch = FirebaseUtil.db().batch();
-        long now = System.currentTimeMillis();
-
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("status", Constants.STATUS_REJECTED);
-        updates.put("settledBy", FirebaseUtil.currentUid());
-        batch.update(FirebaseUtil.ordersRef().document(order.id), updates);
-
-        // The stock release must land with the status change or not at all.
-        if (order.items != null) {
-            for (OrderItem item : order.items) {
-                Map<String, Object> restore = new HashMap<>();
-                restore.put("quantity", FieldValue.increment(item.quantity));
-                restore.put("available", true);
-                batch.update(FirebaseUtil.artworksRef().document(item.artworkId), restore);
-            }
-        }
-
-        return batch.commit()
-                .addOnSuccessListener(v -> notifyCustomer(order, "Order rejected",
-                        "Sorry, order #" + shortId(order.id) + " was declined by the artist. "
-                                + "You have not been charged.", now));
     }
 
     /**

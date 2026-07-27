@@ -87,12 +87,6 @@ public class ArtistDashboardFragment extends Fragment {
                 OrderActions.handOverToDelivery(order)
                         .addOnFailureListener(e -> toast("Could not update order: " + e.getMessage()));
             }
-
-            @Override
-            public void onReject(Order order) {
-                OrderActions.reject(order)
-                        .addOnFailureListener(e -> toast("Could not reject order: " + e.getMessage()));
-            }
         });
         rvRecentOrders.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvRecentOrders.setAdapter(adapter);

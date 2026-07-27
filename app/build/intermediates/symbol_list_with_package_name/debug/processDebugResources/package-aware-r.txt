@@ -3374,7 +3374,6 @@ id btnPrevChart
 id btnQtyMinus
 id btnQtyPlus
 id btnRegister
-id btnReject
 id btnRemove
 id btnSave
 id btnSignOut

@@ -116,7 +116,6 @@ public class ArtistReportsActivity extends AppCompatActivity {
         ArtistOrderAdapter.OrderActionListener noop = new ArtistOrderAdapter.OrderActionListener() {
             @Override public void onConfirm(Order order) { }
             @Override public void onHandOver(Order order) { }
-            @Override public void onReject(Order order) { }
         };
         ordersAdapter = new ArtistOrderAdapter(noop);
         rvOrders.setLayoutManager(new LinearLayoutManager(this));

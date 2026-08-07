@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.artverse.app.utils.ValidationUtilTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-07-26T04:08:44" hostname="RAVINDU" time="2.068">
+  <properties/>
+  <testcase name="isValidEmail_rejectsMissingAtSymbol" classname="com.artverse.app.utils.ValidationUtilTest" time="1.84"/>
+  <testcase name="isValidPassword_rejectsFewerThanSixCharacters" classname="com.artverse.app.utils.ValidationUtilTest" time="0.022"/>
+  <testcase name="isValidPrice_rejectsNonNumericText" classname="com.artverse.app.utils.ValidationUtilTest" time="0.017"/>
+  <testcase name="isValidPrice_rejectsZero" classname="com.artverse.app.utils.ValidationUtilTest" time="0.017"/>
+  <testcase name="isValidEmail_rejectsNull" classname="com.artverse.app.utils.ValidationUtilTest" time="0.017"/>
+  <testcase name="isNotEmpty_acceptsNonBlankText" classname="com.artverse.app.utils.ValidationUtilTest" time="0.016"/>
+  <testcase name="isValidPrice_acceptsPositiveDecimal" classname="com.artverse.app.utils.ValidationUtilTest" time="0.017"/>
+  <testcase name="isValidPrice_rejectsNegativeValue" classname="com.artverse.app.utils.ValidationUtilTest" time="0.016"/>
+  <testcase name="isValidPrice_rejectsEmptyString" classname="com.artverse.app.utils.ValidationUtilTest" time="0.015"/>
+  <testcase name="isValidEmail_rejectsEmptyString" classname="com.artverse.app.utils.ValidationUtilTest" time="0.017"/>
+  <testcase name="isValidPassword_acceptsSixOrMoreCharacters" classname="com.artverse.app.utils.ValidationUtilTest" time="0.015"/>
+  <testcase name="isValidEmail_acceptsWellFormedAddress" classname="com.artverse.app.utils.ValidationUtilTest" time="0.018"/>
+  <testcase name="isValidPassword_rejectsNull" classname="com.artverse.app.utils.ValidationUtilTest" time="0.021"/>
+  <testcase name="isNotEmpty_rejectsBlankAndWhitespaceOnly" classname="com.artverse.app.utils.ValidationUtilTest" time="0.019"/>
+  <system-out><![CDATA[WARNING: No manifest file found at .\AndroidManifest.xml.
+Falling back to the Android OS resources only.
+To remove this warning, annotate your test class with @Config(manifest=Config.NONE).
+If you're using Android Gradle Plugin, add testOptions.unitTests.includeAndroidResources = true to your build.gradle
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

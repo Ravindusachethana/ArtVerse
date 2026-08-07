@@ -1,0 +1,265 @@
+/* ArtVerse Admin - global theme.
+   Palette mirrors the mobile app (app/src/main/res/values/colors.xml):
+   Ceylon sapphire blue, cinnamon gold accent, cream canvas surfaces. */
+
+:root {
+  /* Brand */
+  --brand-primary: #1B4F91;
+  --brand-primary-dark: #123765;
+  --brand-primary-light: #3E74B8;
+  --brand-accent: #C98A2C;
+  --brand-accent-light: #E4B667;
+
+  /* Surfaces */
+  --bg-canvas: #FAF6EC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-alt: #F2EBDD;
+  --divider: #E5DCC8;
+
+  /* Text */
+  --text-primary: #1E1B16;
+  --text-secondary: #6B6255;
+  --text-hint: #A79C8A;
+  --text-on-primary: #FFFFFF;
+  --text-on-primary-muted: #D9E6F5;
+  --text-on-accent: #241705;
+
+  /* Status */
+  --status-success: #2E7D52;
+  --status-pending: #D9A400;
+  --status-rejected: #C1442D;
+  --status-processing: #6C63FF;
+
+  --overlay-scrim: rgba(0, 0, 0, 0.4);
+
+  --radius-card: 16px;
+  --radius-control: 12px;
+  --shadow-card: 0 2px 10px rgba(30, 27, 22, 0.07);
+  --shadow-card-hover: 0 6px 18px rgba(30, 27, 22, 0.12);
+
+  --font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+}
+
+/* ---------- Shared building blocks ---------- */
+
+.av-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--divider);
+  box-shadow: var(--shadow-card);
+}
+
+.av-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-control);
+  padding: 11px 20px;
+  cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  white-space: nowrap;
+}
+
+.av-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.av-btn-primary {
+  background: var(--brand-primary);
+  color: var(--text-on-primary);
+}
+
+.av-btn-primary:hover:not(:disabled) {
+  background: var(--brand-primary-dark);
+}
+
+.av-btn-success {
+  background: var(--status-success);
+  color: #fff;
+}
+
+.av-btn-success:hover:not(:disabled) {
+  background: #256843;
+}
+
+.av-btn-danger {
+  background: transparent;
+  color: var(--status-rejected);
+  border: 1.5px solid var(--status-rejected);
+}
+
+.av-btn-danger:hover:not(:disabled) {
+  background: rgba(193, 68, 45, 0.08);
+}
+
+.av-btn-ghost {
+  background: transparent;
+  color: var(--brand-primary);
+  border: 1.5px solid var(--divider);
+}
+
+.av-btn-ghost:hover:not(:disabled) {
+  border-color: var(--brand-primary-light);
+  background: rgba(27, 79, 145, 0.05);
+}
+
+/* Form fields - echo the mobile app's outlined text inputs */
+.av-field {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.av-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.av-field input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border: 1.5px solid var(--divider);
+  border-radius: var(--radius-control);
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.av-field input::placeholder {
+  color: var(--text-hint);
+}
+
+.av-field input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(27, 79, 145, 0.12);
+}
+
+.av-field input.invalid {
+  border-color: var(--status-rejected);
+}
+
+.av-field .field-error {
+  font-size: 12.5px;
+  color: var(--status-rejected);
+  margin-top: 5px;
+}
+
+/* Category chips - flat fill like ChipStyler on mobile */
+.av-chip {
+  display: inline-block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-on-accent);
+  background: var(--bg-surface-alt);
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
+/* Status badges */
+.av-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
+.av-badge::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.av-badge.pending {
+  color: #8a6a00;
+  background: rgba(217, 164, 0, 0.14);
+}
+
+.av-badge.approved {
+  color: var(--status-success);
+  background: rgba(46, 125, 82, 0.12);
+}
+
+.av-badge.rejected {
+  color: var(--status-rejected);
+  background: rgba(193, 68, 45, 0.12);
+}
+
+/* Spinner */
+.av-spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(27, 79, 145, 0.2);
+  border-top-color: var(--brand-primary);
+  border-radius: 50%;
+  animation: av-spin 0.8s linear infinite;
+}
+
+.av-spinner.light {
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+}
+
+@keyframes av-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Toast */
+.av-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 22px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  animation: av-toast-in 0.25s ease;
+}
+
+.av-toast.error {
+  background: var(--status-rejected);
+}
+
+@keyframes av-toast-in {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}

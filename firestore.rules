@@ -1,0 +1,128 @@
+rules_version = '2';
+
+// Reference security rules for ArtVerse, kept in the repo so rule changes are
+// version-controlled. Deploy by pasting into Firebase console -> Firestore
+// Database -> Rules (or `firebase deploy --only firestore:rules` if the CLI
+// is configured). Written to match exactly the access patterns in the app:
+//
+//   checkout (customer): creates orders + artist notification, decrements
+//     artwork stock - all in one transaction (CheckoutActivity).
+//   accept/reject (artist): updates own order's status, creates transactions,
+//     updates own totalSales, restores artwork stock, notifies the customer
+//     (OrderActions).
+//   InAppNotifier: recipients read their notifications and mark delivered.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Admins are users whose profile document carries role == "admin"
+    // (created manually - see admin-web/README.md). Used by the web admin
+    // panel to review artist registrations.
+    function isAdmin() {
+      return signedIn()
+          && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // An artist may act as one only after admin approval. Artists created
+    // before the approval feature have no status field and keep access.
+    function artistApproved(artistId) {
+      let artist = get(/databases/$(database)/documents/artists/$(artistId)).data;
+      return !('status' in artist) || artist.status == 'approved';
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && request.auth.uid == userId;
+      // The admin panel applies approved profile edits (name/phone/photo).
+      allow update: if isAdmin();
+
+      match /cart/{itemId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+    }
+
+    match /artists/{artistId} {
+      allow read: if signedIn();
+      // Own profile edits, plus the totalSales increment on order accept.
+      allow create, update: if signedIn() && request.auth.uid == artistId;
+      // The admin panel settles registrations and applies (or discards)
+      // staged profile edits, so it may touch any artist field.
+      allow update: if isAdmin();
+    }
+
+    match /artworks/{artworkId} {
+      allow read: if signedIn();
+      // Only approved artists may list artwork (defense in depth - the app
+      // never shows the artist UI to unapproved accounts).
+      allow create: if signedIn()
+                    && request.resource.data.artistId == request.auth.uid
+                    && artistApproved(request.auth.uid);
+      // The owning artist edits freely; any signed-in customer may only touch
+      // the stock fields (quantity/available) when reserving at checkout.
+      allow update: if signedIn()
+                    && (resource.data.artistId == request.auth.uid
+                        || request.resource.data.diff(resource.data).affectedKeys()
+                               .hasOnly(['quantity', 'available']));
+      // The admin panel moderates listings: publish/reject new art and
+      // merge or discard staged edits.
+      allow update: if isAdmin();
+      allow delete: if signedIn() && resource.data.artistId == request.auth.uid;
+    }
+
+    match /categories/{categoryId} {
+      allow read: if signedIn();
+    }
+
+    match /orders/{orderId} {
+      allow create: if signedIn() && request.resource.data.customerId == request.auth.uid;
+      // Buyers and artists see their own; the admin tracks every delivery.
+      allow read: if isAdmin()
+                  || (signedIn()
+                      && (resource.data.customerId == request.auth.uid
+                          || resource.data.artistId == request.auth.uid));
+      // The artist drives the first half of the delivery lifecycle: confirm,
+      // then hand over to delivery. Only those stage fields may change - never
+      // the money or the items - and the artist can neither cancel an order nor
+      // mark it delivered; both are the admin's call.
+      allow update: if signedIn()
+                    && resource.data.artistId == request.auth.uid
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                           .hasOnly(['status', 'confirmedAt', 'dispatchedAt'])
+                    && (request.resource.data.status == 'confirmed'
+                        || request.resource.data.status == 'out_for_delivery');
+      // The admin closes orders out: delivery completed, or rejected.
+      allow update: if isAdmin()
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                           .hasOnly(['status', 'deliveredAt', 'settledBy'])
+                    && (request.resource.data.status == 'completed'
+                        || request.resource.data.status == 'rejected');
+      allow delete: if false;
+    }
+
+    match /transactions/{transactionId} {
+      // The sale is settled when the admin confirms delivery, so the admin
+      // panel writes these audit records on the artist's behalf.
+      allow create: if isAdmin()
+                    || (signedIn() && request.resource.data.artistId == request.auth.uid);
+      allow read: if signedIn()
+                  && (resource.data.artistId == request.auth.uid || isAdmin());
+      allow update, delete: if false;
+    }
+
+    match /notifications/{notificationId} {
+      // Anyone signed in may create one (customer notifies artist on
+      // checkout; artist notifies customer on accept/reject).
+      allow create: if signedIn() && request.resource.data.userId is string;
+      // Only the recipient reads it or marks it delivered.
+      allow read: if signedIn() && resource.data.userId == request.auth.uid;
+      allow update: if signedIn()
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                           .hasOnly(['delivered']);
+      allow delete: if false;
+    }
+  }
+}

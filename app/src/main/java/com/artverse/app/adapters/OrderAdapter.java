@@ -1,5 +1,6 @@
 package com.artverse.app.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.artverse.app.R;
+import com.artverse.app.common.ReceiptActivity;
 import com.artverse.app.models.Order;
 import com.artverse.app.models.OrderItem;
 import com.artverse.app.utils.Constants;
+import com.artverse.app.utils.OrderStatus;
+import com.artverse.app.views.OrderTrackerView;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -48,7 +52,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView tvOrderId, tvStatus, tvDate, tvItemsSummary, tvTotal;
+        TextView tvOrderId, tvStatus, tvDate, tvItemsSummary, tvTotal, tvViewReceipt;
+        OrderTrackerView orderTracker;
 
         OrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,6 +62,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             tvDate = itemView.findViewById(R.id.tvDate);
             tvItemsSummary = itemView.findViewById(R.id.tvItemsSummary);
             tvTotal = itemView.findViewById(R.id.tvTotal);
+            tvViewReceipt = itemView.findViewById(R.id.tvViewReceipt);
+            orderTracker = itemView.findViewById(R.id.orderTracker);
         }
 
         void bind(Order order) {
@@ -81,32 +88,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             tvTotal.setText("LKR " + format.format(order.totalAmount));
 
             bindStatus(order.status);
+            bindReceiptLink(order);
+            // Advances on its own - the orders screen listens to Firestore,
+            // so the artist's and admin's actions land here live.
+            orderTracker.setStep(OrderStatus.trackerStep(order.status));
+        }
+
+        /** Settled orders (completed/rejected) open their receipt when tapped. */
+        private void bindReceiptLink(Order order) {
+            boolean settled = OrderStatus.isSettled(order.status);
+            tvViewReceipt.setVisibility(settled ? View.VISIBLE : View.GONE);
+            itemView.setClickable(settled);
+            itemView.setOnClickListener(!settled ? null : v -> {
+                Intent intent = new Intent(v.getContext(), ReceiptActivity.class);
+                intent.putExtra(Constants.EXTRA_ORDER_ID, order.id);
+                v.getContext().startActivity(intent);
+            });
         }
 
         private void bindStatus(String status) {
-            String label = status != null ? status.substring(0, 1).toUpperCase(Locale.ROOT) + status.substring(1) : "Pending";
-            tvStatus.setText(label);
-
-            int bg, color;
-            switch (status != null ? status : "") {
-                case Constants.STATUS_PROCESSING:
-                    bg = R.drawable.bg_pill_processing;
-                    color = R.color.status_processing;
-                    break;
-                case Constants.STATUS_COMPLETED:
-                    bg = R.drawable.bg_pill_completed;
-                    color = R.color.status_success;
-                    break;
-                case Constants.STATUS_REJECTED:
-                    bg = R.drawable.bg_pill_rejected;
-                    color = R.color.status_rejected;
-                    break;
-                default:
-                    bg = R.drawable.bg_pill_pending;
-                    color = R.color.status_pending;
-            }
-            tvStatus.setBackgroundResource(bg);
-            tvStatus.setTextColor(tvStatus.getResources().getColor(color, null));
+            tvStatus.setText(OrderStatus.customerLabel(status));
+            tvStatus.setBackgroundResource(OrderStatus.pillBackground(status));
+            tvStatus.setTextColor(tvStatus.getResources()
+                    .getColor(OrderStatus.pillColor(status), null));
         }
     }
 }

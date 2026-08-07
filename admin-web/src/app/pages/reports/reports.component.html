@@ -1,0 +1,143 @@
+<div class="page-head">
+  <h1>Reports</h1>
+  <p>Live sales, buyer and delivery insights across the platform</p>
+</div>
+
+@if (loading()) {
+  <div class="state-box">
+    <span class="av-spinner"></span>
+    <p>Loading reports…</p>
+  </div>
+} @else {
+
+  <!-- Headline figures -->
+  <div class="stat-grid">
+    <div class="stat-card av-card accent-success">
+      <div class="stat-label">Completed orders</div>
+      <div class="stat-value">{{ completed().length }}</div>
+      <div class="stat-hint">Delivered &amp; settled</div>
+    </div>
+    <div class="stat-card av-card">
+      <div class="stat-label">Revenue</div>
+      <div class="stat-value">LKR {{ revenue() | number:'1.0-0' }}</div>
+      <div class="stat-hint">From completed sales</div>
+    </div>
+    <div class="stat-card av-card accent-danger">
+      <div class="stat-label">Artist rejected</div>
+      <div class="stat-value">{{ artistCancelled().length }}</div>
+      <div class="stat-hint">Declined before dispatch</div>
+    </div>
+    <div class="stat-card av-card accent-danger">
+      <div class="stat-label">Admin rejected</div>
+      <div class="stat-value">{{ adminCancelled().length }}</div>
+      <div class="stat-hint">Cancelled in delivery</div>
+    </div>
+    <div class="stat-card av-card">
+      <div class="stat-label">Avg delivery time</div>
+      <div class="stat-value">{{ avgDeliveryDays() > 0 ? (avgDeliveryDays() | number:'1.1-1') : '—' }}<span class="unit"> days</span></div>
+      <div class="stat-hint">Placement to delivery</div>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="chart-grid">
+    <section class="chart-card av-card">
+      <div class="chart-head">
+        <h2>Best-selling artworks</h2>
+        <p>Units sold across completed orders</p>
+      </div>
+      @if (hasData(bestSellers())) {
+        <div class="chart-box"><app-chart [config]="bestSellerConfig()" /></div>
+      } @else {
+        <div class="chart-empty">No completed sales yet.</div>
+      }
+    </section>
+
+    <section class="chart-card av-card">
+      <div class="chart-head">
+        <h2>Continuous buyers</h2>
+        <p>Customers with more than one completed order</p>
+      </div>
+      @if (hasData(continuousBuyers())) {
+        <div class="chart-box"><app-chart [config]="buyerConfig()" /></div>
+      } @else {
+        <div class="chart-empty">No repeat buyers yet.</div>
+      }
+    </section>
+
+    <section class="chart-card av-card">
+      <div class="chart-head">
+        <h2>Delivery overview</h2>
+        <p>Where every order currently sits</p>
+      </div>
+      <div class="chart-box"><app-chart [config]="deliveryConfig()" /></div>
+    </section>
+  </div>
+
+  <!-- Order reports -->
+  <h2 class="section-title">Order reports</h2>
+  <div class="tabs">
+    @for (tab of tabs; track tab.key) {
+      <button type="button" class="tab" [class.active]="activeTab() === tab.key"
+              (click)="activeTab.set(tab.key)">
+        {{ tab.label }}
+        <span class="tab-count">{{ countsByTab()[tab.key] }}</span>
+      </button>
+    }
+  </div>
+
+  @if (visibleOrders().length === 0) {
+    <div class="state-box av-card">
+      <div class="empty-icon">🧾</div>
+      <p>
+        @switch (activeTab()) {
+          @case ('completed') { No completed orders yet. }
+          @case ('artistCancelled') { No orders were rejected by artists. }
+          @case ('adminCancelled') { No orders were cancelled during delivery. }
+        }
+      </p>
+    </div>
+  } @else {
+    <div class="order-list">
+      @for (order of visibleOrders(); track order.id) {
+        <article class="order-card av-card">
+          <div class="order-head">
+            <div class="order-id">
+              <h3>Order #{{ shortId(order) }}</h3>
+              <div class="order-sub">
+                {{ order.customerName || 'Customer' }}
+                @if (order.orderDate) {
+                  <span class="dot-sep">•</span> placed {{ order.orderDate | date:'MMM d, y' }}
+                }
+              </div>
+            </div>
+            <span class="av-badge status-{{ order.status }}">{{ statusLabel(order.status) }}</span>
+          </div>
+
+          <div class="order-details">
+            <div class="detail">
+              <span class="detail-label">Items</span>
+              <span>{{ itemsSummary(order) || '—' }}</span>
+            </div>
+            <div class="detail">
+              <span class="detail-label">Total</span>
+              <span class="total">LKR {{ (order.totalAmount ?? 0).toLocaleString('en-US') }}</span>
+            </div>
+            @if (order.deliveredAt) {
+              <div class="detail">
+                <span class="detail-label">Delivered</span>
+                <span>{{ order.deliveredAt | date:'MMM d, y' }}</span>
+              </div>
+            }
+            @if (order.dispatchedAt && activeTab() === 'adminCancelled') {
+              <div class="detail">
+                <span class="detail-label">Dispatched</span>
+                <span>{{ order.dispatchedAt | date:'MMM d, y' }}</span>
+              </div>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  }
+}

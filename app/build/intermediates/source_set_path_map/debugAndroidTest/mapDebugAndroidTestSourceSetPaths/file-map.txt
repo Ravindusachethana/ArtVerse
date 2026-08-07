@@ -1,0 +1,5 @@
+com.artverse.app.test.app-core-1.6.1-0 C:\Users\sache\.gradle\caches\transforms-4\9dce489506ca10909230cd2195c477de\transformed\core-1.6.1\res
+com.artverse.app.test.app-androidTest-1 C:\Users\sache\OneDrive\Desktop\Project\ArtVerse\app\build\generated\res\resValues\androidTest\debug
+com.artverse.app.test.app-mergeDebugAndroidTestResources-2 C:\Users\sache\OneDrive\Desktop\Project\ArtVerse\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.artverse.app.test.app-mergeDebugAndroidTestResources-3 C:\Users\sache\OneDrive\Desktop\Project\ArtVerse\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.artverse.app.test.app-debugAndroidTest-4 C:\Users\sache\OneDrive\Desktop\Project\ArtVerse\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources

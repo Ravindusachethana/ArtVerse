@@ -10,9 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.artverse.app.R;
 import com.artverse.app.artist.ArtistMainActivity;
+import com.artverse.app.artist.ArtistPendingActivity;
 import com.artverse.app.customer.CustomerMainActivity;
+import com.artverse.app.models.Artist;
 import com.artverse.app.models.User;
+import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
+import com.artverse.app.utils.PushTokens;
 import com.artverse.app.utils.SessionManager;
 import com.artverse.app.utils.ValidationUtil;
 import com.google.android.material.textfield.TextInputEditText;
@@ -25,12 +29,21 @@ public class LoginActivity extends AppCompatActivity {
     private View progressBar, btnLogin;
     private SessionManager sessionManager;
 
+    /** Deep link parked by SplashActivity when a push was tapped while signed out. */
+    private boolean pendingOpenOrders;
+    private String pendingOrderId;
+    private String pendingTargetUid;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         sessionManager = new SessionManager(this);
+
+        pendingOpenOrders = Constants.ROUTE_ORDERS.equals(getIntent().getStringExtra(Constants.EXTRA_ROUTE));
+        pendingOrderId = getIntent().getStringExtra(Constants.EXTRA_ORDER_ID);
+        pendingTargetUid = getIntent().getStringExtra(Constants.EXTRA_TARGET_UID);
 
         tilEmail = findViewById(R.id.tilEmail);
         tilPassword = findViewById(R.id.tilPassword);
@@ -85,7 +98,13 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
                     sessionManager.saveSession(uid, user.role, user.name);
-                    routeToHome(user.role);
+                    // This device can now receive order pushes for the account.
+                    PushTokens.register();
+                    if (Constants.ROLE_ARTIST.equals(user.role)) {
+                        routeArtistByApprovalStatus(uid);
+                    } else {
+                        routeTo(CustomerMainActivity.class);
+                    }
                 })
                 .addOnFailureListener(e -> {
                     setLoading(false);
@@ -93,10 +112,44 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void routeToHome(String role) {
-        Intent intent = "artist".equals(role)
-                ? new Intent(this, ArtistMainActivity.class)
-                : new Intent(this, CustomerMainActivity.class);
+    /**
+     * Artists only enter their dashboard once an admin has approved the
+     * registration; until then (or after a rejection) they land on the
+     * read-only gallery. A missing status means the account predates the
+     * approval feature and keeps its access.
+     */
+    private void routeArtistByApprovalStatus(String uid) {
+        FirebaseUtil.artistsRef().document(uid).get()
+                .addOnSuccessListener(doc -> {
+                    Artist artist = doc.toObject(Artist.class);
+                    String status = artist != null ? artist.status : null;
+                    sessionManager.saveArtistStatus(status);
+
+                    boolean approved = status == null
+                            || Constants.ARTIST_STATUS_APPROVED.equals(status);
+                    routeTo(approved ? ArtistMainActivity.class : ArtistPendingActivity.class);
+                })
+                .addOnFailureListener(e -> {
+                    // Fail closed: without a readable status the artist waits
+                    // on the pending screen, which keeps listening for it.
+                    routeTo(ArtistPendingActivity.class);
+                });
+    }
+
+    private void routeTo(Class<?> target) {
+        setLoading(false);
+        Intent intent = new Intent(this, target);
+
+        // Replay a parked notification tap - but only into a real home screen,
+        // and only when the account that just signed in is the one the alert
+        // was addressed to.
+        boolean sameRecipient = pendingTargetUid == null
+                || pendingTargetUid.equals(FirebaseUtil.currentUid());
+        if (pendingOpenOrders && sameRecipient && target != ArtistPendingActivity.class) {
+            intent.putExtra(Constants.EXTRA_OPEN_ORDERS, true);
+            if (pendingOrderId != null) intent.putExtra(Constants.EXTRA_ORDER_ID, pendingOrderId);
+        }
+
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

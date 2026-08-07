@@ -8,10 +8,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.artverse.app.R;
-import com.artverse.app.artist.ArtistMainActivity;
+import com.artverse.app.artist.ArtistPendingActivity;
 import com.artverse.app.models.Artist;
 import com.artverse.app.models.User;
 import com.artverse.app.utils.ArtCategories;
+import com.artverse.app.utils.ChipStyler;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
 import com.artverse.app.utils.SessionManager;
@@ -23,7 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Implements FR02 - Artist Registration Module. */
+/** Artist Registration Module. */
 public class ArtistRegisterActivity extends AppCompatActivity {
 
     private TextInputEditText etBusinessName, etEmail, etLocation, etBio, etPassword;
@@ -54,9 +55,7 @@ public class ArtistRegisterActivity extends AppCompatActivity {
         for (String category : ArtCategories.DEFAULT) {
             Chip chip = new Chip(this);
             chip.setText(category);
-            chip.setCheckable(true);
-            chip.setCheckedIconVisible(false);
-            chip.setChipBackgroundColorResource(R.color.bg_surface_alt);
+            ChipStyler.styleCategoryChip(chip);
             chipGroupCategories.addView(chip);
         }
     }
@@ -103,13 +102,17 @@ public class ArtistRegisterActivity extends AppCompatActivity {
                     User user = new User(uid, businessName, email, null, location, null,
                             Constants.ROLE_ARTIST, System.currentTimeMillis());
                     Artist artist = new Artist(uid, businessName, bio, location, categories);
+                    // Every new artist waits for admin review before gaining access.
+                    artist.status = Constants.ARTIST_STATUS_PENDING;
 
                     FirebaseUtil.usersRef().document(uid).set(user)
                             .continueWithTask(t -> FirebaseUtil.artistsRef().document(uid).set(artist))
                             .addOnSuccessListener(v -> {
                                 setLoading(false);
-                                new SessionManager(this).saveSession(uid, Constants.ROLE_ARTIST, businessName);
-                                Intent intent = new Intent(this, ArtistMainActivity.class);
+                                SessionManager session = new SessionManager(this);
+                                session.saveSession(uid, Constants.ROLE_ARTIST, businessName);
+                                session.saveArtistStatus(Constants.ARTIST_STATUS_PENDING);
+                                Intent intent = new Intent(this, ArtistPendingActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();

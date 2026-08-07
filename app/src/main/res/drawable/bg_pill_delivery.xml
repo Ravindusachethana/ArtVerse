@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "Out for delivery" pill - brand blue at the same 12% tint as the others. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#1F1B4F91" />
+    <corners android:radius="20dp" />
+</shape>

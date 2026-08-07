@@ -74,15 +74,22 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupCategories"
+                <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
+                    android:clipToPadding="false"
                     android:paddingHorizontal="16dp"
-                    app:singleLine="true"
-                    app:singleSelection="true"
-                    app:chipSpacingHorizontal="8dp" />
+                    android:scrollbars="none">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupCategories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleLine="true"
+                        app:singleSelection="true"
+                        app:chipSpacingHorizontal="8dp" />
+                </HorizontalScrollView>
 
                 <TextView
                     android:id="@+id/tvResultsLabel"

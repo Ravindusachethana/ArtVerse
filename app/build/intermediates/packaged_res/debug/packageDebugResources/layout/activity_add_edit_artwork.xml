@@ -77,11 +77,47 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Tap to add a photo"
+                            android:text="@string/cover_photo_hint"
                             android:textColor="@color/text_hint"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </FrameLayout>
+
+                <!-- Extra angles, shown only for physical categories a buyer
+                     needs to see from several sides (Sculpture, Ceramics,
+                     Printmaking). See ArtCategories.supportsMultipleImages. -->
+                <LinearLayout
+                    android:id="@+id/additionalImagesSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/more_views_label"
+                        android:textAppearance="@style/ArtVerse.Text.Section" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/more_views_hint"
+                        android:textColor="@color/text_hint"
+                        android:textSize="12sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAdditionalImages"
+                        android:layout_width="match_parent"
+                        android:layout_height="94dp"
+                        android:layout_marginTop="10dp"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:reverseLayout="false" />
+                </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/ArtVerse.TextInputLayout"
@@ -147,10 +183,12 @@
                     <Space android:layout_width="12dp" android:layout_height="1dp" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilQuantity"
                         style="@style/ArtVerse.TextInputLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        app:helperTextTextColor="@color/text_hint"
                         android:hint="Quantity">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etQuantity"

@@ -1,0 +1,15 @@
+# Compiled output
+/dist
+/out-tsc
+
+# Node
+/node_modules
+npm-debug.log*
+
+# IDEs and editors
+.idea/
+.vscode/
+
+# Misc
+.angular/
+.DS_Store

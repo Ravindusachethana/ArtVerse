@@ -13,6 +13,7 @@ public class SessionManager {
     private static final String KEY_ROLE = "role";
     private static final String KEY_NAME = "name";
     private static final String KEY_UID = "uid";
+    private static final String KEY_ARTIST_STATUS = "artist_status";
 
     private final SharedPreferences prefs;
 
@@ -43,6 +44,24 @@ public class SessionManager {
 
     public boolean isArtist() {
         return "artist".equals(getRole());
+    }
+
+    /** Caches the artist's admin-approval status ("pending"/"approved"/"rejected"). */
+    public void saveArtistStatus(String status) {
+        prefs.edit().putString(KEY_ARTIST_STATUS, status).apply();
+    }
+
+    public String getArtistStatus() {
+        return prefs.getString(KEY_ARTIST_STATUS, null);
+    }
+
+    /**
+     * True when the artist may use the full artist experience. A null status
+     * means the account predates the approval feature (legacy) and keeps access.
+     */
+    public boolean isArtistApproved() {
+        String status = getArtistStatus();
+        return status == null || Constants.ARTIST_STATUS_APPROVED.equals(status);
     }
 
     public void clear() {

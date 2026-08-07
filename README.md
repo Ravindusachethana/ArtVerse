@@ -16,8 +16,9 @@ in your dissertation (FR01–FR09).
   incoming orders (accept/reject), sales report
 - `firestore.rules` and `storage.rules` implementing the access-control model
   from your Security section (2.1.3.2)
-- A warm, gallery-inspired visual style (burgundy + gold on a warm-white canvas)
-  with Material 3 components, card-based layouts, and a custom launcher icon
+- A clean visual style — Ceylon sapphire blue + cinnamon gold accent on a
+  warm cream canvas — with Material 3 components, card-based layouts, and a
+  custom launcher icon
 
 ## 1. Open the project
 
@@ -102,7 +103,7 @@ reflected immediately for the other — satisfying NFR04.
 - **Push notifications**: listed as future work in your dissertation (6.3) —
   add Firebase Cloud Messaging and trigger from the order-status update calls
   already in `ArtistOrdersFragment`.
-- **App icon / branding**: generated as a burgundy-and-gold adaptive icon in
+- **App icon / branding**: generated as a sapphire-blue adaptive icon in
   `res/mipmap-anydpi-v26`; regenerate via Android Studio's Image Asset tool
   if you want a different mark.
 

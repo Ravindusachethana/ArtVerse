@@ -76,6 +76,12 @@
             android:textSize="13sp"
             tools:text="Sunset Over Kandy ×1" />
 
+        <com.artverse.app.views.OrderTrackerView
+            android:id="@+id/orderTracker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,37 +106,60 @@
                 tools:text="LKR 24,000" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tvViewReceipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="View receipt ›"
+            android:textColor="@color/brand_primary"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <!-- A new order is the artist's to confirm; only the admin can cancel
+             one, so there is no reject here. -->
         <LinearLayout
             android:id="@+id/actionRow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="43dp"
             android:layout_marginTop="14dp"
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnReject"
-                style="@style/ArtVerse.Button.Outline"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:textSize="13sp"
-                android:text="Reject" />
-
-            <Space android:layout_width="10dp" android:layout_height="1dp" />
-
-            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAccept"
                 style="@style/ArtVerse.Button.Primary"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:textSize="13sp"
-                android:text="Accept" />
+                android:text="Confirm"
+                android:textSize="13sp" />
         </LinearLayout>
+
+        <!-- Second stage: a confirmed order is handed to the delivery
+             section, after which the admin owns its tracking. -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHandOver"
+            style="@style/ArtVerse.Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_marginTop="14dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/hand_over_to_delivery"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvAwaitingAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/awaiting_delivery_confirmation"
+            android:textColor="@color/text_hint"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -67,6 +67,12 @@
             android:textSize="13sp"
             tools:text="Sunset Over Kandy ×1" />
 
+        <com.artverse.app.views.OrderTrackerView
+            android:id="@+id/orderTracker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,6 +96,17 @@
                 android:textSize="15sp"
                 tools:text="LKR 24,000" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvViewReceipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="View receipt ›"
+            android:textColor="@color/brand_primary"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -44,11 +44,15 @@
             </LinearLayout>
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivArtistAvatar"
                 android:layout_width="46dp"
                 android:layout_height="46dp"
                 android:background="@color/bg_surface_alt"
                 android:padding="10dp"
                 android:src="@drawable/ic_palette"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:civ_border_width="1.5dp"
                 app:civ_border_color="@color/brand_accent" />
         </LinearLayout>
@@ -63,15 +67,15 @@
             <com.google.android.material.card.MaterialCardView
                 style="@style/ArtVerse.Card"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="112dp"
                 android:layout_margin="4dp"
                 android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="112dp"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="10dp">
 
                     <ImageView
                         android:layout_width="22dp"
@@ -93,6 +97,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Artworks"
+                        android:layout_marginTop="2dp"
                         android:textColor="@color/text_hint"
                         android:textSize="11sp" />
                 </LinearLayout>
@@ -101,15 +106,15 @@
             <com.google.android.material.card.MaterialCardView
                 style="@style/ArtVerse.Card"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="112dp"
                 android:layout_margin="4dp"
                 android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="10dp">
 
                     <ImageView
                         android:layout_width="22dp"
@@ -129,8 +134,9 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="Pending"
+                        android:layout_marginTop="1dp"
                         android:textColor="@color/text_hint"
                         android:textSize="11sp" />
                 </LinearLayout>
@@ -139,15 +145,15 @@
             <com.google.android.material.card.MaterialCardView
                 style="@style/ArtVerse.Card"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="112dp"
                 android:layout_margin="4dp"
                 android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="10dp">
 
                     <ImageView
                         android:layout_width="22dp"
@@ -162,18 +168,128 @@
                         android:layout_marginTop="10dp"
                         android:fontFamily="sans-serif-medium"
                         android:textColor="@color/text_primary"
-                        android:textSize="16sp"
-                        tools:text="LKR 86k" />
+                        android:textSize="15dp"
+                        tools:text="86k"/>
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="Total Sales"
+                        android:layout_marginTop="10dp"
                         android:textColor="@color/text_hint"
                         android:textSize="11sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
+
+        <!-- Reports summary: headline figures + shortcut to the full report screen -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardReports"
+            style="@style/ArtVerse.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="14dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_sales"
+                        android:tint="@color/brand_primary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="@string/reports_summary"
+                        android:textAppearance="@style/ArtVerse.Text.Section" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/view_full_reports"
+                        android:textColor="@color/brand_primary"
+                        android:textSize="13sp"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="2dp"
+                        android:src="@drawable/ic_chevron_right"
+                        android:tint="@color/brand_primary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvReportCompleted"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/status_success"
+                            android:textSize="20sp"
+                            tools:text="8" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/stat_delivered"
+                            android:textColor="@color/text_hint"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvReportRejected"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/status_rejected"
+                            android:textSize="20sp"
+                            tools:text="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/stat_rejected"
+                            android:textColor="@color/text_hint"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddArtwork"

@@ -1,5 +1,6 @@
 package com.artverse.app.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.artverse.app.R;
+import com.artverse.app.common.ReceiptActivity;
 import com.artverse.app.models.Order;
 import com.artverse.app.models.OrderItem;
 import com.artverse.app.utils.Constants;
+import com.artverse.app.utils.OrderStatus;
+import com.artverse.app.views.OrderTrackerView;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -23,8 +27,10 @@ import java.util.Locale;
 public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.ViewHolder> {
 
     public interface OrderActionListener {
-        void onAccept(Order order);
-        void onReject(Order order);
+        /** Artist accepts a new order - it becomes "confirmed". */
+        void onConfirm(Order order);
+        /** Artist hands a confirmed order to the delivery section. */
+        void onHandOver(Order order);
     }
 
     private final List<Order> orders = new ArrayList<>();
@@ -58,8 +64,10 @@ public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvOrderId, tvStatus, tvCustomerName, tvDate, tvItemsSummary, tvTotal;
-        View actionRow, btnAccept, btnReject;
+        TextView tvOrderId, tvStatus, tvCustomerName, tvDate, tvItemsSummary, tvTotal,
+                tvViewReceipt, tvAwaitingAdmin;
+        View actionRow, btnAccept, btnHandOver;
+        OrderTrackerView orderTracker;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,9 +77,12 @@ public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.
             tvDate = itemView.findViewById(R.id.tvDate);
             tvItemsSummary = itemView.findViewById(R.id.tvItemsSummary);
             tvTotal = itemView.findViewById(R.id.tvTotal);
+            tvViewReceipt = itemView.findViewById(R.id.tvViewReceipt);
+            tvAwaitingAdmin = itemView.findViewById(R.id.tvAwaitingAdmin);
             actionRow = itemView.findViewById(R.id.actionRow);
             btnAccept = itemView.findViewById(R.id.btnAccept);
-            btnReject = itemView.findViewById(R.id.btnReject);
+            btnHandOver = itemView.findViewById(R.id.btnHandOver);
+            orderTracker = itemView.findViewById(R.id.orderTracker);
         }
 
         void bind(Order order, OrderActionListener listener) {
@@ -96,39 +107,41 @@ public class ArtistOrderAdapter extends RecyclerView.Adapter<ArtistOrderAdapter.
             NumberFormat format = NumberFormat.getInstance(Locale.US);
             tvTotal.setText("LKR " + format.format(order.totalAmount));
 
-            boolean pending = Constants.STATUS_PENDING.equals(order.status);
-            actionRow.setVisibility(pending ? View.VISIBLE : View.GONE);
+            // Stage-appropriate actions: decide on a new order, then hand the
+            // confirmed one to delivery. Once dispatched the artist only
+            // watches - the admin closes the order out.
+            boolean awaitingDecision = OrderStatus.isAwaitingArtist(order.status);
+            actionRow.setVisibility(awaitingDecision ? View.VISIBLE : View.GONE);
+            btnHandOver.setVisibility(OrderStatus.isConfirmed(order.status) ? View.VISIBLE : View.GONE);
+            tvAwaitingAdmin.setVisibility(OrderStatus.isOutForDelivery(order.status)
+                    ? View.VISIBLE : View.GONE);
 
-            btnAccept.setOnClickListener(v -> { if (listener != null) listener.onAccept(order); });
-            btnReject.setOnClickListener(v -> { if (listener != null) listener.onReject(order); });
+            btnAccept.setOnClickListener(v -> { if (listener != null) listener.onConfirm(order); });
+            btnHandOver.setOnClickListener(v -> { if (listener != null) listener.onHandOver(order); });
 
             bindStatus(order.status);
+            bindReceiptLink(order);
+            orderTracker.setStep(OrderStatus.trackerStep(order.status));
+        }
+
+        /** Settled orders (completed/rejected) open their receipt when tapped. */
+        private void bindReceiptLink(Order order) {
+            boolean settled = OrderStatus.isSettled(order.status);
+            tvViewReceipt.setVisibility(settled ? View.VISIBLE : View.GONE);
+            itemView.setClickable(settled);
+            itemView.setOnClickListener(!settled ? null : v -> {
+                Intent intent = new Intent(v.getContext(), ReceiptActivity.class);
+                intent.putExtra(Constants.EXTRA_ORDER_ID, order.id);
+                v.getContext().startActivity(intent);
+            });
         }
 
         private void bindStatus(String status) {
-            String label = status != null ? status.substring(0, 1).toUpperCase(Locale.ROOT) + status.substring(1) : "Pending";
-            tvStatus.setText(label);
-
-            int bg, color;
-            switch (status != null ? status : "") {
-                case Constants.STATUS_PROCESSING:
-                    bg = R.drawable.bg_pill_processing;
-                    color = R.color.status_processing;
-                    break;
-                case Constants.STATUS_COMPLETED:
-                    bg = R.drawable.bg_pill_completed;
-                    color = R.color.status_success;
-                    break;
-                case Constants.STATUS_REJECTED:
-                    bg = R.drawable.bg_pill_rejected;
-                    color = R.color.status_rejected;
-                    break;
-                default:
-                    bg = R.drawable.bg_pill_pending;
-                    color = R.color.status_pending;
-            }
-            tvStatus.setBackgroundResource(bg);
-            tvStatus.setTextColor(tvStatus.getResources().getColor(color, null));
+            // The buyer sees "Pending"; to the artist an undecided order is "New".
+            tvStatus.setText(OrderStatus.artistLabel(status));
+            tvStatus.setBackgroundResource(OrderStatus.pillBackground(status));
+            tvStatus.setTextColor(tvStatus.getResources()
+                    .getColor(OrderStatus.pillColor(status), null));
         }
     }
 }

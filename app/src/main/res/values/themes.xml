@@ -27,6 +27,16 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <!-- Full-screen artwork viewer: black chrome so nothing competes with the
+         piece being viewed at full quality. -->
+    <style name="Theme.ArtVerse.Viewer" parent="Theme.ArtVerse">
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+    </style>
+
     <style name="ThemeOverlay.ArtVerse.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="colorPrimary">@color/brand_primary</item>
         <item name="buttonBarPositiveButtonStyle">@style/ArtVerse.Dialog.Button</item>
@@ -137,17 +147,73 @@
         <item name="android:textColor">@color/brand_primary</item>
     </style>
 
+    <!-- Report selection toggles (weekly/monthly, completed/rejected).
+         Reuses the art-category chip palette: cinnamon-gold fill when
+         selected, cream fill otherwise - so selections read consistently
+         with the category filters elsewhere in the app. -->
+    <style name="ArtVerse.Toggle" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="backgroundTint">@color/chip_category_background</item>
+        <item name="android:textColor">@color/chip_category_text</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="rippleColor">@color/brand_accent_light</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <!-- Full-width segmented toggle (Completed / Rejected order tabs) -->
+    <style name="ArtVerse.Toggle.Segment" parent="ArtVerse.Toggle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
     <style name="ArtVerse.Chip" parent="Widget.Material3.Chip.Filter">
-        <item name="chipBackgroundColor">@color/bg_surface_alt</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="chipBackgroundColor">@color/chip_category_background</item>
+        <item name="android:textColor">@color/chip_category_text</item>
         <item name="chipCornerRadius">20dp</item>
         <item name="chipStrokeWidth">0dp</item>
+        <item name="checkedIconVisible">false</item>
     </style>
 
     <style name="ArtVerse.BottomNav" parent="Widget.Material3.BottomNavigationView">
         <item name="itemIconTint">@color/bottom_nav_color</item>
         <item name="itemTextColor">@color/bottom_nav_color</item>
+        <item name="itemActiveIndicatorStyle">@style/ArtVerse.BottomNav.ActiveIndicator</item>
         <item name="backgroundTint">@color/bg_surface</item>
         <item name="elevation">8dp</item>
+    </style>
+
+    <style name="ArtVerse.BottomNav.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/transparent</item>
+    </style>
+
+    <!-- Label/value rows on the order receipt (activity_receipt.xml). -->
+    <style name="ReceiptLabel">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_hint</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="ReceiptValue">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="RoundedCornersImage" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">5dp</item>
     </style>
 </resources>

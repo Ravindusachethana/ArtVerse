@@ -64,6 +64,10 @@ public final class FirebaseUtil {
         return db().collection("transactions");
     }
 
+    public static CollectionReference notificationsRef() {
+        return db().collection("notifications");
+    }
+
     public static StorageReference artworkImageRef(String artworkId, String fileName) {
         return storage().child("artwork_images/" + artworkId + "/" + fileName);
     }

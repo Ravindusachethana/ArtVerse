@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.artverse.app-mergeDebugResources-44:/values-v21/values-v21.xml",
+            "outputFile": "com.artverse.app-mergeDebugResources-45:/values-v21/values-v21.xml",
             "map": [
                 {
                     "source": "C:\\Users\\sache\\.gradle\\caches\\transforms-4\\5b4a6c802008fbbdf6b3e7d03e2aff86\\transformed\\credentials-play-services-auth-1.2.0-rc01\\res\\values-v21\\values-v21.xml",

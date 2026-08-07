@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +34,9 @@ public final class ItemCartBinding implements ViewBinding {
   public final ImageView ivArtwork;
 
   @NonNull
+  public final LinearLayout quantityStepper;
+
+  @NonNull
   public final TextView tvArtist;
 
   @NonNull
@@ -42,20 +46,26 @@ public final class ItemCartBinding implements ViewBinding {
   public final TextView tvQuantity;
 
   @NonNull
+  public final TextView tvSingleCopyBadge;
+
+  @NonNull
   public final TextView tvTitle;
 
   private ItemCartBinding(@NonNull MaterialCardView rootView, @NonNull ImageView btnMinus,
       @NonNull ImageView btnPlus, @NonNull ImageView btnRemove, @NonNull ImageView ivArtwork,
-      @NonNull TextView tvArtist, @NonNull TextView tvPrice, @NonNull TextView tvQuantity,
+      @NonNull LinearLayout quantityStepper, @NonNull TextView tvArtist, @NonNull TextView tvPrice,
+      @NonNull TextView tvQuantity, @NonNull TextView tvSingleCopyBadge,
       @NonNull TextView tvTitle) {
     this.rootView = rootView;
     this.btnMinus = btnMinus;
     this.btnPlus = btnPlus;
     this.btnRemove = btnRemove;
     this.ivArtwork = ivArtwork;
+    this.quantityStepper = quantityStepper;
     this.tvArtist = tvArtist;
     this.tvPrice = tvPrice;
     this.tvQuantity = tvQuantity;
+    this.tvSingleCopyBadge = tvSingleCopyBadge;
     this.tvTitle = tvTitle;
   }
 
@@ -110,6 +120,12 @@ public final class ItemCartBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.quantityStepper;
+      LinearLayout quantityStepper = ViewBindings.findChildViewById(rootView, id);
+      if (quantityStepper == null) {
+        break missingId;
+      }
+
       id = R.id.tvArtist;
       TextView tvArtist = ViewBindings.findChildViewById(rootView, id);
       if (tvArtist == null) {
@@ -128,6 +144,12 @@ public final class ItemCartBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvSingleCopyBadge;
+      TextView tvSingleCopyBadge = ViewBindings.findChildViewById(rootView, id);
+      if (tvSingleCopyBadge == null) {
+        break missingId;
+      }
+
       id = R.id.tvTitle;
       TextView tvTitle = ViewBindings.findChildViewById(rootView, id);
       if (tvTitle == null) {
@@ -135,7 +157,7 @@ public final class ItemCartBinding implements ViewBinding {
       }
 
       return new ItemCartBinding((MaterialCardView) rootView, btnMinus, btnPlus, btnRemove,
-          ivArtwork, tvArtist, tvPrice, tvQuantity, tvTitle);
+          ivArtwork, quantityStepper, tvArtist, tvPrice, tvQuantity, tvSingleCopyBadge, tvTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

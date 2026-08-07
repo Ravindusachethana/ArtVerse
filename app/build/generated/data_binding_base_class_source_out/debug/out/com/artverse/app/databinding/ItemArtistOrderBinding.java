@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.artverse.app.R;
+import com.artverse.app.views.OrderTrackerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import java.lang.NullPointerException;
@@ -28,7 +29,13 @@ public final class ItemArtistOrderBinding implements ViewBinding {
   public final MaterialButton btnAccept;
 
   @NonNull
-  public final MaterialButton btnReject;
+  public final MaterialButton btnHandOver;
+
+  @NonNull
+  public final OrderTrackerView orderTracker;
+
+  @NonNull
+  public final TextView tvAwaitingAdmin;
 
   @NonNull
   public final TextView tvCustomerName;
@@ -48,21 +55,28 @@ public final class ItemArtistOrderBinding implements ViewBinding {
   @NonNull
   public final TextView tvTotal;
 
+  @NonNull
+  public final TextView tvViewReceipt;
+
   private ItemArtistOrderBinding(@NonNull MaterialCardView rootView,
       @NonNull LinearLayout actionRow, @NonNull MaterialButton btnAccept,
-      @NonNull MaterialButton btnReject, @NonNull TextView tvCustomerName, @NonNull TextView tvDate,
+      @NonNull MaterialButton btnHandOver, @NonNull OrderTrackerView orderTracker,
+      @NonNull TextView tvAwaitingAdmin, @NonNull TextView tvCustomerName, @NonNull TextView tvDate,
       @NonNull TextView tvItemsSummary, @NonNull TextView tvOrderId, @NonNull TextView tvStatus,
-      @NonNull TextView tvTotal) {
+      @NonNull TextView tvTotal, @NonNull TextView tvViewReceipt) {
     this.rootView = rootView;
     this.actionRow = actionRow;
     this.btnAccept = btnAccept;
-    this.btnReject = btnReject;
+    this.btnHandOver = btnHandOver;
+    this.orderTracker = orderTracker;
+    this.tvAwaitingAdmin = tvAwaitingAdmin;
     this.tvCustomerName = tvCustomerName;
     this.tvDate = tvDate;
     this.tvItemsSummary = tvItemsSummary;
     this.tvOrderId = tvOrderId;
     this.tvStatus = tvStatus;
     this.tvTotal = tvTotal;
+    this.tvViewReceipt = tvViewReceipt;
   }
 
   @Override
@@ -104,9 +118,21 @@ public final class ItemArtistOrderBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.btnReject;
-      MaterialButton btnReject = ViewBindings.findChildViewById(rootView, id);
-      if (btnReject == null) {
+      id = R.id.btnHandOver;
+      MaterialButton btnHandOver = ViewBindings.findChildViewById(rootView, id);
+      if (btnHandOver == null) {
+        break missingId;
+      }
+
+      id = R.id.orderTracker;
+      OrderTrackerView orderTracker = ViewBindings.findChildViewById(rootView, id);
+      if (orderTracker == null) {
+        break missingId;
+      }
+
+      id = R.id.tvAwaitingAdmin;
+      TextView tvAwaitingAdmin = ViewBindings.findChildViewById(rootView, id);
+      if (tvAwaitingAdmin == null) {
         break missingId;
       }
 
@@ -146,8 +172,15 @@ public final class ItemArtistOrderBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvViewReceipt;
+      TextView tvViewReceipt = ViewBindings.findChildViewById(rootView, id);
+      if (tvViewReceipt == null) {
+        break missingId;
+      }
+
       return new ItemArtistOrderBinding((MaterialCardView) rootView, actionRow, btnAccept,
-          btnReject, tvCustomerName, tvDate, tvItemsSummary, tvOrderId, tvStatus, tvTotal);
+          btnHandOver, orderTracker, tvAwaitingAdmin, tvCustomerName, tvDate, tvItemsSummary,
+          tvOrderId, tvStatus, tvTotal, tvViewReceipt);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

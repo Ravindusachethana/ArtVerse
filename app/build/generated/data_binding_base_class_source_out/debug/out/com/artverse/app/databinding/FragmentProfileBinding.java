@@ -12,6 +12,7 @@ import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.artverse.app.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -23,6 +24,9 @@ public final class FragmentProfileBinding implements ViewBinding {
 
   @NonNull
   public final MaterialButton btnLogout;
+
+  @NonNull
+  public final MaterialCardView cardCollection;
 
   @NonNull
   public final CircleImageView ivProfile;
@@ -40,10 +44,12 @@ public final class FragmentProfileBinding implements ViewBinding {
   public final TextView tvPhone;
 
   private FragmentProfileBinding(@NonNull ScrollView rootView, @NonNull MaterialButton btnLogout,
-      @NonNull CircleImageView ivProfile, @NonNull TextView tvAddress, @NonNull TextView tvEmail,
-      @NonNull TextView tvName, @NonNull TextView tvPhone) {
+      @NonNull MaterialCardView cardCollection, @NonNull CircleImageView ivProfile,
+      @NonNull TextView tvAddress, @NonNull TextView tvEmail, @NonNull TextView tvName,
+      @NonNull TextView tvPhone) {
     this.rootView = rootView;
     this.btnLogout = btnLogout;
+    this.cardCollection = cardCollection;
     this.ivProfile = ivProfile;
     this.tvAddress = tvAddress;
     this.tvEmail = tvEmail;
@@ -84,6 +90,12 @@ public final class FragmentProfileBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.cardCollection;
+      MaterialCardView cardCollection = ViewBindings.findChildViewById(rootView, id);
+      if (cardCollection == null) {
+        break missingId;
+      }
+
       id = R.id.ivProfile;
       CircleImageView ivProfile = ViewBindings.findChildViewById(rootView, id);
       if (ivProfile == null) {
@@ -114,8 +126,8 @@ public final class FragmentProfileBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentProfileBinding((ScrollView) rootView, btnLogout, ivProfile, tvAddress,
-          tvEmail, tvName, tvPhone);
+      return new FragmentProfileBinding((ScrollView) rootView, btnLogout, cardCollection, ivProfile,
+          tvAddress, tvEmail, tvName, tvPhone);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

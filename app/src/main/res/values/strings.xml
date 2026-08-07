@@ -25,17 +25,97 @@
     <string name="nav_profile">Profile</string>
     <string name="search_hint">Search artworks, artists, styles…</string>
     <string name="add_to_cart">Add to Cart</string>
+    <string name="view_cart">View cart</string>
+    <string name="added_to_cart">Added to cart</string>
     <string name="buy_now">Buy Now</string>
     <string name="checkout">Checkout</string>
     <string name="place_order">Place Order</string>
     <string name="cart_empty">Your cart is empty</string>
     <string name="order_total">Order Total</string>
 
+    <!-- Digital delivery &amp; the buyer's collection -->
+    <string name="digital_delivery_title">Digital piece</string>
+    <string name="digital_delivery_message">One copy, delivered straight to your collection in the app — nothing to ship.</string>
+    <string name="digital_badge">Digital</string>
+
+    <!-- One-of-a-kind (non-reproducible) pieces -->
+    <string name="unique_piece_title">One-of-a-kind</string>
+    <string name="unique_piece_message">A single original piece — once it sells, there won\'t be another exactly like it.</string>
+    <string name="label_original">Original</string>
+    <string name="single_piece_helper">Sold as a single piece</string>
+    <string name="single_piece_helper_unique">One-of-a-kind — sold once, then retired</string>
+    <string name="single_piece_helper_digital">Digital — delivered as one copy</string>
+    <string name="my_collection">My Collection</string>
+    <string name="my_collection_hint">Every piece you\'ve bought</string>
+    <string name="collection_empty_title">Your collection is empty</string>
+    <string name="collection_empty_message">Artworks appear here once your orders are delivered. Digital pieces arrive as soon as the artist confirms them.</string>
+    <string name="collection_pieces">%1$d piece</string>
+    <string name="collection_pieces_plural">%1$d pieces</string>
+    <string name="download_artwork">Download</string>
+    <string name="download_started">Downloading %1$s…</string>
+    <string name="download_saved">Saved to Pictures/ArtVerse as %1$s</string>
+    <string name="download_failed">Download failed: %1$s</string>
+    <string name="download_permission_needed">Storage permission is needed to save the artwork</string>
+    <string name="download_nothing_to_save">There is no file to save for this piece</string>
+    <string name="viewer_subtitle_digital">Original quality · yours to download</string>
+    <string name="viewer_subtitle_physical">In your collection</string>
+    <string name="close">Close</string>
+
     <!-- Artist -->
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_my_art">My Art</string>
     <string name="nav_sales">Sales</string>
+    <string name="cover_photo_hint">Tap to add the cover photo</string>
+    <string name="more_views_label">More views</string>
+    <string name="more_views_hint">Add extra angles so buyers can picture the whole piece</string>
+    <string name="add_image">Add</string>
+    <string name="remove_image">Remove image</string>
     <string name="add_artwork">Add Artwork</string>
     <string name="edit_artwork">Edit Artwork</string>
     <string name="save">Save</string>
+    <string name="edit_profile">Edit Profile</string>
+
+    <!-- Order delivery tracking -->
+    <string name="hand_over_to_delivery">Hand over to delivery</string>
+    <string name="awaiting_delivery_confirmation">Out for delivery — awaiting the admin\'s delivery confirmation.</string>
+
+    <!-- Artist approval flow -->
+    <string name="pending_banner_title">Registration under review</string>
+    <string name="pending_banner_message">An ArtVerse admin is reviewing your artist registration. You\'ll get full access automatically once you\'re approved. Meanwhile, enjoy browsing the gallery.</string>
+    <string name="rejected_banner_title">Registration not approved</string>
+    <string name="rejected_banner_message">Unfortunately your artist registration was not approved. Please contact ArtVerse support for more information.</string>
+    <string name="pending_read_only">Browsing is view-only until your account is approved</string>
+    <string name="approved_toast">Congratulations! Your artist account has been approved.</string>
+    <string name="sign_out">Sign out</string>
+    <string name="explore_gallery">Explore the gallery</string>
+
+    <!-- Reports -->
+    <string name="back">Back</string>
+    <string name="reports_title">Reports</string>
+    <string name="reports_subtitle_artist">Your live sales &amp; delivery insights</string>
+    <string name="nav_reports">Reports</string>
+    <string name="view_full_reports">View full reports</string>
+    <string name="reports_summary">Reports</string>
+    <string name="report_delivery">Delivery report</string>
+    <string name="report_delivery_hint">Fulfilment across all of your orders</string>
+    <string name="report_best_sellers">Best-selling artworks</string>
+    <string name="report_best_sellers_hint">Pieces sold across completed orders</string>
+    <string name="report_sales">Sales report</string>
+    <string name="report_sales_hint">Revenue from completed sales</string>
+    <string name="report_published">Artworks published</string>
+    <string name="report_published_hint">New artworks you listed</string>
+    <string name="report_completed_orders">Completed orders</string>
+    <string name="report_rejected_orders">Rejected orders</string>
+    <string name="report_no_sales">No completed sales yet</string>
+    <string name="report_no_published">No artworks published yet</string>
+    <string name="report_no_completed">No completed orders yet</string>
+    <string name="report_no_rejected">No rejected orders</string>
+    <string name="period_weekly">Weekly</string>
+    <string name="period_monthly">Monthly</string>
+    <string name="chart_previous">Previous chart</string>
+    <string name="chart_next">Next chart</string>
+    <string name="stat_delivered">Delivered</string>
+    <string name="stat_in_delivery">In delivery</string>
+    <string name="stat_rejected">Rejected</string>
+    <string name="stat_avg_days">Avg days</string>
 </resources>

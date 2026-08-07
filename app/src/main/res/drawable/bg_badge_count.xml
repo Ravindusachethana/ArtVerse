@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Small count bubble that sits on the cart icon. The white ring keeps it
+     legible when it overlaps the artwork photo behind the button. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@color/brand_accent" />
+    <stroke
+        android:width="1.5dp"
+        android:color="@color/bg_surface" />
+</shape>

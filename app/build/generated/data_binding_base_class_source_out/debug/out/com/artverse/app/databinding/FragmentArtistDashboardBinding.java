@@ -13,6 +13,8 @@ import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.artverse.app.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
+import de.hdodenhof.circleimageview.CircleImageView;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -23,6 +25,12 @@ public final class FragmentArtistDashboardBinding implements ViewBinding {
 
   @NonNull
   public final MaterialButton btnAddArtwork;
+
+  @NonNull
+  public final MaterialCardView cardReports;
+
+  @NonNull
+  public final CircleImageView ivArtistAvatar;
 
   @NonNull
   public final RecyclerView rvRecentOrders;
@@ -37,6 +45,12 @@ public final class FragmentArtistDashboardBinding implements ViewBinding {
   public final TextView tvPendingOrders;
 
   @NonNull
+  public final TextView tvReportCompleted;
+
+  @NonNull
+  public final TextView tvReportRejected;
+
+  @NonNull
   public final TextView tvStudioName;
 
   @NonNull
@@ -46,16 +60,22 @@ public final class FragmentArtistDashboardBinding implements ViewBinding {
   public final TextView tvTotalSales;
 
   private FragmentArtistDashboardBinding(@NonNull NestedScrollView rootView,
-      @NonNull MaterialButton btnAddArtwork, @NonNull RecyclerView rvRecentOrders,
+      @NonNull MaterialButton btnAddArtwork, @NonNull MaterialCardView cardReports,
+      @NonNull CircleImageView ivArtistAvatar, @NonNull RecyclerView rvRecentOrders,
       @NonNull TextView tvGreeting, @NonNull TextView tvNoOrders, @NonNull TextView tvPendingOrders,
+      @NonNull TextView tvReportCompleted, @NonNull TextView tvReportRejected,
       @NonNull TextView tvStudioName, @NonNull TextView tvTotalArtworks,
       @NonNull TextView tvTotalSales) {
     this.rootView = rootView;
     this.btnAddArtwork = btnAddArtwork;
+    this.cardReports = cardReports;
+    this.ivArtistAvatar = ivArtistAvatar;
     this.rvRecentOrders = rvRecentOrders;
     this.tvGreeting = tvGreeting;
     this.tvNoOrders = tvNoOrders;
     this.tvPendingOrders = tvPendingOrders;
+    this.tvReportCompleted = tvReportCompleted;
+    this.tvReportRejected = tvReportRejected;
     this.tvStudioName = tvStudioName;
     this.tvTotalArtworks = tvTotalArtworks;
     this.tvTotalSales = tvTotalSales;
@@ -94,6 +114,18 @@ public final class FragmentArtistDashboardBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.cardReports;
+      MaterialCardView cardReports = ViewBindings.findChildViewById(rootView, id);
+      if (cardReports == null) {
+        break missingId;
+      }
+
+      id = R.id.ivArtistAvatar;
+      CircleImageView ivArtistAvatar = ViewBindings.findChildViewById(rootView, id);
+      if (ivArtistAvatar == null) {
+        break missingId;
+      }
+
       id = R.id.rvRecentOrders;
       RecyclerView rvRecentOrders = ViewBindings.findChildViewById(rootView, id);
       if (rvRecentOrders == null) {
@@ -118,6 +150,18 @@ public final class FragmentArtistDashboardBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvReportCompleted;
+      TextView tvReportCompleted = ViewBindings.findChildViewById(rootView, id);
+      if (tvReportCompleted == null) {
+        break missingId;
+      }
+
+      id = R.id.tvReportRejected;
+      TextView tvReportRejected = ViewBindings.findChildViewById(rootView, id);
+      if (tvReportRejected == null) {
+        break missingId;
+      }
+
       id = R.id.tvStudioName;
       TextView tvStudioName = ViewBindings.findChildViewById(rootView, id);
       if (tvStudioName == null) {
@@ -137,8 +181,8 @@ public final class FragmentArtistDashboardBinding implements ViewBinding {
       }
 
       return new FragmentArtistDashboardBinding((NestedScrollView) rootView, btnAddArtwork,
-          rvRecentOrders, tvGreeting, tvNoOrders, tvPendingOrders, tvStudioName, tvTotalArtworks,
-          tvTotalSales);
+          cardReports, ivArtistAvatar, rvRecentOrders, tvGreeting, tvNoOrders, tvPendingOrders,
+          tvReportCompleted, tvReportRejected, tvStudioName, tvTotalArtworks, tvTotalSales);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

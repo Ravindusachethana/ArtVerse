@@ -60,6 +60,7 @@
                 android:textSize="14sp" />
 
             <LinearLayout
+                android:id="@+id/quantityStepper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -91,6 +92,21 @@
                     android:padding="7dp"
                     android:src="@drawable/ic_add" />
             </LinearLayout>
+
+            <!-- Stands in for the stepper on single-copy lines (a one-time
+                 original or a digital file); the label is set in code. -->
+            <TextView
+                android:id="@+id/tvSingleCopyBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_circle_accent"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:text="@string/digital_badge"
+                android:textColor="@color/brand_primary"
+                android:textSize="11sp"
+                android:visibility="gone" />
         </LinearLayout>
 
         <ImageView

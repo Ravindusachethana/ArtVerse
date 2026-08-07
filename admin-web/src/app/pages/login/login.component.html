@@ -1,0 +1,63 @@
+<div class="login-page">
+  <div class="login-card av-card">
+
+    <div class="brand">
+      <svg class="brand-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2C6.48 2 2 6.48 2 12c0 5.52 4.48 10 10 10 .92 0 1.66-.74 1.66-1.66 0-.43-.17-.82-.44-1.12-.26-.29-.42-.68-.42-1.11 0-.92.74-1.66 1.66-1.66h1.98c3.05 0 5.56-2.51 5.56-5.56C22 6.04 17.52 2 12 2z"
+              fill="currentColor"/>
+        <circle cx="6.5" cy="11.5" r="1.5" fill="#FAF6EC"/>
+        <circle cx="9.5" cy="7.5" r="1.5" fill="#C98A2C"/>
+        <circle cx="14.5" cy="7.5" r="1.5" fill="#FAF6EC"/>
+        <circle cx="17.5" cy="11.5" r="1.5" fill="#C98A2C"/>
+      </svg>
+      <span class="brand-name">ArtVerse</span>
+      <span class="brand-tag">Admin Panel</span>
+    </div>
+
+    <h1>Welcome back</h1>
+    <p class="subtitle">Sign in with your administrator account</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+
+      <div class="av-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email"
+               placeholder="admin&#64;artverse.com" autocomplete="username"
+               [class.invalid]="showError('email')">
+        @if (showError('email')) {
+          <div class="field-error">
+            @if (form.controls.email.hasError('required')) { Email is required. }
+            @else { Enter a valid email address. }
+          </div>
+        }
+      </div>
+
+      <div class="av-field">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password"
+               placeholder="••••••••" autocomplete="current-password"
+               [class.invalid]="showError('password')">
+        @if (showError('password')) {
+          <div class="field-error">
+            @if (form.controls.password.hasError('required')) { Password is required. }
+            @else { Password must be at least 6 characters. }
+          </div>
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <div class="login-error" role="alert">{{ errorMessage() }}</div>
+      }
+
+      <button class="av-btn av-btn-primary submit-btn" type="submit" [disabled]="loading()">
+        @if (loading()) {
+          <span class="av-spinner light"></span> Verifying...
+        } @else {
+          Sign in
+        }
+      </button>
+    </form>
+
+    <p class="footnote">Access is restricted to verified ArtVerse administrators.</p>
+  </div>
+</div>

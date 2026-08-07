@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Delivery progress bar: four nodes joined by connectors, with a caption
+     under each. Bound by OrderTrackerView.setStep(). -->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="6dp">
+
+        <View
+            android:id="@+id/dot0"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:background="@drawable/bg_track_dot" />
+
+        <View
+            android:id="@+id/line0"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1" />
+
+        <View
+            android:id="@+id/dot1"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:background="@drawable/bg_track_dot" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1" />
+
+        <View
+            android:id="@+id/dot2"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:background="@drawable/bg_track_dot" />
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1" />
+
+        <View
+            android:id="@+id/dot3"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:background="@drawable/bg_track_dot" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lbl0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:textSize="10sp"
+            tools:text="Placed" />
+
+        <TextView
+            android:id="@+id/lbl1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="10sp"
+            tools:text="Confirmed" />
+
+        <TextView
+            android:id="@+id/lbl2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:gravity="center"
+            android:textSize="10sp"
+            tools:text="Out for delivery" />
+
+        <TextView
+            android:id="@+id/lbl3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textSize="10sp"
+            tools:text="Delivered" />
+    </LinearLayout>
+</merge>

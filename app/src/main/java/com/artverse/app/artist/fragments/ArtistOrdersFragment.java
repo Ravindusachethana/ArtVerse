@@ -1,6 +1,7 @@
 package com.artverse.app.artist.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,24 +21,38 @@ import com.artverse.app.adapters.ArtistOrderAdapter;
 import com.artverse.app.models.Order;
 import com.artverse.app.utils.Constants;
 import com.artverse.app.utils.FirebaseUtil;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.Query;
+import com.artverse.app.utils.OrderActions;
+import com.artverse.app.utils.OrderStatus;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/** Implements FR07 (artist side) - artists view and update the status of orders they receive. */
+/**
+ * Implements FR07 (artist side) - incoming orders split into three tabs.
+ * "Pending" holds every order still in flight; the artist confirms a new one
+ * then hands the confirmed one to the delivery section, and the card updates
+ * in place until the admin closes it out. Cancelling an order is the admin's
+ * call, so the artist has no reject action. Settled orders open their receipt
+ * (see ReceiptActivity).
+ */
 public class ArtistOrdersFragment extends Fragment {
+
+    private static final String[] TAB_LABELS = {"Pending", "Completed", "Rejected"};
 
     private RecyclerView rvList;
     private View emptyState;
+    private TextView tvEmptyMessage;
     private ArtistOrderAdapter adapter;
+
+    private final List<Order> allOrders = new ArrayList<>();
+    private int selectedTab = 0;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                               @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_list_generic, container, false);
+        return inflater.inflate(R.layout.fragment_orders, container, false);
     }
 
     @Override
@@ -46,19 +61,43 @@ public class ArtistOrdersFragment extends Fragment {
 
         ((TextView) view.findViewById(R.id.tvScreenTitle)).setText("Incoming Orders");
         ((ImageView) view.findViewById(R.id.ivEmptyIcon)).setImageResource(R.drawable.ic_orders);
-        ((TextView) view.findViewById(R.id.tvEmptyMessage)).setText("No incoming orders yet");
+        tvEmptyMessage = view.findViewById(R.id.tvEmptyMessage);
 
         rvList = view.findViewById(R.id.rvList);
         emptyState = view.findViewById(R.id.emptyState);
         SwipeRefreshLayout swipeRefresh = view.findViewById(R.id.swipeRefresh);
         swipeRefresh.setEnabled(false);
 
-        adapter = new ArtistOrderAdapter(new ArtistOrderAdapter.OrderActionListener() {
+        TabLayout tabLayout = view.findViewById(R.id.tabLayout);
+        for (String label : TAB_LABELS) tabLayout.addTab(tabLayout.newTab().setText(label));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onAccept(Order order) { updateStatus(order, Constants.STATUS_PROCESSING); }
+            public void onTabSelected(TabLayout.Tab tab) {
+                selectedTab = tab.getPosition();
+                showSelectedTab();
+            }
 
             @Override
-            public void onReject(Order order) { updateStatus(order, Constants.STATUS_REJECTED); }
+            public void onTabUnselected(TabLayout.Tab tab) { }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
+        });
+
+        adapter = new ArtistOrderAdapter(new ArtistOrderAdapter.OrderActionListener() {
+            @Override
+            public void onConfirm(Order order) {
+                OrderActions.confirm(order)
+                        .addOnSuccessListener(v -> toast("Order confirmed - hand it over when it's ready"))
+                        .addOnFailureListener(e -> toast("Could not confirm order: " + e.getMessage()));
+            }
+
+            @Override
+            public void onHandOver(Order order) {
+                OrderActions.handOverToDelivery(order)
+                        .addOnSuccessListener(v -> toast("Marked out for delivery"))
+                        .addOnFailureListener(e -> toast("Could not update order: " + e.getMessage()));
+            }
         });
         rvList.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvList.setAdapter(adapter);
@@ -70,54 +109,57 @@ public class ArtistOrdersFragment extends Fragment {
         String uid = FirebaseUtil.currentUid();
         if (uid == null) return;
 
+        // Equality filter only, sorted client-side: keeps the query free of
+        // composite-index requirements so it can never fail on a fresh project.
         FirebaseUtil.ordersRef()
                 .whereEqualTo("artistId", uid)
-                .orderBy("orderDate", Query.Direction.DESCENDING)
                 .addSnapshotListener((snapshot, error) -> {
-                    if (error != null || snapshot == null || getContext() == null) return;
+                    if (getContext() == null) return;
+                    if (error != null) {
+                        Log.e("ArtistOrders", "Order query failed", error);
+                        toast("Could not load orders: " + error.getMessage());
+                        return;
+                    }
+                    if (snapshot == null) return;
 
-                    List<Order> orders = new ArrayList<>();
+                    allOrders.clear();
                     for (var doc : snapshot.getDocuments()) {
                         Order order = doc.toObject(Order.class);
                         if (order != null) {
                             order.id = doc.getId();
-                            orders.add(order);
+                            allOrders.add(order);
                         }
                     }
-                    adapter.submitList(orders);
-                    emptyState.setVisibility(orders.isEmpty() ? View.VISIBLE : View.GONE);
-                    rvList.setVisibility(orders.isEmpty() ? View.GONE : View.VISIBLE);
+                    allOrders.sort((a, b) -> Long.compare(b.orderDate, a.orderDate));
+                    showSelectedTab();
                 });
     }
 
-    private void updateStatus(Order order, String newStatus) {
-        FirebaseUtil.ordersRef().document(order.id).update("status", newStatus)
-                .addOnSuccessListener(v -> {
-                    if (Constants.STATUS_PROCESSING.equals(newStatus)) {
-                        markItemsCompleted(order);
-                    } else if (Constants.STATUS_REJECTED.equals(newStatus)) {
-                        restoreAvailability(order);
-                    }
-                    Toast.makeText(requireContext(),
-                            "Order " + newStatus, Toast.LENGTH_SHORT).show();
-                });
+    private void showSelectedTab() {
+        List<Order> filtered = new ArrayList<>();
+        for (Order order : allOrders) {
+            if (belongsToSelectedTab(order)) filtered.add(order);
+        }
+        adapter.submitList(filtered);
+        tvEmptyMessage.setText("No " + TAB_LABELS[selectedTab].toLowerCase() + " orders");
+        emptyState.setVisibility(filtered.isEmpty() ? View.VISIBLE : View.GONE);
+        rvList.setVisibility(filtered.isEmpty() ? View.GONE : View.VISIBLE);
     }
 
-    /** When an artist accepts an order, the pieces move to a completed/settled state. */
-    private void markItemsCompleted(Order order) {
-        FirebaseUtil.ordersRef().document(order.id).update("status", Constants.STATUS_PROCESSING);
+    private boolean belongsToSelectedTab(Order order) {
+        switch (selectedTab) {
+            case 1: return Constants.STATUS_COMPLETED.equals(order.status);
+            case 2: return Constants.STATUS_REJECTED.equals(order.status);
+            default:
+                // "Pending" is every order still on its way: awaiting a
+                // decision (incl. legacy "pending"), confirmed, or out for
+                // delivery. The stage-appropriate buttons and the tracking
+                // bar change in place as the order progresses.
+                return !OrderStatus.isSettled(order.status);
+        }
     }
 
-    /** When an artist rejects an order, restore the artwork's availability for other buyers. */
-    private void restoreAvailability(Order order) {
-        if (order.items == null) return;
-        for (var item : order.items) {
-            FirebaseUtil.artworksRef().document(item.artworkId).update("available", true);
-        }
-        String uid = FirebaseUtil.currentUid();
-        if (uid != null) {
-            FirebaseUtil.artistsRef().document(uid)
-                    .update("totalSales", FieldValue.increment(-order.totalAmount));
-        }
+    private void toast(String message) {
+        if (getContext() != null) Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

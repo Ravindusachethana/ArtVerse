@@ -52,13 +52,22 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.google.firebase:firebase-analytics'
+    // Push delivery while the app is backgrounded or closed
+    implementation 'com.google.firebase:firebase-messaging'
 
     // Image loading
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
+    // Charts (role report screens)
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
     // Testing
     testImplementation 'junit:junit:4.13.2'
+    // Robolectric runs Android framework classes (e.g. android.util.Patterns, used by
+    // ValidationUtil) on the plain JVM, so unit tests don't need a device/emulator.
+    testImplementation 'org.robolectric:robolectric:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.6.1'
 }

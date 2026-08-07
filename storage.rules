@@ -1,0 +1,28 @@
+rules_version = '2';
+
+// Reference Firebase Storage rules for ArtVerse, kept in the repo so rule
+// changes are version-controlled. Deploy by pasting into Firebase console ->
+// Storage -> Rules. Matches the two upload paths used by the app
+// (FirebaseUtil.profileImageRef / artworkImageRef).
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Profile photos: "profile_images/{uid}.jpg". The filename embeds the
+    // owner's uid, so only that user may upload/replace their own photo.
+    match /profile_images/{fileName} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null
+                   && fileName == request.auth.uid + '.jpg'
+                   && request.resource.size < 5 * 1024 * 1024;
+    }
+
+    // Artwork images: "artwork_images/{artworkId}/{fileName}" - the cover plus
+    // any extra angles (Sculpture, Ceramics, Printmaking), uploaded by artists
+    // when creating/editing an artwork.
+    match /artwork_images/{artworkId}/{fileName} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null
+                   && request.resource.size < 10 * 1024 * 1024;
+    }
+  }
+}

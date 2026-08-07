@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Brand -->
-    <color name="brand_primary">#6E2B25</color>       <!-- deep gallery burgundy -->
-    <color name="brand_primary_dark">#4E1D19</color>
-    <color name="brand_primary_light">#8E4038</color>
-    <color name="brand_accent">#C9A227</color>         <!-- gallery gold -->
-    <color name="brand_accent_light">#E4C766</color>
+    <color name="brand_primary">#1B4F91</color>        <!-- Ceylon sapphire: deep trusted blue -->
+    <color name="brand_primary_dark">#123765</color>
+    <color name="brand_primary_light">#3E74B8</color>
+    <color name="brand_accent">#C98A2C</color>          <!-- cinnamon gold accent -->
+    <color name="brand_accent_light">#E4B667</color>
 
     <!-- Surfaces -->
-    <color name="bg_canvas">#FAF8F5</color>            <!-- warm gallery-wall white -->
+    <color name="bg_canvas">#FAF6EC</color>            <!-- cream canvas -->
     <color name="bg_surface">#FFFFFF</color>
-    <color name="bg_surface_alt">#F1EDE6</color>
-    <color name="divider">#E7E1D8</color>
+    <color name="bg_surface_alt">#F2EBDD</color>
+    <color name="divider">#E5DCC8</color>
 
     <!-- Text -->
-    <color name="text_primary">#1C1B1A</color>
-    <color name="text_secondary">#6F6A63</color>
-    <color name="text_hint">#A39D93</color>
+    <color name="text_primary">#1E1B16</color>
+    <color name="text_secondary">#6B6255</color>
+    <color name="text_hint">#A79C8A</color>
     <color name="text_on_primary">#FFFFFF</color>
-    <color name="text_on_accent">#1C1B1A</color>
+    <color name="text_on_primary_muted">#D9E6F5</color>
+    <color name="text_on_accent">#241705</color>
 
     <!-- Status -->
-    <color name="status_success">#3A7D44</color>
-    <color name="status_pending">#C9A227</color>
-    <color name="status_rejected">#B3261E</color>
-    <color name="status_processing">#4C6EF5</color>
+    <color name="status_success">#2E7D52</color>
+    <color name="status_pending">#D9A400</color>
+    <color name="status_rejected">#C1442D</color>
+    <color name="status_processing">#6C63FF</color>
 
     <!-- Utility -->
     <color name="white">#FFFFFF</color>

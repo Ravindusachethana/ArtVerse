@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Customer-facing order history and live delivery tracking (part of FR07),
+ * Customer-facing order history and live delivery tracking,
  * split into three tabs backed by one live query filtered client-side.
  * "Pending" holds every order still in flight - awaiting the artist,
  * confirmed, or out for delivery - and because the query is a snapshot

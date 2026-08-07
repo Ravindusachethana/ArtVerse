@@ -35,9 +35,9 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Implements FR05 - Browse and Search Module: customers browse and search
+ * Browse and Search Module: customers browse and search
  * artwork by category or keyword, backed by a real-time Firestore listener
- * on the "artworks" collection (satisfies NFR04).
+ * on the "artworks" collection.
  */
 public class HomeFragment extends Fragment {
 

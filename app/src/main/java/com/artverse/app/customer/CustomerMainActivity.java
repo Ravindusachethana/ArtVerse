@@ -88,8 +88,7 @@ public class CustomerMainActivity extends AppCompatActivity {
         if (intent == null || !intent.getBooleanExtra(Constants.EXTRA_OPEN_CART, false)) {
             return false;
         }
-        // Consume it so a later config change or back-navigation does not
-        // force the cart tab again.
+
         intent.removeExtra(Constants.EXTRA_OPEN_CART);
         bottomNav.setSelectedItemId(R.id.nav_cart);
         return true;

@@ -66,8 +66,7 @@ public class SplashActivity extends AppCompatActivity {
 
         SessionManager session = new SessionManager(this);
         if (session.getRole() == null) {
-            // Session cache was cleared (or this is a restored install) - the
-            // auth state is still valid, so recover the role before routing.
+            // Session cache was cleared - the auth state is still valid, so recover the role before routing.
             recoverSessionThenRoute(session, openOrders, orderId);
             return;
         }

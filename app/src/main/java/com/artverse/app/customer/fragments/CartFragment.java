@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/** Implements FR06 - Cart Management Module: add/update/remove items before checkout. */
+/** Cart Management Module: add/update/remove items before checkout. */
 public class CartFragment extends Fragment {
 
     private RecyclerView rvCart;

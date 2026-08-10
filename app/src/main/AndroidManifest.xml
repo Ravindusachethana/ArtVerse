@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
 
     <application
+        android:name=".ArtVerseApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -39,8 +40,7 @@
         <activity android:name=".customer.ArtworkDetailActivity" android:exported="false" />
         <activity android:name=".customer.CheckoutActivity" android:exported="false" />
         <activity android:name=".customer.MyCollectionActivity" android:exported="false" />
-        <!-- Full-screen look at an owned piece; dark chrome so the artwork
-             is not framed by the cream canvas used everywhere else. -->
+        <!-- Full-screen look at an owned piece. -->
         <activity
             android:name=".customer.ArtworkViewerActivity"
             android:exported="false"
@@ -59,22 +59,22 @@
         <!-- Receives order pushes. Delivers them while the app is closed:
              Android renders the tray notification itself and the tap re-enters
              through SplashActivity, which owns the session check. -->
-        <service
-            android:name=".services.ArtVerseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+<!--        <service-->
+<!--            android:name=".services.ArtVerseMessagingService"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
 
-        <!-- Channel/icon used for notifications Android renders on our behalf
-             (app closed or backgrounded); must match NotificationRouter. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="artverse_orders" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_orders" />
+<!--        &lt;!&ndash; Channel/icon used for notifications Android renders on our behalf-->
+<!--             (app closed or backgrounded); must match NotificationRouter. &ndash;&gt;-->
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_channel_id"-->
+<!--            android:value="artverse_orders" />-->
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
+<!--            android:resource="@drawable/ic_orders" />-->
 
     </application>
 </manifest>

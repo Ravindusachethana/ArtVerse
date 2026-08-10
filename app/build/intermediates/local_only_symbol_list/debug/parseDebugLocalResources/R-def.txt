@@ -35,7 +35,6 @@ dimen spacing_md
 dimen spacing_sm
 dimen spacing_xl
 dimen spacing_xs
-drawable aaa
 drawable bg_badge_count
 drawable bg_circle_accent
 drawable bg_circle_gold

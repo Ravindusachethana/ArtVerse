@@ -1,13 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getAuth, connectAuthEmulator } from 'firebase/auth';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 
-/**
- * Same Firebase project as the ArtVerse Android app (see app/google-services.json).
- * If you register a dedicated Web App in Firebase console (Project settings ->
- * Your apps -> Add app -> Web), replace apiKey/appId below with the generated
- * web config. Auth + Firestore work with the values here.
- */
 const firebaseConfig = {
   apiKey: 'AIzaSyDEuWUo4cHBVXCrWRFUHvOAa4Ek4XdPA54',
   authDomain: 'artverse-61539.firebaseapp.com',
@@ -19,3 +13,10 @@ const firebaseConfig = {
 export const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
+
+// Demo/offline switch: run `localStorage.demo = 'true'` in the browser console,
+// then reload, to point the panel at the local emulator. Remove it to go back online.
+if (localStorage.getItem('demo') === 'true') {
+  connectAuthEmulator(auth, 'http://localhost:9099');
+  connectFirestoreEmulator(db, 'localhost', 8080);
+}

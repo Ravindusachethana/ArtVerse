@@ -30,7 +30,7 @@ import java.util.Locale;
  * In-app receipt for a settled (completed or rejected) order, opened from
  * the Orders pages of both roles. Shows the invoice-style summary and lets
  * the user download it as a PDF into the device's Downloads folder
- * (ReceiptPdfWriter), as evidence of the sale or the rejection.
+ * (ReceiptPdfWriter).
  */
 public class ReceiptActivity extends AppCompatActivity {
 

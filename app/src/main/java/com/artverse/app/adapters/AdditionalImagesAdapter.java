@@ -17,13 +17,7 @@ import java.util.List;
 
 /**
  * The artist's horizontal strip of extra photos for a physical piece
- * (ArtCategories.supportsMultipleImages). Holds already-uploaded images (in
- * edit mode) and freshly picked ones side by side, each removable, followed by
- * an "add" tile until the listing hits its image cap.
- *
- * These are the images that follow the cover; the cover stays in its own picker
- * above. The owning screen assembles cover + these into the final imageUrls.
- */
+  */
 public class AdditionalImagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_IMAGE = 0;

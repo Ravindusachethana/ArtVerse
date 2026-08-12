@@ -3,8 +3,7 @@ package com.artverse.app.utils;
 import com.artverse.app.R;
 
 /**
- * Single source of truth for how an order's delivery stage is presented, so
- * the customer's and the artist's order cards can never drift apart.
+ * Single source of truth for how an order's delivery stage is presented,
  *
  * Tracking stages: Placed -> Confirmed -> Out for Delivery -> Delivered.
  * A rejected order leaves the track entirely (step {@link #STEP_REJECTED}).
@@ -33,7 +32,7 @@ public final class OrderStatus {
             case Constants.STATUS_OUT_FOR_DELIVERY: return STEP_OUT_FOR_DELIVERY;
             case Constants.STATUS_COMPLETED: return STEP_DELIVERED;
             case Constants.STATUS_REJECTED: return STEP_REJECTED;
-            default: return STEP_PLACED;   // processing + legacy pending
+            default: return STEP_PLACED;   // processing
         }
     }
 

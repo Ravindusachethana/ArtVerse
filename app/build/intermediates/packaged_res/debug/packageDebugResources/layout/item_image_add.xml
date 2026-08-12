@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Trailing "add a photo" tile in the artist's "more views" strip; hidden once
+<!-- "add a photo" tile in the artist's "more views" strip; hidden once
      the listing hits its image limit. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/addTile"

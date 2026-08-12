@@ -16,7 +16,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         // Demo/offline switch. Off by default (cloud). Enable with -Pdemo=true.
-        def demo = project.hasProperty('demo') ? project.property('demo') : 'false'
+        def demo = project.hasProperty('demo') ? project.property('demo') : 'true'
         buildConfigField "boolean", "DEMO_MODE", demo
     }
 

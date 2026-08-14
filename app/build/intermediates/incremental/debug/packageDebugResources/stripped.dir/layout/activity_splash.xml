@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_splash_gradient"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/RoundedCornersImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/o_ic_launcher_foreground" />
+
+<!--    <ImageView-->
+<!--        android:layout_width="186dp"-->
+<!--        android:layout_height="193dp"-->
+<!--        android:fadingEdge="horizontal"-->
+<!--        style="@style/RoundedCornersImage"-->
+<!--        android:src="@drawable/ic_launcher_foreground" />-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:letterSpacing="0.04"
+        android:text="@string/tagline"
+        android:textColor="@color/text_on_primary_muted"
+        android:textSize="13sp" />
+
+    <ProgressBar
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="48dp"
+        android:indeterminateTint="@color/brand_accent" />
+
+</LinearLayout>

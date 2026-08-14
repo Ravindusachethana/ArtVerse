@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Single home for the order lifecycle mutations, shared by the artist
  * dashboard and Incoming Orders screens so the delivery flow behaves
- * identically everywhere (part of FR07/FR09).
+ * identically everywhere.
  *
  * Lifecycle: checkout creates the order as "processing" (stock already
  * reserved) and notifies the artist. The artist then confirms it, and hands
@@ -62,13 +62,7 @@ public final class OrderActions {
                         "Order #" + shortId(order.id) + " is on its way to you.", now));
     }
 
-    /**
-     * Fire-and-forget message to the buyer, sent *after* the stage change has
-     * committed rather than inside it. Batched writes are all-or-nothing, so
-     * bundling the notification meant a blocked notification write would fail
-     * the whole confirm/dispatch. The buyer's order screen listens to
-     * Firestore anyway, so it updates even if this message never lands.
-     */
+
     private static void notifyCustomer(Order order, String title, String message, long when) {
         if (order.customerId == null) return;
         DocumentReference ref = FirebaseUtil.notificationsRef().document();

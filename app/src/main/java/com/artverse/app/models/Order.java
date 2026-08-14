@@ -32,7 +32,7 @@ public class Order {
     public long confirmedAt;
     public long dispatchedAt;
     public long deliveredAt;
-    /** UID of whoever settled the order (artist on reject, admin on delivery). */
+    /** UID of whoever settled the order (admin on delivery). */
     public String settledBy;
 
     public Order() { }

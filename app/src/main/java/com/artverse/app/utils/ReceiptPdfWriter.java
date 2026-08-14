@@ -17,11 +17,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * Renders an on-screen view (the receipt card) into a single-page PDF and
+ * (the receipt card)
  * saves it to the device's public Downloads folder, so receipts can be kept
- * as evidence outside the app. Uses MediaStore on Android 10+ (no permission
- * needed); on older devices it writes to the legacy Downloads directory,
- * which requires WRITE_EXTERNAL_STORAGE (requested by ReceiptActivity).
+ * as evidence outside the app.
  */
 public final class ReceiptPdfWriter {
 

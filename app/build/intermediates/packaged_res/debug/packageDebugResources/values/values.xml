@@ -72,6 +72,7 @@
     <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDEuWUo4cHBVXCrWRFUHvOAa4Ek4XdPA54</string>
     <string name="google_storage_bucket" translatable="false">artverse-61539.firebasestorage.app</string>
     <string name="hand_over_to_delivery">Hand over to delivery</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_original">Original</string>
     <string name="login_button">Log In</string>
     <string name="login_subtitle">Sign in to continue exploring art</string>
@@ -134,6 +135,7 @@
     <string name="stat_in_delivery">In delivery</string>
     <string name="stat_rejected">Rejected</string>
     <string name="tagline">Where Art Meets Its Audience</string>
+    <string name="title_activity_customer_list">CustomerListActivity</string>
     <string name="unique_piece_message">A single original piece — once it sells, there won\'t be another exactly like it.</string>
     <string name="unique_piece_title">One-of-a-kind</string>
     <string name="view_cart">View cart</string>

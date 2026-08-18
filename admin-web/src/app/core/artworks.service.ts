@@ -113,11 +113,13 @@ export class ArtworksService implements OnDestroy {
 
     const asText = (v: unknown) => (v === null || v === undefined || v === '' ? '—' : String(v));
     const asPrice = (v: unknown) => (typeof v === 'number' ? 'LKR ' + v.toLocaleString('en-US') : asText(v));
+    const asdPrice = (v: unknown) => (typeof v === 'number' ? 'LKR ' + v.toLocaleString('en-US') : asText(v));
 
     compare('title', 'Title', asText);
     compare('description', 'Description', asText);
     compare('categoryName', 'Category', asText);
     compare('price', 'Price', asPrice);
+    compare('dprice', 'dPrice', asdPrice);
     compare('quantity', 'Quantity', asText);
     compare('medium', 'Medium', asText);
     compare('dimensions', 'Dimensions', asText);

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.artverse.app-mergeDebugResources-45:/values-port/values-port.xml",
+            "outputFile": "com.artverse.app-mergeDebugResources-65:/values-port/values-port.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\imsara\\.gradle\\caches\\transforms-4\\68e8050b08ea2feb65a10c6525f8dc0c\\transformed\\appcompat-1.7.0\\res\\values-port\\values-port.xml",
+                    "source": "C:\\Users\\imsara\\.gradle\\caches\\8.11.1\\transforms\\7ad685afb2457fefca70157639e12616\\transformed\\appcompat-1.7.0\\res\\values-port\\values-port.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

@@ -118,4 +118,7 @@
     <string name="stat_in_delivery">In delivery</string>
     <string name="stat_rejected">Rejected</string>
     <string name="stat_avg_days">Avg days</string>
+    <string name="title_activity_customer_list">CustomerListActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

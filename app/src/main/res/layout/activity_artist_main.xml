@@ -11,6 +11,16 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="64dp" />
 
+<!--    <Button-->
+<!--        android:id="@+id/btnList"-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="2dp"-->
+<!--        android:text="ListofCustomers"-->
+<!--        android:textSize="22sp"-->
+<!--        android:textStyle="bold" />-->
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         style="@style/ArtVerse.BottomNav"
@@ -19,5 +29,8 @@
         android:layout_gravity="bottom"
         app:menu="@menu/menu_artist_bottom_nav"
         app:labelVisibilityMode="labeled" />
+
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

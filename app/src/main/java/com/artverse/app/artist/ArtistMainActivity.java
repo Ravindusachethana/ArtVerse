@@ -24,6 +24,7 @@ public class ArtistMainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,9 @@ public class ArtistMainActivity extends AppCompatActivity {
         requestNotificationPermissionIfNeeded();
 
         bottomNav = findViewById(R.id.bottomNav);
+
+//        findViewById(R.id.btnList).setOnClickListener(v ->
+//                openFragment(new BlankFragment()));
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();

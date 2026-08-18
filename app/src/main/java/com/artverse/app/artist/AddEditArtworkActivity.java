@@ -38,19 +38,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-/**
- * Implements FR04 - Artwork Management Module: artists add, update, and
- * remove artwork listings, including images, price, and description.
- *
- * The cover photo goes up first (imageUrls[0], used for the grid card and the
- * order-line thumbnail). Physical categories that a buyer needs to see from
- * several angles - Sculpture, Ceramics, Printmaking (ArtCategories
- * .supportsMultipleImages) - also show a "more views" strip, so a listing can
- * carry up to ArtCategories.MAX_IMAGES photos in Firebase Storage.
- */
+
 public class AddEditArtworkActivity extends AppCompatActivity {
 
-    private TextInputEditText etTitle, etDescription, etPrice, etQuantity, etMedium, etDimensions;
+    private TextInputEditText etTitle;
+    private TextInputEditText etDescription;
+    private TextInputEditText etPrice;
+
+    private TextInputEditText dPrice;
+    private TextInputEditText etQuantity;
+    private TextInputEditText etMedium;
+    private TextInputEditText etDimensions;
     private TextInputLayout tilQuantity;
     private ChipGroup chipGroupCategory;
     private ImageView ivPreview;
@@ -88,6 +86,7 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         etTitle = findViewById(R.id.etTitle);
         etDescription = findViewById(R.id.etDescription);
         etPrice = findViewById(R.id.etPrice);
+        dPrice = findViewById(R.id.dPrice);
         etQuantity = findViewById(R.id.etQuantity);
         tilQuantity = findViewById(R.id.tilQuantity);
         etMedium = findViewById(R.id.etMedium);
@@ -100,17 +99,17 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         btnSave = findViewById(R.id.btnSave);
 
-        // The cover counts towards the cap, so the strip holds one fewer.
+
         additionalAdapter = new AdditionalImagesAdapter(ArtCategories.MAX_IMAGES - 1,
                 () -> additionalImagePicker.launch("image/*"));
         rvAdditionalImages.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         rvAdditionalImages.setAdapter(additionalAdapter);
 
         populateCategoryChips();
-        // Category drives both the quantity field and whether the extra-views
-        // strip is offered, so re-apply both whenever the choice changes.
+
         chipGroupCategory.setOnCheckedStateChangeListener((group, checkedIds) -> onCategoryChanged());
         onCategoryChanged();
+
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
         findViewById(R.id.imagePickerFrame).setOnClickListener(v -> imagePicker.launch("image/*"));
@@ -217,12 +216,7 @@ public class AddEditArtworkActivity extends AppCompatActivity {
                 ArtCategories.supportsMultipleImages(selectedCategory()) ? View.VISIBLE : View.GONE);
     }
 
-    /**
-     * Reproducible categories keep an editable quantity; one-time originals and
-     * digital files are locked to a single piece so they can never be listed
-     * with stock that would let one sell more than once. Left editable until a
-     * category is chosen.
-     */
+
     private void applyQuantityRule() {
         String category = selectedCategory();
         boolean sellByQuantity = category == null || ArtCategories.isReproducible(category);
@@ -243,6 +237,7 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         String title = text(etTitle);
         String description = text(etDescription);
         String priceText = text(etPrice);
+        String dpriceText = text(dPrice);
         String quantityText = text(etQuantity);
         String medium = text(etMedium);
         String dimensions = text(etDimensions);
@@ -257,6 +252,11 @@ public class AddEditArtworkActivity extends AppCompatActivity {
             return;
         }
         if (!ValidationUtil.isValidPrice(priceText)) {
+            toast("Please enter a valid price");
+            return;
+        }
+
+        if (!ValidationUtil.isValidPrice(dpriceText)) {
             toast("Please enter a valid price");
             return;
         }
@@ -296,17 +296,12 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         }
 
         final double price = Double.parseDouble(priceText);
+        final double dprice = Double.parseDouble(dpriceText);
         uploadImages(ref, imageSlots, imageUrls -> saveArtworkDoc(ref, uid, title, description,
-                category, price, quantity, medium, dimensions, imageUrls));
+                category, price, dprice, quantity, medium, dimensions, imageUrls));
     }
 
-    /**
-     * Resolves every image slot to a download URL - existing ones untouched,
-     * freshly picked ones uploaded to Storage - preserving order so the cover
-     * stays first, then hands the assembled list back. Any upload failure
-     * aborts the save with a message rather than persisting a half-imaged
-     * listing.
-     */
+
     private void uploadImages(DocumentReference ref, List<AdditionalImagesAdapter.ImageSlot> slots,
                               Consumer<List<String>> onReady) {
         if (slots.isEmpty()) {
@@ -343,13 +338,12 @@ public class AddEditArtworkActivity extends AppCompatActivity {
     }
 
     private void saveArtworkDoc(DocumentReference ref, String uid, String title, String description,
-                                 String category, double price, int quantity, String medium,
+                                 String category, double price, double dprice, int quantity, String medium,
                                  String dimensions, List<String> images) {
 
-        // Editing a published listing: the live version stays untouched and
-        // the changes wait in pendingChanges for admin review.
+
         if (editMode && (existingArtwork == null || Artwork.isPublished(existingArtwork))) {
-            stagePendingChanges(ref, title, description, category, price, quantity,
+            stagePendingChanges(ref, title, description, category, price, dprice, quantity,
                     medium, dimensions, images);
             return;
         }
@@ -358,11 +352,10 @@ public class AddEditArtworkActivity extends AppCompatActivity {
             String artistName = userDoc.getString("name");
 
             Artwork artwork = new Artwork(ref.getId(), title, description, category, category,
-                    uid, artistName, price, quantity, images, medium, dimensions, true,
+                    uid, artistName, price, dPrice, quantity, images, medium, dimensions, true,
                     editMode && existingArtwork != null
                             ? existingArtwork.createdAt : System.currentTimeMillis());
-            // New listings (and resubmissions of unpublished ones) are hidden
-            // from buyers until an admin approves them.
+
             artwork.moderationStatus = Constants.REVIEW_STATUS_PENDING;
 
             ref.set(artwork)
@@ -387,7 +380,7 @@ public class AddEditArtworkActivity extends AppCompatActivity {
 
     /** Writes the edited fields into pendingChanges without touching the live listing. */
     private void stagePendingChanges(DocumentReference ref, String title, String description,
-                                      String category, double price, int quantity, String medium,
+                                      String category, double price, double dprice, int quantity, String medium,
                                       String dimensions, List<String> images) {
         Map<String, Object> changes = new HashMap<>();
         changes.put("title", title);
@@ -395,6 +388,7 @@ public class AddEditArtworkActivity extends AppCompatActivity {
         changes.put("categoryId", category);
         changes.put("categoryName", category);
         changes.put("price", price);
+        changes.put("dprice", dprice);
         changes.put("quantity", quantity);
         changes.put("medium", medium);
         changes.put("dimensions", dimensions);

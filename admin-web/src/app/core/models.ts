@@ -24,8 +24,7 @@ export interface ArtistProfile {
   categories?: string[];
   totalSales?: number;
   totalArtworks?: number;
-  /** Approval workflow. Artists created before this feature have no status
-   *  field and are treated as approved (legacy accounts). */
+  
   status?: ArtistStatus;
   reviewedAt?: number;
   reviewedBy?: string;
@@ -43,18 +42,15 @@ export interface ArtworkDoc {
   artistId?: string;
   artistName?: string;
   price?: number;
+  dprice?: number;
   quantity?: number;
   imageUrls?: string[];
   medium?: string;
   dimensions?: string;
   available?: boolean;
   createdAt?: number;
-  /**
-   * True once a one-of-a-kind piece (Painting, Drawing, Mixed Media) has sold
-   * and its delivery completed - it leaves the browse gallery and the artist's
-   * My Art, but the document stays for reports and the buyer's collection. Set
-   * by OrdersService.markDelivered; never on reproducible pieces.
-   */
+
+  
   retired?: boolean;
   /** Null on artworks listed before moderation - treated as approved. */
   moderationStatus?: ReviewStatus;

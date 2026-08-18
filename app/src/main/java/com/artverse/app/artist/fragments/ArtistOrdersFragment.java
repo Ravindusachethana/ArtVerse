@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implements FR07 (artist side) - incoming orders split into three tabs.
+ * incoming orders split into three tabs.
  * "Pending" holds every order still in flight; the artist confirms a new one
  * then hands the confirmed one to the delivery section, and the card updates
  * in place until the admin closes it out. Cancelling an order is the admin's
@@ -109,8 +109,7 @@ public class ArtistOrdersFragment extends Fragment {
         String uid = FirebaseUtil.currentUid();
         if (uid == null) return;
 
-        // Equality filter only, sorted client-side: keeps the query free of
-        // composite-index requirements so it can never fail on a fresh project.
+
         FirebaseUtil.ordersRef()
                 .whereEqualTo("artistId", uid)
                 .addSnapshotListener((snapshot, error) -> {

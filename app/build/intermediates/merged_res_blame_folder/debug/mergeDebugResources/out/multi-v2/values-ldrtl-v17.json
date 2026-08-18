@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.artverse.app-mergeDebugResources-45:/values-ldrtl-v17/values-ldrtl-v17.xml",
+            "outputFile": "com.artverse.app-mergeDebugResources-65:/values-ldrtl-v17/values-ldrtl-v17.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\imsara\\.gradle\\caches\\transforms-4\\a3112034f7d9dc410f3762532310d597\\transformed\\material-1.12.0\\res\\values-ldrtl-v17\\values-ldrtl-v17.xml",
+                    "source": "C:\\Users\\imsara\\.gradle\\caches\\8.11.1\\transforms\\3cee4024fcb6f8171c676c2768c3fd77\\transformed\\material-1.12.0\\res\\values-ldrtl-v17\\values-ldrtl-v17.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

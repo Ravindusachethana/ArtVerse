@@ -20,12 +20,7 @@ const COLORS = {
   grid: 'rgba(30, 27, 22, 0.08)'
 };
 
-/**
- * Admin Reports (FR extension): live completed/cancelled order reports,
- * best-seller and repeat-buyer charts, and a delivery overview. All figures
- * come from ReportsService, which derives them from the live orders snapshot,
- * so everything on this page updates in real time.
- */
+
 @Component({
   selector: 'app-reports',
   standalone: true,

@@ -98,10 +98,7 @@ public class MyArtworkFragment extends Fragment {
         String uid = FirebaseUtil.currentUid();
         if (uid == null) return;
 
-        // Equality filter only, sorted client-side: keeps the query free of
-        // composite-index requirements so it can never fail on a fresh
-        // project (same approach as the order screens). A failing query used
-        // to be swallowed here, which looked exactly like "no live updates".
+
         artworksListener = FirebaseUtil.artworksRef()
                 .whereEqualTo("artistId", uid)
                 .addSnapshotListener((snapshot, error) -> {

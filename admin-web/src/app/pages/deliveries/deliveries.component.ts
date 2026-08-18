@@ -10,14 +10,7 @@ type DeliveryTab = 'delivery' | 'progress' | 'completed' | 'rejected';
 /** Tracking steps mirrored from the mobile OrderTrackerView. */
 const STEP_LABELS = ['Placed', 'Confirmed', 'Out for delivery', 'Delivered'];
 
-/**
- * Order delivery tracking (Admin FR-04).
- *
- * Orders the artist has handed to the delivery section arrive in the
- * "In delivery" tab. Marking one delivered settles the sale; rejecting it
- * returns the stock. Both push straight to the customer's and artist's
- * order screens, which listen to Firestore in real time.
- */
+
 @Component({
   selector: 'app-deliveries',
   standalone: true,

@@ -62,6 +62,7 @@
             <div class="meta-row">
               <span class="av-chip">{{ artwork.categoryName || 'Uncategorised' }}</span>
               <span class="meta">LKR {{ (artwork.price ?? 0).toLocaleString('en-US') }}</span>
+              <span class="meta">LKR {{ (artwork.dprice ?? 0).toLocaleString('en-US') }}</span>
               <span class="meta">Qty {{ artwork.quantity ?? 0 }}</span>
               @if (artwork.medium) { <span class="meta">{{ artwork.medium }}</span> }
               @if (artwork.dimensions) { <span class="meta">{{ artwork.dimensions }}</span> }

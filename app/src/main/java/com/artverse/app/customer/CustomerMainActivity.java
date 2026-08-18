@@ -58,11 +58,7 @@ public class CustomerMainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * The cart shortcut on the artwork detail screen relaunches this activity
-     * with FLAG_ACTIVITY_CLEAR_TOP, so an already-running instance is reused
-     * and arrives here instead of through onCreate.
-     */
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

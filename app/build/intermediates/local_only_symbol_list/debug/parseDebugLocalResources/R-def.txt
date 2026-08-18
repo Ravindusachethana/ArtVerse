@@ -141,6 +141,8 @@ id chartSales
 id checkoutBar
 id chipGroupCategories
 id chipGroupCategory
+id dGroupCategory
+id dPrice
 id dot0
 id dot1
 id dot2
@@ -378,6 +380,7 @@ string google_app_id
 string google_crash_reporting_api_key
 string google_storage_bucket
 string hand_over_to_delivery
+string hello_blank_fragment
 string label_original
 string login_button
 string login_subtitle
@@ -440,6 +443,7 @@ string stat_delivered
 string stat_in_delivery
 string stat_rejected
 string tagline
+string title_activity_customer_list
 string unique_piece_message
 string unique_piece_title
 string view_cart

@@ -41,6 +41,12 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
   public final ChipGroup chipGroupCategory;
 
   @NonNull
+  public final ChipGroup dGroupCategory;
+
+  @NonNull
+  public final TextInputEditText dPrice;
+
+  @NonNull
   public final TextInputEditText etDescription;
 
   @NonNull
@@ -82,6 +88,7 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
   private ActivityAddEditArtworkBinding(@NonNull CoordinatorLayout rootView,
       @NonNull LinearLayout additionalImagesSection, @NonNull ImageView btnBack,
       @NonNull MaterialButton btnSave, @NonNull ChipGroup chipGroupCategory,
+      @NonNull ChipGroup dGroupCategory, @NonNull TextInputEditText dPrice,
       @NonNull TextInputEditText etDescription, @NonNull TextInputEditText etDimensions,
       @NonNull TextInputEditText etMedium, @NonNull TextInputEditText etPrice,
       @NonNull TextInputEditText etQuantity, @NonNull TextInputEditText etTitle,
@@ -94,6 +101,8 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
     this.btnBack = btnBack;
     this.btnSave = btnSave;
     this.chipGroupCategory = chipGroupCategory;
+    this.dGroupCategory = dGroupCategory;
+    this.dPrice = dPrice;
     this.etDescription = etDescription;
     this.etDimensions = etDimensions;
     this.etMedium = etMedium;
@@ -157,6 +166,18 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
       id = R.id.chipGroupCategory;
       ChipGroup chipGroupCategory = ViewBindings.findChildViewById(rootView, id);
       if (chipGroupCategory == null) {
+        break missingId;
+      }
+
+      id = R.id.dGroupCategory;
+      ChipGroup dGroupCategory = ViewBindings.findChildViewById(rootView, id);
+      if (dGroupCategory == null) {
+        break missingId;
+      }
+
+      id = R.id.dPrice;
+      TextInputEditText dPrice = ViewBindings.findChildViewById(rootView, id);
+      if (dPrice == null) {
         break missingId;
       }
 
@@ -239,9 +260,10 @@ public final class ActivityAddEditArtworkBinding implements ViewBinding {
       }
 
       return new ActivityAddEditArtworkBinding((CoordinatorLayout) rootView,
-          additionalImagesSection, btnBack, btnSave, chipGroupCategory, etDescription, etDimensions,
-          etMedium, etPrice, etQuantity, etTitle, imagePickerFrame, imagePlaceholderContent,
-          ivPreview, progressBar, rvAdditionalImages, tilQuantity, tvScreenTitle);
+          additionalImagesSection, btnBack, btnSave, chipGroupCategory, dGroupCategory, dPrice,
+          etDescription, etDimensions, etMedium, etPrice, etQuantity, etTitle, imagePickerFrame,
+          imagePlaceholderContent, ivPreview, progressBar, rvAdditionalImages, tilQuantity,
+          tvScreenTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

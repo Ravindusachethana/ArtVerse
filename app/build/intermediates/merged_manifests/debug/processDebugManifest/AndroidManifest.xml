@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="24"
-        android:targetSdkVersion="34" />
+        android:targetSdkVersion="36" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,7 +16,7 @@
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!--
-         Receipt PDF and digital-artwork downloads on Android 9 and below
+ Receipt PDF and digital-artwork downloads on Android 9 and below
          (10+ uses MediaStore, which needs no permission).
     -->
     <uses-permission
@@ -48,6 +48,11 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/Theme.ArtVerse" >
+        <activity
+            android:name="com.artverse.app.common.CustomerListActivity"
+            android:exported="false"
+            android:label="@string/title_activity_customer_list"
+            android:theme="@style/Theme.ArtVerse" />
         <activity
             android:name="com.artverse.app.auth.SplashActivity"
             android:exported="true"
@@ -81,8 +86,7 @@
             android:exported="false" />
         <activity
             android:name="com.artverse.app.customer.MyCollectionActivity"
-            android:exported="false" />
-        <!-- Full-screen look at an owned piece. -->
+            android:exported="false" /> <!-- Full-screen look at an owned piece. -->
         <activity
             android:name="com.artverse.app.customer.ArtworkViewerActivity"
             android:exported="false"
@@ -105,30 +109,6 @@
         <activity
             android:name="com.artverse.app.common.ReceiptActivity"
             android:exported="false" />
-
-        <!--
-             Receives order pushes. Delivers them while the app is closed:
-             Android renders the tray notification itself and the tap re-enters
-             through SplashActivity, which owns the session check.
-        -->
-        <!-- <service -->
-        <!-- android:name=".services.ArtVerseMessagingService" -->
-        <!-- android:exported="false"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" /> -->
-        <!-- </intent-filter> -->
-        <!-- </service> -->
-
-
-        <!-- &lt;!&ndash; Channel/icon used for notifications Android renders on our behalf -->
-        <!-- (app closed or backgrounded); must match NotificationRouter. &ndash;&gt; -->
-        <!-- <meta-data -->
-        <!-- android:name="com.google.firebase.messaging.default_notification_channel_id" -->
-        <!-- android:value="artverse_orders" /> -->
-        <!-- <meta-data -->
-        <!-- android:name="com.google.firebase.messaging.default_notification_icon" -->
-        <!-- android:resource="@drawable/ic_orders" /> -->
-
         <activity
             android:name="com.google.firebase.auth.internal.GenericIdpActivity"
             android:excludeFromRecents="true"
@@ -300,6 +280,20 @@
             android:directBootAware="true"
             android:exported="false"
             android:initOrder="100" />
+
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <uses-library
+            android:name="android.ext.adservices"
+            android:required="false" />
+
+        <activity
+            android:name="androidx.compose.ui.tooling.PreviewActivity"
+            android:exported="true" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.artverse.app.androidx-startup"
@@ -316,17 +310,20 @@
         </provider>
 
         <uses-library
-            android:name="android.ext.adservices"
+            android:name="androidx.window.extensions"
             android:required="false" />
-
-        <activity
-            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-            android:exported="false"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <uses-library
+            android:name="androidx.window.sidecar"
+            android:required="false" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="androidx.activity.ComponentActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
 
         <service
             android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"

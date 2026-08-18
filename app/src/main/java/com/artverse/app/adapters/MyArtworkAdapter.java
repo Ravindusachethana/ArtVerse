@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/** Implements FR04 - Artwork Management Module list view (edit/delete per listing). */
+/** Artwork Management Module list view (edit/delete per listing). */
 public class MyArtworkAdapter extends RecyclerView.Adapter<MyArtworkAdapter.ViewHolder> {
 
     public interface ActionListener {

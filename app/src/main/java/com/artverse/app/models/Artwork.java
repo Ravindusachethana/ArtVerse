@@ -1,5 +1,7 @@
 package com.artverse.app.models;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +52,12 @@ public class Artwork {
      * reproducible pieces and anything still for sale.
      */
     public boolean retired;
+
+    public Artwork(String id, String title, String description, String category, String category1, String uid, String artistName, double price, double dPrice, int quantity, List<String> images, String medium, String dimensions, boolean b, long l) {
+    }
+
+    public Artwork(String id, String title, String description, String category, String category1, String uid, String artistName, double price, TextInputEditText dPrice, int quantity, List<String> images, String medium, String dimensions, boolean b, long l) {
+    }
 
     /** True when buyers may see this listing. Static so Firestore ignores it. */
     public static boolean isPublished(Artwork artwork) {

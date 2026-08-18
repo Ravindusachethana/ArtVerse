@@ -1,0 +1,128 @@
+<div class="page-head">
+  <h1>Artwork Review</h1>
+  <p>New artworks and edits stay unpublished until you approve them</p>
+</div>
+
+<div class="tabs">
+  @for (tab of tabs; track tab.key) {
+    <button type="button" class="tab" [class.active]="activeTab() === tab.key"
+            (click)="activeTab.set(tab.key)">
+      {{ tab.label }}
+      <span class="tab-count">{{ countsByTab()[tab.key] }}</span>
+    </button>
+  }
+</div>
+
+@if (loading()) {
+  <div class="state-box">
+    <span class="av-spinner"></span>
+    <p>Loading artworks…</p>
+  </div>
+} @else if (visibleArtworks().length === 0) {
+  <div class="state-box av-card">
+    <div class="empty-icon">🖼️</div>
+    <p>
+      @switch (activeTab()) {
+        @case ('new') { No new artworks waiting for review. }
+        @case ('edits') { No edit requests waiting for review. }
+        @case ('rejected') { No rejected artworks. }
+      }
+    </p>
+  </div>
+} @else {
+  <div class="artwork-list">
+    @for (artwork of visibleArtworks(); track artwork.id) {
+      <article class="artwork-card av-card">
+
+        <div class="artwork-body">
+          <div class="cover">
+            @if (coverOf(artwork); as cover) {
+              <img [src]="cover" [alt]="artwork.title" loading="lazy">
+            } @else {
+              <div class="cover-placeholder">🎨</div>
+            }
+          </div>
+
+          <div class="artwork-info">
+            <div class="artwork-title-row">
+              <h2>{{ artwork.title || 'Untitled' }}</h2>
+              @if (activeTab() === 'edits') {
+                <span class="av-badge pending">update</span>
+              } @else {
+                <span class="av-badge {{ artwork.moderationStatus }}">{{ artwork.moderationStatus }}</span>
+              }
+            </div>
+            <div class="artwork-sub">
+              by {{ artwork.artistName || 'Unknown artist' }}
+              @if (artwork.createdAt) {
+                <span class="dot-sep">•</span> listed {{ artwork.createdAt | date:'MMM d, y' }}
+              }
+            </div>
+
+            <div class="meta-row">
+              <span class="av-chip">{{ artwork.categoryName || 'Uncategorised' }}</span>
+              <span class="meta">LKR {{ (artwork.price ?? 0).toLocaleString('en-US') }}</span>
+              <span class="meta">Qty {{ artwork.quantity ?? 0 }}</span>
+              @if (artwork.medium) { <span class="meta">{{ artwork.medium }}</span> }
+              @if (artwork.dimensions) { <span class="meta">{{ artwork.dimensions }}</span> }
+            </div>
+
+            @if (activeTab() !== 'edits' && artwork.description) {
+              <p class="description">{{ artwork.description }}</p>
+            }
+
+            @if (activeTab() === 'edits') {
+              <div class="diff">
+                <div class="diff-head">
+                  <span></span><span>Current</span><span>Proposed</span>
+                </div>
+                @for (change of changesOf(artwork); track change.label) {
+                  <div class="diff-row">
+                    <span class="diff-label">{{ change.label }}</span>
+                    @if (change.isImage) {
+                      <span>@if (change.from) { <img class="diff-img" [src]="change.from" alt="Current image"> } @else { — }</span>
+                      <span>@if (change.to) { <img class="diff-img" [src]="change.to" alt="Proposed image"> } @else { — }</span>
+                    } @else {
+                      <span class="diff-old">{{ change.from }}</span>
+                      <span class="diff-new">{{ change.to }}</span>
+                    }
+                  </div>
+                } @empty {
+                  <div class="diff-row"><span class="diff-label">No visible field changes</span><span>—</span><span>—</span></div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="artwork-actions">
+          @if (activeTab() === 'rejected') {
+            <button class="av-btn av-btn-success" type="button"
+                    [disabled]="busyId() === artwork.id" (click)="approve(artwork)">
+              @if (busyId() === artwork.id) { <span class="av-spinner light"></span> }
+              Approve instead
+            </button>
+          } @else {
+            <button class="av-btn av-btn-success" type="button"
+                    [disabled]="busyId() === artwork.id" (click)="approve(artwork)">
+              @if (busyId() === artwork.id) { <span class="av-spinner light"></span> }
+              {{ activeTab() === 'edits' ? 'Approve changes' : 'Approve & publish' }}
+            </button>
+            <button class="av-btn av-btn-danger" type="button"
+                    [disabled]="busyId() === artwork.id" (click)="reject(artwork)">
+              {{ activeTab() === 'edits' ? 'Reject changes' : 'Reject' }}
+            </button>
+          }
+          @if (artwork.reviewedAt) {
+            <span class="reviewed-note">Reviewed {{ artwork.reviewedAt | date:'MMM d, y, h:mm a' }}</span>
+          }
+        </div>
+
+      </article>
+    }
+  </div>
+}
+
+@if (toast(); as t) {
+  <div class="av-toast" [class.error]="t.error">{{ t.text }}</div>
+}
